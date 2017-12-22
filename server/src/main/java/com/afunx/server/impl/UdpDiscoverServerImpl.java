@@ -9,7 +9,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
 /**
  * Created by afunx on 21/12/2017.
@@ -164,48 +163,8 @@ public class UdpDiscoverServerImpl implements UdpDiscoverServer {
     public static void main(String args[]) {
         final UdpDiscoverServerImpl obj = new UdpDiscoverServerImpl();
         final byte[] secret = new byte[]{0x75, 0x62, 0x74};
-        final byte[] reply = new byte[]{0x01, 0x02, 0x03, 0x04};
+        final byte[] reply = new byte[]{0x09, 0x08, 0x07, 0x06};
         boolean isSuc = obj.start(12000, secret, reply);
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                obj.stop();
-            }
-        }.start();
-
-        for (int i = 0; i < 10000; i++) {
-            // client
-            final byte[] request = secret;
-            DatagramPacket datagramPacket = new DatagramPacket(request, request.length, InetAddress.getLoopbackAddress(), 12000);
-            try {
-                DatagramSocket socket = new DatagramSocket();
-                socket.setSoTimeout(1000);
-                LogUtils.log(TAG, "send...");
-                socket.send(datagramPacket);
-                LogUtils.log(TAG, "sent");
-                byte[] rec = new byte[4];
-                datagramPacket.setData(rec);
-                socket.receive(datagramPacket);
-                LogUtils.log(TAG, "rec: " + Arrays.toString(datagramPacket.getData()));
-
-                datagramPacket.setData(secret);
-                LogUtils.log(TAG, "send...");
-                socket.send(datagramPacket);
-                LogUtils.log(TAG, "sent");
-                datagramPacket.setData(rec);
-                socket.receive(datagramPacket);
-                LogUtils.log(TAG, "rec: " + Arrays.toString(datagramPacket.getData()));
-            } catch (IOException e) {
-                e.printStackTrace();
-                break;
-            }
-            System.out.println("count: " + i);
-        }
-        System.out.println("FINISH!!!!!!");
+        LogUtils.log(TAG, "main() isSuc: " + isSuc);
     }
 }
