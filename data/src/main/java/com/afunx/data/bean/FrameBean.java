@@ -62,8 +62,8 @@ public class FrameBean implements Cloneable {
         return "{" + "\"index\"" + ":" + index +
                 ", " + "\"time\"" + ":" + time +
                 ", " + "\"name\"" + ":" + "\"" + name + "\"" +
-                ", " + "\"motorBeans\"" + ":" + motorBeans
-                + "}";
+                ", " + "\"motorBeans\"" + ":" + motorBeans +
+                "}";
     }
 
     @Override

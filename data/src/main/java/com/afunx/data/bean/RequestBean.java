@@ -8,6 +8,8 @@ public class RequestBean {
 
     private long id;
 
+    private int timeout;
+
     private Object body;
 
     public long getId() {
@@ -16,6 +18,14 @@ public class RequestBean {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 
     public Object getBody() {
@@ -29,14 +39,16 @@ public class RequestBean {
     @Override
     public String toString() {
         return "{" + "\"id\"" + ":" + id +
-                ", " + "\"body\"" + ":" + body
-                + "}";
+                ", " + "\"timeout\"" + ":" + timeout +
+                ", " + "\"body\"" + ":" + body +
+                "}";
     }
 
     public static void main(String args[]) {
         // test RequestBean toString() method
         RequestBean requestBean = new RequestBean();
         requestBean.setId(1);
+        requestBean.setTimeout(1000);
         System.out.println(requestBean);
         MotorBean motorBean = new MotorBean();
         motorBean.setId(1);

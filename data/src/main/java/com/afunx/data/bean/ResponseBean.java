@@ -8,6 +8,8 @@ public class ResponseBean {
 
     private long id;
 
+    private int runtime;
+
     private Object body;
 
     private int result;
@@ -18,6 +20,14 @@ public class ResponseBean {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
     }
 
     public Object getBody() {
@@ -34,5 +44,14 @@ public class ResponseBean {
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + "\"id\"" + ":" + id +
+                ", " + "\"runtime\"" + ":" + runtime +
+                ", " + "\"result\"" + ":" + result +
+                ", " + "\"body\"" + ":" + body +
+                "}";
     }
 }

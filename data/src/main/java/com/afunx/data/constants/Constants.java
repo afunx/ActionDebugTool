@@ -15,8 +15,12 @@ public interface Constants {
          */
         int NETWORK_TIMEOUT = 1;
         /**
+         * robot is busy
+         */
+        int ROBOT_BUSY = 2;
+        /**
          * robot don't get result in time
          */
-        int ROBOT_TIMEOUT = 2;
+        int ROBOT_TIMEOUT = 3;
     }
 }

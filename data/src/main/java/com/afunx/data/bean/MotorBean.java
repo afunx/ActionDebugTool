@@ -33,8 +33,8 @@ public class MotorBean implements Cloneable{
     @Override
     public String toString() {
         return "{" + "\"id\"" + ":" + id +
-                ", " + "\"deg\"" + ":" + deg
-                + "}";
+                ", " + "\"deg\"" + ":" + deg +
+                "}";
     }
 
     @Override

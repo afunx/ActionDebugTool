@@ -36,8 +36,8 @@ public class MotionBean implements Cloneable {
     @Override
     public String toString() {
         return "{" + "\"name\"" + ":" + "\"" + name + "\"" +
-                ", " + "\"frameBeans\"" + ":" + frameBeans
-                + "}";
+                ", " + "\"frameBeans\"" + ":" + frameBeans +
+                "}";
     }
 
     @Override
