@@ -1,4 +1,4 @@
-package com.afunx.bean;
+package com.afunx.data.bean;
 
 import java.util.ArrayList;
 import java.util.List;

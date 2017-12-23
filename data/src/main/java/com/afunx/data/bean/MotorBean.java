@@ -1,4 +1,4 @@
-package com.afunx.bean;
+package com.afunx.data.bean;
 
 /**
  * Created by afunx on 20/12/2017.
