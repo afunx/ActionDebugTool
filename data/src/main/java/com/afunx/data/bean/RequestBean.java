@@ -4,13 +4,13 @@ package com.afunx.data.bean;
  * Created by afunx on 23/12/2017.
  */
 
-public class RequestBean {
+public class RequestBean<T> {
 
     private long id;
 
     private int timeout;
 
-    private Object body;
+    private T body;
 
     public long getId() {
         return id;
@@ -28,11 +28,11 @@ public class RequestBean {
         this.timeout = timeout;
     }
 
-    public Object getBody() {
+    public T getBody() {
         return body;
     }
 
-    public void setBody(Object body) {
+    public void setBody(T body) {
         this.body = body;
     }
 
@@ -46,7 +46,7 @@ public class RequestBean {
 
     public static void main(String args[]) {
         // test RequestBean toString() method
-        RequestBean requestBean = new RequestBean();
+        RequestBean<MotorBean> requestBean = new RequestBean<>();
         requestBean.setId(1);
         requestBean.setTimeout(1000);
         System.out.println(requestBean);

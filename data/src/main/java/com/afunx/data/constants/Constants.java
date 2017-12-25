@@ -22,5 +22,9 @@ public interface Constants {
          * robot don't get result in time
          */
         int ROBOT_TIMEOUT = 3;
+        /**
+         * motion hasn't been prepared
+         */
+        int MOTION_ABSENT = 4;
     }
 }
