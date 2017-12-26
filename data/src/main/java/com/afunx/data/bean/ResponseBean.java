@@ -4,13 +4,13 @@ package com.afunx.data.bean;
  * Created by afunx on 23/12/2017.
  */
 
-public class ResponseBean {
+public class ResponseBean<T> {
 
     private long id;
 
     private int runtime;
 
-    private Object body;
+    private T body;
 
     private int result;
 
@@ -30,11 +30,11 @@ public class ResponseBean {
         this.runtime = runtime;
     }
 
-    public Object getBody() {
+    public T getBody() {
         return body;
     }
 
-    public void setBody(Object body) {
+    public void setBody(T body) {
         this.body = body;
     }
 

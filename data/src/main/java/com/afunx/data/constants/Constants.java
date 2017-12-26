@@ -5,26 +5,42 @@ package com.afunx.data.constants;
  */
 
 public interface Constants {
+    // when result is < 0 means robot sdk error code
     interface RESULT {
         /**
          * robot execute suc
          */
         int SUC = 0;
         /**
+         * robot execute fail, unknown reason
+         */
+        int FAIL = 1;
+        /**
          * network timeout
          */
-        int NETWORK_TIMEOUT = 1;
+        int NETWORK_TIMEOUT = 2;
         /**
          * robot is busy
          */
-        int ROBOT_BUSY = 2;
+        int ROBOT_BUSY = 3;
         /**
          * robot don't get result in time
          */
-        int ROBOT_TIMEOUT = 3;
+        int ROBOT_TIMEOUT = 4;
         /**
          * motion hasn't been prepared
          */
-        int MOTION_ABSENT = 4;
+        int MOTION_ABSENT = 5;
+    }
+    // robot busy state
+    interface ROBOT_BUSY_STATE {
+        /**
+         * robot is idle
+         */
+        int IDLE = 0;
+        /**
+         * robot is busy
+         */
+        int BUSY = 1;
     }
 }
