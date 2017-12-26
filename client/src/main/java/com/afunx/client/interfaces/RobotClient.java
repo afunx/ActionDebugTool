@@ -121,7 +121,17 @@ public interface RobotClient {
      * @param motionBeanList motion bean list(store request)
      * @return {@link Constants.RESULT}
      */
-    int prepareMotionList(List<MotionBean> motionBeanList);
+    int prepareMotions(List<MotionBean> motionBeanList);
+
+    /**
+     * POST /exec/motions
+     * <p>
+     * play motion have been prepared
+     *
+     * @param motionNameList motion name list
+     * @return {@link Constants.RESULT}
+     */
+    int execMotions(List<String> motionNameList);
 
     /**
      * POST /cancel/motions

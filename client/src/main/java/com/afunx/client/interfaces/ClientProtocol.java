@@ -25,7 +25,7 @@ public interface ClientProtocol {
     Call<ResponseBean<List<MotorBean>>> queryMotors(@Body RequestBean body);
 
     @POST("/exec/motors")
-    Call<ResponseBean> execMotors(@Body RequestBean body);
+    Call<ResponseBean> execMotors(@Body RequestBean<List<MotorBean>> body);
 
     @POST("/cancel/motors")
     Call<ResponseBean> cancelAllMotors(@Body RequestBean body);
@@ -46,13 +46,13 @@ public interface ClientProtocol {
     Call<ResponseBean> execMotion(@Body RequestBean<String> body);
 
     @POST("/query/motions/index")
-    Call<ResponseBean> queryMotions(@Body RequestBean<Integer> body);
+    Call<ResponseBean<Integer>> queryMotions(@Body RequestBean<Integer> body);
 
     @POST("/prepare/motions")
-    Call<ResponseBean> prepareMotionList(@Body RequestBean<List<MotionBean>> body);
+    Call<ResponseBean> prepareMotions(@Body RequestBean<List<MotionBean>> body);
 
     @POST("/exec/motions")
-    Call<ResponseBean> execMotionList(@Body RequestBean<List<String>> body);
+    Call<ResponseBean> execMotions(@Body RequestBean<List<String>> body);
 
     @POST("/cancel/motions")
     Call<ResponseBean> cancelAllMotions(@Body RequestBean body);

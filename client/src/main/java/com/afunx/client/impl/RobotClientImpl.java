@@ -26,7 +26,7 @@ public class RobotClientImpl implements RobotClient {
 
     private String baseUrl = "http://127.0.0.1";
 
-    private final int basePort = 18266;
+    private static final int PORT = 18266;
     private static final AtomicLong sIdGenerator = new AtomicLong(0);
 
     @Override
@@ -39,7 +39,7 @@ public class RobotClientImpl implements RobotClient {
 
     private Retrofit createRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(baseUrl + ":" + basePort)
+                .baseUrl(baseUrl + ":" + PORT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
@@ -111,46 +111,197 @@ public class RobotClientImpl implements RobotClient {
 
     @Override
     public int cancelAllMotors() {
-        return 0;
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<?> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        Call<ResponseBean> responseBeanCall = clientProtocol.cancelAllMotors(requestBean);
+        try {
+            Response<ResponseBean> response = responseBeanCall.execute();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
     }
 
     @Override
     public int execEnterReadmode() {
-        return 0;
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<?> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        Call<ResponseBean> responseBeanCall = clientProtocol.execEnterReadmode(requestBean);
+        try {
+            Response<ResponseBean> response = responseBeanCall.execute();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
     }
 
     @Override
     public int execExitReadmode() {
-        return 0;
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<?> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        Call<ResponseBean> responseBeanCall = clientProtocol.execExitReadmode(requestBean);
+        try {
+            Response<ResponseBean> response = responseBeanCall.execute();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
     }
 
     @Override
     public int queryMotion(int[] frameIndex) {
-        return 0;
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<Integer> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        Call<ResponseBean<Integer>> responseBeanCall = clientProtocol.queryMotion(requestBean);
+        try {
+            Response<ResponseBean<Integer>> response = responseBeanCall.execute();
+            frameIndex[0] = response.body().getBody();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
     }
 
     @Override
     public int prepareMotion(MotionBean motionBean) {
-        return 0;
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<MotionBean> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        requestBean.setBody(motionBean);
+        Call<ResponseBean> responseBeanCall = clientProtocol.prepareMotion(requestBean);
+        try {
+            Response<ResponseBean> response = responseBeanCall.execute();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
     }
 
     @Override
     public int execMotion(String motionName) {
-        return 0;
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<String> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        requestBean.setBody(motionName);
+        Call<ResponseBean> responseBeanCall = clientProtocol.execMotion(requestBean);
+        try {
+            Response<ResponseBean> response = responseBeanCall.execute();
+            return  response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
     }
 
     @Override
     public int queryMotions(int[] motionIndex) {
-        return 0;
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<Integer> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        Call<ResponseBean<Integer>> responseBeanCall = clientProtocol.queryMotions(requestBean);
+        try {
+            Response<ResponseBean<Integer>> response = responseBeanCall.execute();
+            motionIndex[0] = response.body().getBody();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
     }
 
     @Override
-    public int prepareMotionList(List<MotionBean> motionBeanList) {
-        return 0;
+    public int prepareMotions(List<MotionBean> motionBeanList) {
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<List<MotionBean>> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        requestBean.setBody(motionBeanList);
+        Call<ResponseBean> responseBeanCall = clientProtocol.prepareMotions(requestBean);
+        try {
+            Response<ResponseBean> response = responseBeanCall.execute();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
+    }
+
+    @Override
+    public int execMotions(List<String> motionNameList) {
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<List<String>> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        requestBean.setBody(motionNameList);
+        Call<ResponseBean> responseBeanCall = clientProtocol.execMotions(requestBean);
+        try {
+            Response<ResponseBean> response = responseBeanCall.execute();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
     }
 
     @Override
     public int cancelAllMotions() {
-        return 0;
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<?> requestBean = new RequestBean<>();
+        final long id = genRequestId();
+        requestBean.setId(id);
+        Call<ResponseBean> responseBeanCall = clientProtocol.cancelAllMotions(requestBean);
+        try {
+            Response<ResponseBean> response = responseBeanCall.execute();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
     }
 }
