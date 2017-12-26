@@ -115,7 +115,7 @@ public interface RobotAdapter {
      * @param robot          robot
      * @return {@link Constants.RESULT}
      */
-    int prepareMotionList(List<MotionBean> motionBeanList, Robot robot);
+    int prepareMotions(List<MotionBean> motionBeanList, Robot robot);
 
     /**
      * POST /exec/motions
@@ -126,7 +126,7 @@ public interface RobotAdapter {
      * @param robot          robot
      * @return {@link Constants.RESULT}
      */
-    int execMotionList(List<String> motionNameList, Robot robot);
+    int execMotions(List<String> motionNameList, Robot robot);
 
     /**
      * POST /cancel/motions

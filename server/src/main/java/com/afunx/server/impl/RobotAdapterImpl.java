@@ -24,7 +24,7 @@ public class RobotAdapterImpl implements RobotAdapter {
 
     @Override
     public int queryMotors(List<MotorBean> motorBeanList, Robot robot) {
-        LogUtils.log(TAG, "queryMotors()");
+        LogUtils.log(TAG, "queryMotors() motorBeanList: " + motorBeanList);
         setRobotIdle(robot);
         return 0;
     }
@@ -59,42 +59,45 @@ public class RobotAdapterImpl implements RobotAdapter {
 
     @Override
     public int queryMotion(int[] frameIndex, Robot robot) {
-        LogUtils.log(TAG, "queryMotion()");
+        LogUtils.log(TAG, "queryMotion() frameIndex[0] = 1");
         setRobotIdle(robot);
+        frameIndex[0] = 1;
         return 0;
     }
 
     @Override
     public int prepareMotion(MotionBean motionBean, Robot robot) {
-        LogUtils.log(TAG, "prepareMotion()");
+        LogUtils.log(TAG, "prepareMotion() motionBean: " + motionBean);
         setRobotIdle(robot);
         return 0;
     }
 
     @Override
     public int execMotion(String motionName, Robot robot) {
-        LogUtils.log(TAG, "execMotion()");
+        LogUtils.log(TAG, "execMotion() motionName: " + motionName);
         setRobotIdle(robot);
         return 0;
     }
 
     @Override
     public int queryMotions(int[] motionIndex, Robot robot) {
-        LogUtils.log(TAG, "queryMotions()");
+        LogUtils.log(TAG, "queryMotions() motionIndex[0] = 2");
         setRobotIdle(robot);
+        motionIndex[0] = 2;
         return 0;
     }
 
     @Override
-    public int prepareMotionList(List<MotionBean> motionBeanList, Robot robot) {
+    public int prepareMotions(List<MotionBean> motionBeanList, Robot robot) {
         LogUtils.log(TAG, "prepareMotionList()");
         setRobotIdle(robot);
+        LogUtils.log(TAG, "motionBeanList:\n" + motionBeanList);
         return 0;
     }
 
     @Override
-    public int execMotionList(List<String> motionNameList, Robot robot) {
-        LogUtils.log(TAG, "execMotionsList()");
+    public int execMotions(List<String> motionNameList, Robot robot) {
+        LogUtils.log(TAG, "execMotionsList() motionNameList: " + motionNameList);
         setRobotIdle(robot);
         return 0;
     }
