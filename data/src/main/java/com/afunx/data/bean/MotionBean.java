@@ -1,4 +1,4 @@
-package com.afunx.bean;
+package com.afunx.data.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +36,8 @@ public class MotionBean implements Cloneable {
     @Override
     public String toString() {
         return "{" + "\"name\"" + ":" + "\"" + name + "\"" +
-                ", " + "\"frameBeans\"" + ":" + frameBeans
-                + "}";
+                ", " + "\"frameBeans\"" + ":" + frameBeans +
+                "}";
     }
 
     @Override

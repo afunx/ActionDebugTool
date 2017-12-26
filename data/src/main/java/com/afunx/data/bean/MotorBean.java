@@ -1,4 +1,4 @@
-package com.afunx.bean;
+package com.afunx.data.bean;
 
 /**
  * Created by afunx on 20/12/2017.
@@ -33,8 +33,8 @@ public class MotorBean implements Cloneable{
     @Override
     public String toString() {
         return "{" + "\"id\"" + ":" + id +
-                ", " + "\"deg\"" + ":" + deg
-                + "}";
+                ", " + "\"deg\"" + ":" + deg +
+                "}";
     }
 
     @Override

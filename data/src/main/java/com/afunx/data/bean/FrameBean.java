@@ -1,4 +1,4 @@
-package com.afunx.bean;
+package com.afunx.data.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +62,8 @@ public class FrameBean implements Cloneable {
         return "{" + "\"index\"" + ":" + index +
                 ", " + "\"time\"" + ":" + time +
                 ", " + "\"name\"" + ":" + "\"" + name + "\"" +
-                ", " + "\"motorBeans\"" + ":" + motorBeans
-                + "}";
+                ", " + "\"motorBeans\"" + ":" + motorBeans +
+                "}";
     }
 
     @Override
