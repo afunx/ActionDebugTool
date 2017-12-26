@@ -31,6 +31,14 @@ public interface Constants {
          * motion hasn't been prepared
          */
         int MOTION_ABSENT = 5;
+        /**
+         * client IOException
+         */
+        int CLIENT_IOEXCEPTION = 6;
+        /**
+         * client Exception
+         */
+        int CLIENT_EXCEPTION = 7;
     }
     // robot busy state
     interface ROBOT_BUSY_STATE {
