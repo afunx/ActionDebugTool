@@ -1,12 +1,15 @@
 package com.afunx.server.impl;
 
 import com.afunx.server.interfaces.Robot;
+import com.afunx.server.log.LogUtils;
 
 /**
  * Created by afunx on 25/12/2017.
  */
 
 public class RobotImpl implements Robot {
+
+    private static final String TAG = "RobotImpl";
 
     private STATE state = STATE.IDLE;
 
@@ -21,6 +24,7 @@ public class RobotImpl implements Robot {
     @Override
     public void setState(STATE newState) {
         this.state = newState;
+        LogUtils.log(TAG, "setState() " + newState.toString());
     }
 
     @Override

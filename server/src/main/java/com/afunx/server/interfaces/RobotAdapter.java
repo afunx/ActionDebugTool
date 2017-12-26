@@ -13,7 +13,7 @@ import java.util.List;
 public interface RobotAdapter {
 
     /**
-     * GET /query/motors
+     * POST /query/motors
      * <p>
      * query motors
      *
@@ -65,7 +65,7 @@ public interface RobotAdapter {
     int execExitReadmode(Robot robot);
 
     /**
-     * GET /query/motion/index
+     * POST /query/motion/index
      * <p>
      * query motion's frame index running
      *
@@ -97,7 +97,7 @@ public interface RobotAdapter {
     int execMotion(String motionName, Robot robot);
 
     /**
-     * GET /query/motions/index
+     * POST /query/motions/index
      * <p>
      * query motion index running
      *
@@ -116,6 +116,17 @@ public interface RobotAdapter {
      * @return {@link Constants.RESULT}
      */
     int prepareMotionList(List<MotionBean> motionBeanList, Robot robot);
+
+    /**
+     * POST /exec/motions
+     * <p>
+     * play motion have been prepared
+     *
+     * @param motionNameList motion name List
+     * @param robot          robot
+     * @return {@link Constants.RESULT}
+     */
+    int execMotionList(List<String> motionNameList, Robot robot);
 
     /**
      * POST /cancel/motions

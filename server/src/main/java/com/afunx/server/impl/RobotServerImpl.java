@@ -77,13 +77,13 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         Response response = null;
 
         // query whether robot is busy
-        if (session.getUri().equals("/query/busy") && session.getMethod().equals(Method.GET)) {
+        if (session.getUri().equals("/query/busy") && session.getMethod().equals(Method.POST)) {
             response = serveQueryBusy(session, this.robot);
             return response != null ? response :
                     newFixedLengthResponse(Response.Status.BAD_REQUEST, NanoHTTPD.MIME_PLAINTEXT, "URL: " + session.getUri() + " IS BAD REQUEST");
         }
 
-        if (session.getUri().equals("/query/motors") && session.getMethod().equals(Method.GET)) {
+        if (session.getUri().equals("/query/motors") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.QUERY);
             response = serveQueryMotors(session);
         } else if (session.getUri().equals("/exec/motors") && session.getMethod().equals(Method.POST)) {

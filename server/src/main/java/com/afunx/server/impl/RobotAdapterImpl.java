@@ -31,7 +31,7 @@ public class RobotAdapterImpl implements RobotAdapter {
 
     @Override
     public int execMotors(List<MotorBean> motorBeanList, Robot robot) {
-        LogUtils.log(TAG, "execMotors()");
+        LogUtils.log(TAG, "execMotors() " + motorBeanList);
         setRobotIdle(robot);
         return 0;
     }
@@ -88,6 +88,13 @@ public class RobotAdapterImpl implements RobotAdapter {
     @Override
     public int prepareMotionList(List<MotionBean> motionBeanList, Robot robot) {
         LogUtils.log(TAG, "prepareMotionList()");
+        setRobotIdle(robot);
+        return 0;
+    }
+
+    @Override
+    public int execMotionList(List<String> motionNameList, Robot robot) {
+        LogUtils.log(TAG, "execMotionsList()");
         setRobotIdle(robot);
         return 0;
     }
