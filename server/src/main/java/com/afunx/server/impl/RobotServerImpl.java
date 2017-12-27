@@ -72,7 +72,8 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
     public Response serve(IHTTPSession session) {
         LogUtils.log(TAG, "serve() uri: " + session.getUri());
 
-        if (!robot.isIdle()) {
+        // check robot is idle, only cancel could break in
+        if (!robot.isIdle() && !session.getUri().contains("cancel")) {
             LogUtils.log(TAG, "serve() uri: " + session.getUri() + ", robot is busy");
             return RESPONSE_ROBOT_BUSY;
         }
