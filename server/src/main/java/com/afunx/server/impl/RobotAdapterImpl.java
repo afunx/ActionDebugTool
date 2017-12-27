@@ -1,5 +1,6 @@
 package com.afunx.server.impl;
 
+import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.server.interfaces.Robot;
@@ -30,8 +31,8 @@ public class RobotAdapterImpl implements RobotAdapter {
     }
 
     @Override
-    public int execMotors(List<MotorBean> motorBeanList, Robot robot) {
-        LogUtils.log(TAG, "execMotors() " + motorBeanList);
+    public int execMotors(FrameBean frameBean, Robot robot) {
+        LogUtils.log(TAG, "execMotors() frameBean:\n" + frameBean);
         setRobotIdle(robot);
         return 0;
     }

@@ -1,5 +1,6 @@
 package com.afunx.client.interfaces;
 
+import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.bean.RequestBean;
@@ -25,7 +26,7 @@ public interface ClientProtocol {
     Call<ResponseBean<List<MotorBean>>> queryMotors(@Body RequestBean body);
 
     @POST("/exec/motors")
-    Call<ResponseBean> execMotors(@Body RequestBean<List<MotorBean>> body);
+    Call<ResponseBean> execMotors(@Body RequestBean<FrameBean> body);
 
     @POST("/cancel/motors")
     Call<ResponseBean> cancelAllMotors(@Body RequestBean body);
