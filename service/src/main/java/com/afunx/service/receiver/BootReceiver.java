@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.afunx.service.util.RobotServerUtils;
 import com.afunx.service.util.UdpDiscoverServerUtils;
 
 public class BootReceiver extends BroadcastReceiver {
@@ -15,9 +16,14 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "onReceive() receive boot broadcast");
         startUdpDiscoverServer(context);
+        startRobotServer(context);
     }
 
     private void startUdpDiscoverServer(Context context) {
         UdpDiscoverServerUtils.startService(context);
+    }
+
+    private void startRobotServer(Context context) {
+        RobotServerUtils.startService(context);
     }
 }

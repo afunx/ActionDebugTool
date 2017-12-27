@@ -30,7 +30,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".receiver.NetworkChangeReceiver"
             android:enabled="true"
@@ -42,6 +41,11 @@
 
         <service
             android:name=".service.UdpDiscoverService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
+        <service
+            android:name=".service.RobotService"
             android:enabled="true"
             android:exported="false">
         </service>

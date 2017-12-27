@@ -41,7 +41,7 @@ public class UdpDiscoverService extends Service {
     @Override
     public void onCreate() {
         byte[] inetAddr = getInetAddress();
-        Log.e(TAG, "onCreate() starting inetAddr: " + HexUtils.bytes2HexString(inetAddr));
+        Log.e(TAG, "onCreate() starting inetAddr: " + HexUtils.bytes2HexString(inetAddr) + ", port: " + PORT);
         if (inetAddr != null) {
             mUdpDiscoverServer = new UdpDiscoverServerImpl();
             mUdpDiscoverServer.start(PORT, secret, inetAddr);
