@@ -4,8 +4,10 @@ import android.util.Log;
 
 import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
+import com.afunx.data.constants.Constants;
 import com.afunx.server.interfaces.Robot;
 import com.afunx.server.interfaces.RobotAdapter;
+import com.ubt.ip.ctrl_motor.util.MotorUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +27,10 @@ public class RobotAdapterImpl implements RobotAdapter {
     @Override
     public int queryMotors(List<MotorBean> motorBeanList, Robot robot) {
         Log.d(TAG, "queryMotors() motorBeanList: " + motorBeanList);
+        final int result = _queryMotors(motorBeanList);
+        Log.i(TAG, "queryMotors() result: " + result + ", motorBeanList: " + motorBeanList);
         setRobotIdle(robot);
-        return 0;
+        return result;
     }
 
     @Override
@@ -105,4 +109,21 @@ public class RobotAdapterImpl implements RobotAdapter {
         setRobotIdle(robot);
         return 0;
     }
+
+    private int _queryMotors(List<MotorBean> motorBeanList) {
+        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7};
+        final int size = motorsId.length;
+        final int[] motorsDeg = new int[size];
+        int result = MotorUtil.getCurrentMotors(motorsId, motorsDeg);
+        if (result == Constants.RESULT.SUC) {
+            for (int i = 0; i < size; i++) {
+                MotorBean motorBean = new MotorBean();
+                motorBean.setId(motorsId[i]);
+                motorBean.setDeg(motorsDeg[i]);
+                motorBeanList.add(motorBean);
+            }
+        }
+        return result;
+    }
+
 }
