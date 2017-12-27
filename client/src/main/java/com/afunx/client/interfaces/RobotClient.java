@@ -1,5 +1,6 @@
 package com.afunx.client.interfaces;
 
+import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.constants.Constants;
@@ -41,10 +42,10 @@ public interface RobotClient {
      * <p>
      * execute motors
      *
-     * @param motorBeanList motor bean list(store request)
+     * @param frameBean frame bean(store request)
      * @return {@link Constants.RESULT}
      */
-    int execMotors(List<MotorBean> motorBeanList);
+    int execMotors(FrameBean frameBean);
 
     /**
      * POST /cancel/motors

@@ -2,6 +2,7 @@ package com.afunx.client.impl;
 
 import com.afunx.client.interfaces.ClientProtocol;
 import com.afunx.client.interfaces.RobotClient;
+import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.bean.RequestBean;
@@ -90,10 +91,10 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int execMotors(List<MotorBean> motorBeanList) {
+    public int execMotors(FrameBean frameBean) {
         ClientProtocol clientProtocol = createClientProtocol();
-        RequestBean<List<MotorBean>> requestBean = new RequestBean<>();
-        requestBean.setBody(motorBeanList);
+        RequestBean<FrameBean> requestBean = new RequestBean<>();
+        requestBean.setBody(frameBean);
         final long id = genRequestId();
         requestBean.setId(id);
         Call<ResponseBean> responseBeanCall = clientProtocol.execMotors(requestBean);

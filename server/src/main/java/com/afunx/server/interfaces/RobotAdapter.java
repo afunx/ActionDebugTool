@@ -1,5 +1,6 @@
 package com.afunx.server.interfaces;
 
+import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.constants.Constants;
@@ -28,11 +29,11 @@ public interface RobotAdapter {
      * <p>
      * execute motors
      *
-     * @param motorBeanList motor bean list(store request)
-     * @param robot         robot
+     * @param frameBean frameBean(store request)
+     * @param robot     robot
      * @return {@link Constants.RESULT}
      */
-    int execMotors(List<MotorBean> motorBeanList, Robot robot);
+    int execMotors(FrameBean frameBean, Robot robot);
 
     /**
      * POST /cancel/motors

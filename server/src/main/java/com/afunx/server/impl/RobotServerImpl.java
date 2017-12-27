@@ -1,5 +1,6 @@
 package com.afunx.server.impl;
 
+import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.bean.RequestBean;
@@ -245,19 +246,19 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
 
     private Response serveExecMotors(IHTTPSession session) {
         LogUtils.log(TAG, "serveExecMotors()");
-        final RequestBean<List<MotorBean>> requestBeanList = parseRequestBeanList(session, MotorBean.class);
-        if (requestBeanList == null || requestBeanList.getBody() == null) {
+        final RequestBean<FrameBean> requestBean = parseRequestBean(session, FrameBean.class);
+        if (requestBean == null || requestBean.getBody() == null) {
             LogUtils.log(TAG, "serveExecMotors() requestBeanList is null or requestBeanList.getBody() is null");
             return null;
         }
-        final long id = requestBeanList.getId();
+        final long id = requestBean.getId();
         final Robot robot = this.robot;
         final Semaphore semaphore = new Semaphore(0);
         final int[] result = new int[]{Constants.RESULT.FAIL};
         // execute motors async
-        execMotorsAsync(requestBeanList.getBody(), result, semaphore, robot);
+        execMotorsAsync(requestBean.getBody(), result, semaphore, robot);
         // wait execute finished or timeout
-        final int timeout = requestBeanList.getTimeout();
+        final int timeout = requestBean.getTimeout();
         final boolean timely = waitTimeout(timeout, semaphore);
         if (!timely) {
             return RESPONSE_ROBOT_TIMEOUT;
@@ -488,14 +489,14 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         return assembleResponse(result[0], id);
     }
 
-    private void execMotorsAsync(final List<MotorBean> motorBeanList, final int[] result, final Semaphore semaphore, final Robot robot) {
+    private void execMotorsAsync(final FrameBean frameBean, final int[] result, final Semaphore semaphore, final Robot robot) {
         new Thread() {
             @Override
             public void run() {
                 if (robotAdapter != null) {
                     // catch Exception here, let semaphore will be released forever
                     try {
-                        result[0] = robotAdapter.execMotors(motorBeanList, robot);
+                        result[0] = robotAdapter.execMotors(frameBean, robot);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
