@@ -32,13 +32,17 @@ public interface Constants {
          */
         int MOTION_ABSENT = 5;
         /**
+         * motion name is null
+         */
+        int MOTION_NAME_NULL = 6;
+        /**
          * client IOException
          */
-        int CLIENT_IOEXCEPTION = 6;
+        int CLIENT_IOEXCEPTION = 7;
         /**
          * client Exception
          */
-        int CLIENT_EXCEPTION = 7;
+        int CLIENT_EXCEPTION = 8;
     }
     // robot busy state
     interface ROBOT_BUSY_STATE {
