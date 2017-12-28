@@ -73,7 +73,7 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         LogUtils.log(TAG, "serve() uri: " + session.getUri());
 
         // check robot is idle, only cancel could break in
-        if (!robot.isIdle() && !session.getUri().contains("cancel")) {
+        if (!robot.isIdle() && !session.getUri().contains("cancel") && !session.getUri().contains("query")) {
             LogUtils.log(TAG, "serve() uri: " + session.getUri() + ", robot is busy");
             return RESPONSE_ROBOT_BUSY;
         }
@@ -88,7 +88,6 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         }
 
         if (session.getUri().equals("/query/motors") && session.getMethod().equals(Method.POST)) {
-            robot.setState(Robot.STATE.QUERY);
             response = serveQueryMotors(session);
         } else if (session.getUri().equals("/exec/motors") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.EXECUTE);
@@ -103,7 +102,6 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
             robot.setState(Robot.STATE.EXECUTE);
             response = serveExecExitReadmode(session);
         } else if (session.getUri().equals("/query/motion/index") && session.getMethod().equals(Method.POST)) {
-            robot.setState(Robot.STATE.QUERY);
             response = serveQueryMotion(session);
         } else if (session.getUri().equals("/prepare/motion") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.PREPARE);
@@ -112,7 +110,6 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
             robot.setState(Robot.STATE.EXECUTE);
             response = serveExecMotion(session);
         } else if (session.getUri().equals("/query/motions/index") && session.getMethod().equals(Method.POST)) {
-            robot.setState(Robot.STATE.QUERY);
             response = serveQueryMotions(session);
         } else if (session.getUri().equals("/prepare/motions") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.PREPARE);
