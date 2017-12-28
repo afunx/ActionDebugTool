@@ -13,11 +13,6 @@ public interface Robot {
         IDLE,
 
         /**
-         * robot is querying
-         */
-        QUERY,
-
-        /**
          * robot is preparing.
          */
         PREPARE,
