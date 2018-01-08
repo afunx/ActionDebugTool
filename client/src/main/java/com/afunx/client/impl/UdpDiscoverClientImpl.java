@@ -88,7 +88,7 @@ public class UdpDiscoverClientImpl implements UdpDiscoverClient {
         // when test it, please update getBroadcastInetAddress() "127.0.0.1"
         UdpDiscoverClientImpl client = new UdpDiscoverClientImpl();
         byte[] secret = new byte[]{0x75, 0x62, 0x74};
-        List<InetAddress> inetAddressList = client.discover(secret, 12000, 1000);
+        List<InetAddress> inetAddressList = client.discover(secret, 32866, 2000);
         LogUtils.log(TAG, "inetAddressList: " + inetAddressList);
     }
 }
