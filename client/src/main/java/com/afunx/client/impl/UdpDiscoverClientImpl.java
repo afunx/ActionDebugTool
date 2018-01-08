@@ -78,8 +78,8 @@ public class UdpDiscoverClientImpl implements UdpDiscoverClient {
             socket.receive(packet);
             LogUtils.log(TAG, "_receive() receive: " + HexUtils.bytes2HexString(packet.getData(), packet.getOffset(), packet.getLength()));
             return InetAddress.getByAddress(packet.getData());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignore) {
+            // it will always timeout, make it ignore just to keep developer from unnecessary panic
         }
         return null;
     }
@@ -88,7 +88,7 @@ public class UdpDiscoverClientImpl implements UdpDiscoverClient {
         // when test it, please update getBroadcastInetAddress() "127.0.0.1"
         UdpDiscoverClientImpl client = new UdpDiscoverClientImpl();
         byte[] secret = new byte[]{0x75, 0x62, 0x74};
-        List<InetAddress> inetAddressList = client.discover(secret, 12000, 1000);
+        List<InetAddress> inetAddressList = client.discover(secret, 32866, 2000);
         LogUtils.log(TAG, "inetAddressList: " + inetAddressList);
     }
 }
