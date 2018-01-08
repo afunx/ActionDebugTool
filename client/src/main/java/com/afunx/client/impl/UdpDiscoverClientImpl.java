@@ -56,7 +56,17 @@ public class UdpDiscoverClientImpl implements UdpDiscoverClient {
                 list.add(inetAddr);
             }
         } while (inetAddr != null);
+        _close(socket);
         return list;
+    }
+
+    private void _close(DatagramSocket socket) {
+        if (socket == null) {
+            LogUtils.log(TAG, "_close() socket is null");
+        } else {
+            LogUtils.log(TAG, "_close() localPort" + socket.getLocalPort() + ", port: " + socket.getPort());
+            socket.close();
+        }
     }
 
     private DatagramSocket _send(byte[] secret, int port) {
