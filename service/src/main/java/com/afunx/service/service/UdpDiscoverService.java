@@ -20,6 +20,27 @@ public class UdpDiscoverService extends Service {
     private static final int PORT = 32866;
     private static final byte[] secret = new byte[]{0x75, 0x62, 0x74};
     private UdpDiscoverServer mUdpDiscoverServer = null;
+    private WifiManager.MulticastLock mLock = null;
+
+    private void acquireLock() {
+        if (mLock == null) {
+            WifiManager manager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+            mLock = manager.createMulticastLock("udp discover");
+        }
+        if (mLock != null && !mLock.isHeld()) {
+            mLock.acquire();
+        }
+    }
+
+    private void releaseLock() {
+        if (mLock != null && mLock.isHeld()) {
+            try {
+                mLock.release();
+            } catch (Throwable th) {
+                // ignoring this exception, probably wakeLock was already released
+            }
+        }
+    }
 
     private byte[] getInetAddress() {
         final Context context = getApplicationContext();
@@ -43,6 +64,7 @@ public class UdpDiscoverService extends Service {
         byte[] inetAddr = getInetAddress();
         Log.e(TAG, "onCreate() starting inetAddr: " + HexUtils.bytes2HexString(inetAddr) + ", port: " + PORT);
         if (inetAddr != null) {
+            acquireLock();
             mUdpDiscoverServer = new UdpDiscoverServerImpl();
             mUdpDiscoverServer.start(PORT, secret, inetAddr);
         }
@@ -52,6 +74,7 @@ public class UdpDiscoverService extends Service {
     public void onDestroy() {
         if (mUdpDiscoverServer != null) {
             mUdpDiscoverServer.stop();
+            releaseLock();
         }
     }
 

@@ -49,10 +49,6 @@ public class UdpDiscoverServerImpl implements UdpDiscoverServer {
         _close();
     }
 
-    private InetAddress getLoopbackAddress() throws UnknownHostException {
-        return InetAddress.getLoopbackAddress();
-    }
-
     private boolean _start(int port, byte[] secret, byte[] reply) {
         if (this.isStarted) {
             LogUtils.log(TAG, "_start() port: " + port + " ERROR!!!!!! only could be called onces");
@@ -61,10 +57,11 @@ public class UdpDiscoverServerImpl implements UdpDiscoverServer {
         this.isStarted = true;
         this.port = port;
         try {
-            udpSocket = new DatagramSocket(port, getLoopbackAddress());
+            udpSocket = new DatagramSocket(port);
             _listen(udpSocket, packetRec, secret, packetSend, reply);
             return true;
         } catch (IOException e) {
+            e.printStackTrace();
             LogUtils.log(TAG, "_start() port: " + port + " IOException");
         }
         return false;
@@ -76,10 +73,11 @@ public class UdpDiscoverServerImpl implements UdpDiscoverServer {
             return false;
         }
         try {
-            udpSocket = new DatagramSocket(port, getLoopbackAddress());
+            udpSocket = new DatagramSocket(port);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
+            LogUtils.log(TAG, "_reopen() port: " + port + " IOException");
         }
         return false;
     }
@@ -164,7 +162,7 @@ public class UdpDiscoverServerImpl implements UdpDiscoverServer {
         final UdpDiscoverServerImpl obj = new UdpDiscoverServerImpl();
         final byte[] secret = new byte[]{0x75, 0x62, 0x74};
         final byte[] reply = new byte[]{0x09, 0x08, 0x07, 0x06};
-        boolean isSuc = obj.start(12000, secret, reply);
+        boolean isSuc = obj.start(32866, secret, reply);
         LogUtils.log(TAG, "main() isSuc: " + isSuc);
     }
 }
