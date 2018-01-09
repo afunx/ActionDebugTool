@@ -1,5 +1,6 @@
 package com.afunx.data.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by afunx on 21/12/2017.
  */
 
-public class FrameBean implements Cloneable {
+public class FrameBean implements Cloneable, Serializable {
     /**
      * frame index
      */

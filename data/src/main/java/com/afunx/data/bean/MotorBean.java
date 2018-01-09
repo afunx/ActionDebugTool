@@ -1,10 +1,12 @@
 package com.afunx.data.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by afunx on 20/12/2017.
  */
 
-public class MotorBean implements Cloneable{
+public class MotorBean implements Cloneable, Serializable {
     /**
      * motor id
      */
