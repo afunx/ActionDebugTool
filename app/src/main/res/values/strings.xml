@@ -7,4 +7,6 @@
     <string name="select_robot_ip">Please select robot ip address</string>
     <string name="no_robot_found">No robots are found</string>
     <string name="one_robot_found">Robot :%1$s is found</string>
+    <string name="output_uta_files">Output uta action files</string>
+    <string name="input_uta_files">Input uta action files</string>
 </resources>

@@ -5,18 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/padding_medium"
     tools:context="com.afunx.actiondebugtool.MainActivity">
-
 
     <TextView
         android:id="@+id/tv_robot_ip"
-        style="@style/font_medium"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:background="@color/textViewBackground"
         android:gravity="center"
         android:hint="@string/scan_hint"
+        android:textSize="@dimen/font_medium"
         app:layout_heightPercent='10%'
         app:layout_widthPercent='50%'/>
 
@@ -26,6 +26,38 @@
         android:layout_height="0dp"
         android:layout_alignParentEnd="true"
         android:text="@string/scan"
+        android:textSize="@dimen/font_medium"
         app:layout_heightPercent='10%'
         app:layout_widthPercent='50%'/>
+
+    <Button
+        android:id="@+id/btn_output_uta_files"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tv_robot_ip"
+        android:text="@string/output_uta_files"
+        android:textSize="@dimen/font_small"
+        app:layout_heightPercent='10%'
+        app:layout_widthPercent='50%'/>
+
+    <Button
+        android:id="@+id/btn_input_uta_files"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tv_robot_ip"
+        android:text="@string/input_uta_files"
+        android:textSize="@dimen/font_small"
+        app:layout_heightPercent='10%'
+        app:layout_widthPercent='50%'/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ryc_action"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn_output_uta_files"
+        />
+
+
 </android.support.percent.PercentRelativeLayout>

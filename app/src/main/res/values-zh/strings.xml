@@ -8,4 +8,6 @@
     <string name="select_robot_ip">请选择机器人的Ip地址</string>
     <string name="no_robot_found">尚未发现机器人</string>
     <string name="one_robot_found">发现机器人:%1$s</string>
+    <string name="output_uta_files">导出uta动作文件</string>
+    <string name="input_uta_files">导入uta动作文件</string>
 </resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Text Font Size-->
+    <dimen name="font_small">16sp</dimen>
+    <dimen name="font_medium">20sp</dimen>
+    <dimen name="font_large">24sp</dimen>
+    <dimen name="font_very_large">28sp</dimen>
+
+    <!--padding-->
+    <dimen name="padding_medium">16dp</dimen>
+
+    <!--margin-->
+    <dimen name="margin_medium">16dp</dimen>
+
+
+    <!--<style name="margin_left_medium">-->
+        <!--<item name="android:layout_marginLeft">16dp</item>-->
+    <!--</style>-->
+    <!--<style name="margin_right_medium">-->
+        <!--<item name="android:layout_marginRight">16dp</item>-->
+    <!--</style>-->
+</resources>

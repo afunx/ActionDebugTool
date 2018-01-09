@@ -5,16 +5,21 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afunx.actiondebugtool.adapter.ActionItemAdapter;
 import com.afunx.client.impl.UdpDiscoverClientImpl;
 import com.afunx.client.interfaces.UdpDiscoverClient;
+import com.afunx.data.bean.MotionBean;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -25,15 +30,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnScan;
     private InetAddress mRobotInetAddr;
 
+    private final List<MotionBean> mMotionBeanList = new ArrayList<>();
+    private RecyclerView mRcyAction;
+    private ActionItemAdapter mAdapterAction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
+        initData();
+    }
 
+    private void initView() {
         mTvRobotIp = (TextView) findViewById(R.id.tv_robot_ip);
         mBtnScan = (Button) findViewById(R.id.btn_scan);
         mBtnScan.setOnClickListener(this);
+        mRcyAction = (RecyclerView) findViewById(R.id.ryc_action);
+        mAdapterAction = new ActionItemAdapter(mMotionBeanList);
+        LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRcyAction.setLayoutManager(llm);
+        mRcyAction.setAdapter(mAdapterAction);
     }
+
+    private void initData() {
+        for (int i = 0; i < 10; i++) {
+            MotionBean motionBean = new MotionBean();
+            motionBean.setName("item " + (i + 1));
+            mMotionBeanList.add(motionBean);
+        }
+        mAdapterAction.notifyDataSetChanged();
+    }
+
 
     @Override
     public void onClick(View v) {
