@@ -1,5 +1,6 @@
 package com.afunx.actiondebugtool.adapter;
 
+import android.content.Intent;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,10 +39,18 @@ public class ActionItemAdapter extends RecyclerView.Adapter<ActionItemAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         MotionBean motionBean = mMotionBeanList.get(position);
         holder.tvActionName.setText(motionBean.getName());
         // TODO btnActionEdit
+        holder.btnActionEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("com.afunx.actiondebugtool.editAction");
+                intent.putExtra("action", mMotionBeanList.get(position));
+                v.getContext().startActivity(intent);
+            }
+        });
         // TODO btnActionDelete
     }
 

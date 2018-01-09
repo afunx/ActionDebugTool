@@ -9,4 +9,11 @@
     <string name="one_robot_found">Robot :%1$s is found</string>
     <string name="output_uta_files">Output uta action files</string>
     <string name="input_uta_files">Input uta action files</string>
+    <string name="copy">Copy</string>
+    <string name="paste">Paste</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="save_as">Save As&#8230;</string>
+    <string name="enter_read_mode">Enter ReadMode</string>
+    <string name="read">Read</string>
 </resources>

@@ -28,6 +28,11 @@
             android:name=".EditActivity"
             android:screenOrientation="landscape"
             >
+            <intent-filter>
+                <action android:name="com.afunx.actiondebugtool.editAction"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
     </application>
 
