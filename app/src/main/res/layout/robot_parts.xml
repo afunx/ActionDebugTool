@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
+                 11
+                 12
+
+              01 13 03
+                 14
+           02          04
+              05    08
+              06    09
+              07    10
+
+            sx means space
+            arm : 11 12
+            body: 01 13 03 14
+            hand: 02 04
+            leg : 05 06 07 08 09 10
+    -->
+
+    <!--11-->
+    <Button
+        android:id="@+id/btn_robot_part_11"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/sl_head_part"
+        android:text="@string/robot_part_11"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--12-->
+    <Button
+        android:id="@+id/btn_robot_part_12"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_11"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/sl_head_part"
+        android:text="@string/robot_part_12"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--13-->
+    <Button
+        android:id="@+id/btn_robot_part_13"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_12"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/sl_body_part"
+        android:text="@string/robot_part_13"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+
+        app:layout_marginTopPercent="@fraction/robot_part_edge_half"
+        app:layout_marginBottomPercent="@fraction/robot_part_margin"
+        app:layout_marginLeftPercent="@fraction/robot_part_margin"
+        app:layout_marginRightPercent="@fraction/robot_part_margin"
+        />
+
+    <!--01-->
+    <Button
+        android:id="@+id/btn_robot_part_01"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_12"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/btn_robot_part_13"
+        android:background="@drawable/sl_body_part"
+        android:text="@string/robot_part_01"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+
+        app:layout_marginTopPercent="@fraction/robot_part_edge_half"
+        app:layout_marginBottomPercent="@fraction/robot_part_margin"
+        app:layout_marginLeftPercent="@fraction/robot_part_margin"
+        app:layout_marginRightPercent="@fraction/robot_part_margin"
+        />
+
+    <!--03-->
+    <Button
+        android:id="@+id/btn_robot_part_03"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_12"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/btn_robot_part_13"
+        android:background="@drawable/sl_body_part"
+        android:text="@string/robot_part_03"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+
+        app:layout_marginTopPercent="@fraction/robot_part_edge_half"
+        app:layout_marginBottomPercent="@fraction/robot_part_margin"
+        app:layout_marginLeftPercent="@fraction/robot_part_margin"
+        app:layout_marginRightPercent="@fraction/robot_part_margin"
+        />
+
+    <!--14-->
+    <Button
+        android:id="@+id/btn_robot_part_14"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_13"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/sl_body_part"
+        android:text="@string/robot_part_14"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--02-->
+    <Button
+        android:id="@+id/btn_robot_part_02"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_14"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/btn_robot_part_01"
+        android:background="@drawable/sl_arm_part"
+        android:text="@string/robot_part_02"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--04-->
+    <Button
+        android:id="@+id/btn_robot_part_04"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_14"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/btn_robot_part_03"
+        android:background="@drawable/sl_arm_part"
+        android:text="@string/robot_part_04"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--05-->
+    <Button
+        android:id="@+id/btn_robot_part_05"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_02"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/btn_robot_part_02"
+        android:background="@drawable/sl_leg_part"
+        android:text="@string/robot_part_05"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--06-->
+    <Button
+        android:id="@+id/btn_robot_part_06"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_05"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/btn_robot_part_02"
+        android:background="@drawable/sl_leg_part"
+        android:text="@string/robot_part_06"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--07-->
+    <Button
+        android:id="@+id/btn_robot_part_07"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_06"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/btn_robot_part_02"
+        android:background="@drawable/sl_leg_part"
+        android:text="@string/robot_part_07"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--08-->
+    <Button
+        android:id="@+id/btn_robot_part_08"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_04"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/btn_robot_part_04"
+        android:background="@drawable/sl_leg_part"
+        android:text="@string/robot_part_08"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--09-->
+    <Button
+        android:id="@+id/btn_robot_part_09"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_08"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/btn_robot_part_04"
+        android:background="@drawable/sl_leg_part"
+        android:text="@string/robot_part_09"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+
+    <!--10-->
+    <Button
+        android:id="@+id/btn_robot_part_10"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/btn_robot_part_09"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/btn_robot_part_04"
+        android:background="@drawable/sl_leg_part"
+        android:text="@string/robot_part_10"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="@fraction/robot_part_edge"
+        app:layout_marginPercent="@fraction/robot_part_margin"
+        />
+</merge>

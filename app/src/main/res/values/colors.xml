@@ -5,4 +5,18 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="textViewBackground">#CCCCFF</color>
+
+    <color name="robot_part_selected">#ffff00</color>
+
+    <color name="robot_body_part_normal">#c1ffc1</color>
+
+    <color name="robot_head_part_normal">#C0FF3E</color>
+
+    <color name="robot_arm_part_normal">#C0FF3E</color>
+
+    <color name="robot_leg_part_normal">#C0FF3E</color>
+
+    <!--<color name="robot_space_part">#00000000</color>-->
+
+    <color name="robot_space_part">#ffff00ff</color>
 </resources>

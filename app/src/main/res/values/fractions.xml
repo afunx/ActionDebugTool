@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--robot part square edge-->
+    <fraction name="robot_part_edge">10%</fraction>
+    <fraction name="robot_part_edge_half">5%</fraction>
+    <!--robot part square edge margin-->
+    <fraction name="robot_part_margin">1%</fraction>
+</resources>

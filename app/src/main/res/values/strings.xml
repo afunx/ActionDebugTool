@@ -16,4 +16,19 @@
     <string name="save_as">Save As&#8230;</string>
     <string name="enter_read_mode">Enter ReadMode</string>
     <string name="read">Read</string>
+
+    <string name="robot_part_01">1</string>
+    <string name="robot_part_02">2</string>
+    <string name="robot_part_03">3</string>
+    <string name="robot_part_04">4</string>
+    <string name="robot_part_05">5</string>
+    <string name="robot_part_06">6</string>
+    <string name="robot_part_07">7</string>
+    <string name="robot_part_08">8</string>
+    <string name="robot_part_09">9</string>
+    <string name="robot_part_10">10</string>
+    <string name="robot_part_11">11</string>
+    <string name="robot_part_12">12</string>
+    <string name="robot_part_13">13</string>
+    <string name="robot_part_14">14</string>
 </resources>
