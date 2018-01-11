@@ -22,6 +22,11 @@ public class FitHeightTextView extends AppCompatTextView {
 
     private static final String TAG = "FitHeightTextView";
     private static final boolean DEBUG = false;
+    /**
+     * whether set FitHeigtTextView biggest or not,
+     * if BIGGEST = false, FitHeightTextView is just the same as AppCompatTextView
+     */
+    private static final boolean BIGGEST = false;
     private Paint mTextPaint;
     private final float minTextSizePx = 8;
     private final float maxTextSizePx = 1024;
@@ -56,6 +61,9 @@ public class FitHeightTextView extends AppCompatTextView {
     }
 
     private void refitText(String string, int height) {
+        if (!BIGGEST) {
+            return;
+        }
         if (height > 0 && string.length() > 0) {
             // binary search to find the largest text to fit height
             final int fitTextSizePx = findTextSize(height, minTextSizePx, maxTextSizePx) - 20;
