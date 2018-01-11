@@ -16,7 +16,5 @@
 
     <color name="robot_leg_part_normal">#C0FF3E</color>
 
-    <!--<color name="robot_space_part">#00000000</color>-->
-
     <color name="robot_space_part">#ffff00ff</color>
 </resources>

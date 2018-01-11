@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.afunx.actiondebugtool.EditActivity">
+    tools:context="com.afunx.actiondebugtool.EditActivity"
+    tools:ignore="ResAuto">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ryc_frame"
@@ -16,8 +17,7 @@
         />
 
     <android.support.percent.PercentRelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/prl_robot_parts"
         android:layout_height="0dp"
         android:layout_above="@+id/ryc_frame"
         app:layout_aspectRatio="75%"
@@ -27,5 +27,24 @@
         <include layout="@layout/robot_parts"/>
 
     </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ryc_frame"
+        android:layout_toEndOf="@+id/prl_robot_parts"
+        >
+
+        <com.afunx.actiondebugtool.widget.SmartSeekBar
+            android:id="@+id/smart_seek_bar_deg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="30%"
+            app:smart_seek_bar_max="1000"
+            app:smart_seek_bar_min="100"
+            />
+
+    </android.support.percent.PercentRelativeLayout>
+
 
 </android.support.percent.PercentRelativeLayout>

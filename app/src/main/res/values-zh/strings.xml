@@ -32,4 +32,9 @@
     <string name="robot_part_12">12</string>
     <string name="robot_part_13">13</string>
     <string name="robot_part_14">14</string>
+
+    <string name="add">+</string>
+    <string name="subtract">-</string>
+
+    <string name="set_number">设置数字</string>
 </resources>
