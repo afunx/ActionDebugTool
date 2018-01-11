@@ -22,7 +22,7 @@
     -->
 
     <!--11-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_11"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -36,7 +36,7 @@
         />
 
     <!--12-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_12"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -50,7 +50,7 @@
         />
 
     <!--13-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_13"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -68,7 +68,7 @@
         />
 
     <!--01-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_01"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -87,7 +87,7 @@
         />
 
     <!--03-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_03"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -106,7 +106,7 @@
         />
 
     <!--14-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_14"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -120,7 +120,7 @@
         />
 
     <!--02-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_02"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -135,7 +135,7 @@
         />
 
     <!--04-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_04"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -150,7 +150,7 @@
         />
 
     <!--05-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_05"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -165,7 +165,7 @@
         />
 
     <!--06-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_06"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -180,7 +180,7 @@
         />
 
     <!--07-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_07"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -195,7 +195,7 @@
         />
 
     <!--08-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_08"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -210,7 +210,7 @@
         />
 
     <!--09-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_09"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -225,7 +225,7 @@
         />
 
     <!--10-->
-    <com.afunx.actiondebugtool.widget.FitHeightButton
+    <Button
         android:id="@+id/btn_robot_part_10"
         android:layout_width="0dp"
         android:layout_height="0dp"
