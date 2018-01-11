@@ -36,4 +36,6 @@
     <string name="subtract">-</string>
 
     <string name="set_number">Set Number</string>
+
+    <string name="please_input_legal_number">Please input legal number</string>
 </resources>

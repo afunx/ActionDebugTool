@@ -37,4 +37,6 @@
     <string name="subtract">-</string>
 
     <string name="set_number">设置数字</string>
+
+    <string name="please_input_legal_number">请输入合法数字</string>
 </resources>

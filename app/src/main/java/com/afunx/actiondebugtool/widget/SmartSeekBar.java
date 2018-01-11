@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.afunx.actiondebugtool.R;
 
@@ -51,11 +52,11 @@ public class SmartSeekBar extends PercentRelativeLayout
     /**
      * seek bar min value from attrs
      */
-    private final int seekBarMin;
+    private int mSeekBarMin;
     /**
      * seek bar max value from attrs
      */
-    private final int seekBarMax;
+    private int mSeekBarMax;
     /**
      * button for subtracting value(support long press)
      */
@@ -112,19 +113,19 @@ public class SmartSeekBar extends PercentRelativeLayout
         // parse attrs
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SmartSeekBar);
 
-        this.seekBarMin = a.getInt(R.styleable.SmartSeekBar_smart_seek_bar_min, -1);
-        if (this.seekBarMin == -1) {
+        this.mSeekBarMin = a.getInt(R.styleable.SmartSeekBar_smart_seek_bar_min, 0);
+        if (this.mSeekBarMin == -1) {
             throw new IllegalArgumentException("smart_seek_bar_min should be set");
         }
-        this.seekBarMax = a.getInt(R.styleable.SmartSeekBar_smart_seek_bar_max, -1);
-        if (this.seekBarMax == -1) {
+        this.mSeekBarMax = a.getInt(R.styleable.SmartSeekBar_smart_seek_bar_max, 0);
+        if (this.mSeekBarMax == -1) {
             throw new IllegalArgumentException("smart_seek_bar_max should be set");
         }
-        if (this.seekBarMin > this.seekBarMax) {
+        if (this.mSeekBarMin > this.mSeekBarMax) {
             throw new IllegalArgumentException("smart_seek_bar_max should be >= smart_seek_bar_min");
         }
         if (DEBUG) {
-            Log.d(TAG, "seekBarMin: " + this.seekBarMin + ", seekBarMax: " + this.seekBarMax);
+            Log.d(TAG, "mSeekBarMin: " + this.mSeekBarMin + ", mSeekBarMax: " + this.mSeekBarMax);
         }
         a.recycle();
 
@@ -142,14 +143,51 @@ public class SmartSeekBar extends PercentRelativeLayout
         mBtnValueAdd.setOnClickListener(this);
         mBtnValueAdd.setOnLongClickListener(this);
         mBtnValueAdd.setOnTouchListener(this);
-        mEdtValue.setText(String.format(Locale.US, "%d", seekBarMin));
+        mEdtValue.setText(String.format(Locale.US, "%d", mSeekBarMin));
         mEdtValue.setOnAlertDialogTextChangedListener(this);
         mSeekBar.setOnSeekBarChangeListener(this);
-        mSeekBar.setMax(seekBarMax - seekBarMin);
+        mSeekBar.setMax(mSeekBarMax - mSeekBarMin);
     }
 
     public void setOnSmartSeekBarChangeListener(OnSmartSeekBarChangeListener onSmartSeekBarChangeListener) {
         mOnSmartSeekBarChangeListener = onSmartSeekBarChangeListener;
+    }
+
+    /**
+     * set current value of SmartSeekBar
+     *
+     * @param value current value
+     */
+    public void setValue(int value) {
+        value = constraintValue(value);
+        setSeekBarValue(value);
+        setEditTextValue(value);
+    }
+
+    /**
+     * set min value of SmartSeekBar
+     *
+     * @param min min value of SmartSeekBar
+     */
+    public void setMin(int min) {
+        mSeekBarMin = min;
+        if (mSeekBarMin > mSeekBarMax) {
+            throw new IllegalArgumentException("seekBarMin: " + mSeekBarMin + " > " + "seekBarMax: " + mSeekBarMax);
+        }
+        mSeekBar.setMax(mSeekBarMax - mSeekBarMin);
+    }
+
+    /**
+     * set max value of SmartSeekBar
+     *
+     * @param max max value of SmartSeekBar
+     */
+    public void setMax(int max) {
+        mSeekBarMax = max;
+        if (mSeekBarMin > mSeekBarMax) {
+            throw new IllegalArgumentException("seekBarMin: " + mSeekBarMin + " > " + "seekBarMax: " + mSeekBarMax);
+        }
+        mSeekBar.setMax(mSeekBarMax - mSeekBarMin);
     }
 
     /**
@@ -159,7 +197,7 @@ public class SmartSeekBar extends PercentRelativeLayout
      * @return progress
      */
     private int value2progress(int value) {
-        return value - seekBarMin;
+        return value - mSeekBarMin;
     }
 
     /**
@@ -169,22 +207,22 @@ public class SmartSeekBar extends PercentRelativeLayout
      * @return value
      */
     private int progress2value(int progress) {
-        return progress + seekBarMin;
+        return progress + mSeekBarMin;
     }
 
     /**
-     * constraint value in [seekBarMin, seekBarMax]
+     * constraint value in [mSeekBarMin, mSeekBarMax]
      *
      * @param value value to be constraint
      * @return constraint value
      */
     private int constraintValue(int value) {
-        if (value < seekBarMin) {
-            Log.i(TAG, "constraintValue() value: " + value + " to seekBarMin: " + seekBarMin);
-            return seekBarMin;
-        } else if (value > seekBarMax) {
-            Log.i(TAG, "constraintValue() value: " + value + " to seekBarMax: " + seekBarMax);
-            return seekBarMax;
+        if (value < mSeekBarMin) {
+            Log.i(TAG, "constraintValue() value: " + value + " to mSeekBarMin: " + mSeekBarMin);
+            return mSeekBarMin;
+        } else if (value > mSeekBarMax) {
+            Log.i(TAG, "constraintValue() value: " + value + " to mSeekBarMax: " + mSeekBarMax);
+            return mSeekBarMax;
         } else {
             return value;
         }
@@ -256,7 +294,7 @@ public class SmartSeekBar extends PercentRelativeLayout
         if (DEBUG) {
             Log.d(TAG, "updateValue() value: " + value + ", changeSource: " + changeSource.toString());
         }
-        // constraint value in [seekBarMin, seekBarMax]
+        // constraint value in [mSeekBarMin, mSeekBarMax]
         value = constraintValue(value);
 
         switch (changeSource) {
@@ -298,12 +336,19 @@ public class SmartSeekBar extends PercentRelativeLayout
         if (DEBUG) {
             Log.d(TAG, "onAlertDialogTextChanged() text: " + text);
         }
-        int oldValue = Integer.parseInt(text.toString());
-        int newValue = constraintValue(oldValue);
-        if (oldValue != newValue) {
-            setEditTextValue(newValue);
+        int textValue;
+        try {
+            textValue = Integer.parseInt(text.toString());
+        } catch (Exception ignore) {
+            setEditTextValue(getSeekBarValue());
+            Toast.makeText(getContext(), R.string.please_input_legal_number, Toast.LENGTH_SHORT).show();
+            return;
         }
-        updateValue(newValue, CHANGE_SOURCE.FROM_EDIT_TEXT);
+        int constraintValue = constraintValue(textValue);
+        if (textValue != constraintValue) {
+            setEditTextValue(constraintValue);
+        }
+        updateValue(constraintValue, CHANGE_SOURCE.FROM_EDIT_TEXT);
     }
 
     @Override
