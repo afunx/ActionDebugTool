@@ -37,20 +37,48 @@
 
         <com.afunx.actiondebugtool.widget.SmartSeekBar
             android:id="@+id/smart_seek_bar_deg"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_heightPercent="30%"
+            app:layout_widthPercent="100%"
             />
 
         <com.afunx.actiondebugtool.widget.SmartSeekBar
             android:id="@+id/smart_seek_bar_runtime"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
 
             android:layout_below="@+id/smart_seek_bar_deg"
             app:layout_heightPercent="30%"
+            app:layout_widthPercent="100%"
             app:smart_seek_bar_max="5000"
             app:smart_seek_bar_min="100"
+            />
+
+        <EditText
+            android:id="@+id/edt_frame_rename"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/smart_seek_bar_runtime"
+            android:hint="@string/hint_edit_selected_frame_name"
+            android:lines="1"
+            app:alert_title="@string/set_frame_name"
+            app:layout_heightPercent="30%"
+            app:layout_marginTopPercent="10%"
+            app:layout_widthPercent="70%"
+            />
+
+        <Button
+            android:id="@+id/btn_frame_rename_confirm"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/smart_seek_bar_runtime"
+            android:text="@android:string/ok"
+            app:layout_heightPercent="30%"
+            app:layout_marginTopPercent="10%"
+            app:layout_widthPercent="30%"
             />
 
     </android.support.percent.PercentRelativeLayout>

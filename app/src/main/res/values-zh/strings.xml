@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">ActionDebugTool</string>
 
-    <string name="scan_hint">请按扫描键</string>
+    <string name="hint_scan">请按扫描键</string>
     <string name="scan">扫描</string>
     <string name="scanning">扫描中&#8230;</string>
     <string name="select_robot_ip">请选择机器人的Ip地址</string>
@@ -39,4 +39,7 @@
     <string name="set_number">设置数字</string>
 
     <string name="please_input_legal_number">请输入合法数字</string>
+
+    <string name="hint_edit_selected_frame_name">修改帧名</string>
+    <string name="set_frame_name">设置帧的名字</string>
 </resources>

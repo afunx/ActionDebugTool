@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ActionDebugTool</string>
 
-    <string name="scan_hint">Please tap scan</string>
+    <string name="hint_scan">Please tap scan</string>
     <string name="scan">Scan</string>
     <string name="scanning">Scan&#8230;</string>
     <string name="select_robot_ip">Please select robot ip address</string>
@@ -38,4 +38,7 @@
     <string name="set_number">Set Number</string>
 
     <string name="please_input_legal_number">Please input legal number</string>
+
+    <string name="hint_edit_selected_frame_name">Edit frame name</string>
+    <string name="set_frame_name">Set Frame Name</string>
 </resources>
