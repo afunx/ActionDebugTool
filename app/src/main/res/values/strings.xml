@@ -3,7 +3,7 @@
 
     <string name="scan_hint">Please tap scan</string>
     <string name="scan">Scan</string>
-    <string name="scaning">Scan&#8230;</string>
+    <string name="scanning">Scan&#8230;</string>
     <string name="select_robot_ip">Please select robot ip address</string>
     <string name="no_robot_found">No robots are found</string>
     <string name="one_robot_found">Robot :%1$s is found</string>

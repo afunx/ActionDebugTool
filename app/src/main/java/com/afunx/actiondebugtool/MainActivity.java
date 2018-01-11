@@ -1,6 +1,5 @@
 package com.afunx.actiondebugtool;
 
-import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPreExecute() {
-            mBtnScan.setText(R.string.scaning);
+            mBtnScan.setText(R.string.scanning);
             mBtnScan.setEnabled(false);
         }
 

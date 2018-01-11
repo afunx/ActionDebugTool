@@ -4,7 +4,7 @@
 
     <string name="scan_hint">请按扫描键</string>
     <string name="scan">扫描</string>
-    <string name="scaning">扫描中&#8230;</string>
+    <string name="scanning">扫描中&#8230;</string>
     <string name="select_robot_ip">请选择机器人的Ip地址</string>
     <string name="no_robot_found">尚未发现机器人</string>
     <string name="one_robot_found">发现机器人:%1$s</string>
