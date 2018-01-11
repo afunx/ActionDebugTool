@@ -40,11 +40,10 @@
     <SeekBar
         android:id="@+id/skb_smart_seek_bar"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/btn_subtract_smart_seek_bar"
         android:layout_toStartOf="@+id/btn_add_smart_seek_bar"
-        app:layout_heightPercent="50%"
         app:layout_widthPercent="100%"
         app:layout_marginStartPercent="3%"
         app:layout_marginEndPercent="3%"
