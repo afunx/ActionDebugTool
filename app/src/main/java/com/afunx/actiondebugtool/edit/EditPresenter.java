@@ -16,6 +16,6 @@ class EditPresenter implements EditContract.Presenter {
         mEditModel = editModel;
         mEditView = editView;
 
-        editView.setPresenter(this);
+        editView.setEditPresenter(this);
     }
 }

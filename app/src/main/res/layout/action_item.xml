@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     tools:context="com.afunx.actiondebugtool.main.MainActivity">
-    <!--andoid:layout_height is defined in ActionItemAdapter.java percentHeight-->
+    <!--android:layout_height is defined in ActionItemAdapter.java heightPercent-->
 
     <ImageView
         android:id="@+id/image_icon"

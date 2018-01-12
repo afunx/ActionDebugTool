@@ -3,6 +3,8 @@ package com.afunx.actiondebugtool.edit;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,16 +13,25 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.afunx.actiondebugtool.R;
+import com.afunx.actiondebugtool.main.adapter.FrameItemAdapter;
+import com.afunx.data.bean.FrameBean;
+import com.afunx.data.bean.MotorBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditActivity extends AppCompatActivity implements View.OnClickListener, EditContract.View {
 
     private final int ROBOT_PART_COUNT = 14;
     private final Button[] mRobotParts = new Button[ROBOT_PART_COUNT + 1];
-    private EditContract.Presenter mPresenter;
 
-    @Override
-    public void setPresenter(EditContract.Presenter presenter) {
-        mPresenter = presenter;
+    private RecyclerView mRycFrameItems;
+    private FrameItemAdapter mAdapterFrameItems;
+
+    private EditContract.Presenter mEditPresenter;
+
+    public void setEditPresenter(EditContract.Presenter editPresenter) {
+        mEditPresenter = editPresenter;
     }
 
     @Override
@@ -78,6 +89,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         // robot part buttons
         initViewRobotPartButtons();
+
+        // frame recyclerView
+        initFrameRecyclerView();
     }
 
     private void initViewActionBar() {
@@ -86,7 +100,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
-
 
     private void initViewRobotPartButtons() {
         Button btnRobotPart01 = (Button) findViewById(R.id.btn_robot_part_01);
@@ -144,6 +157,33 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         Button btnRobotPart14 = (Button) findViewById(R.id.btn_robot_part_14);
         btnRobotPart14.setOnClickListener(this);
         mRobotParts[14] = btnRobotPart14;
+    }
+
+    private void initFrameRecyclerView() {
+        mRycFrameItems = (RecyclerView) findViewById(R.id.ryc_frame);
+        LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mRycFrameItems.setLayoutManager(llm);
+        mAdapterFrameItems = new FrameItemAdapter(mockFrameItems());
+        mRycFrameItems.setAdapter(mAdapterFrameItems);
+    }
+
+    private List<FrameBean> mockFrameItems() {
+        final int motorCount = 14;
+        final int frameCount = 20;
+        List<FrameBean> frameBeanList = new ArrayList<>();
+        for (int i = 0; i < frameCount; i++) {
+            FrameBean frameBean = new FrameBean();
+            for (int j = 0; j < motorCount; j++) {
+                MotorBean motorBean = new MotorBean();
+                motorBean.setId(j + 1);
+                motorBean.setDeg(0);
+                frameBean.getMotorBeans().add(motorBean);
+            }
+            frameBean.setTime(1000);
+            frameBean.setName("item " + i);
+            frameBeanList.add(frameBean);
+        }
+        return frameBeanList;
     }
 
     @Override

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/prl_frame_item"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="@drawable/sl_frame_item"
+    android:gravity="center"
+    tools:context="com.afunx.actiondebugtool.main.MainActivity">
+    <!--android:layout_aspectRatio is defined in FrameItemAdapter.java aspectRatio-->
+    <!--android:layout_height is defined in FrameItemAdapter.java heightPercent-->
+
+    <!--
+                             5%
+                index       25%
+                name        30%
+                runtime     25%
+                             5%
+    -->
+
+    <TextView
+        android:id="@+id/tv_frame_index"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        app:layout_heightPercent='25%'
+        app:layout_marginTopPercent='5%'
+        app:layout_widthPercent='100%'
+        />
+
+    <TextView
+        android:id="@+id/tv_frame_runtime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/tv_frame_index"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:layout_heightPercent='30%'
+        app:layout_widthPercent='100%'
+        />
+
+    <TextView
+        android:id="@+id/tv_frame_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        app:layout_heightPercent='25%'
+        app:layout_marginBottomPercent='5%'
+        app:layout_widthPercent='100%'
+        />
+
+
+</android.support.percent.PercentRelativeLayout>

@@ -5,15 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.afunx.actiondebugtool.edit.EditActivity"
-    tools:ignore="ResAuto">
+    tools:context="com.afunx.actiondebugtool.edit.EditActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ryc_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
-        app:layout_heightPercent="20%"
+        app:layout_heightPercent="25%"
         />
 
     <android.support.percent.PercentRelativeLayout
@@ -21,7 +20,7 @@
         android:layout_height="0dp"
         android:layout_above="@+id/ryc_frame"
         app:layout_aspectRatio="75%"
-        app:layout_heightPercent="80%"
+        app:layout_heightPercent="75%"
         >
 
         <include layout="@layout/robot_parts"/>
