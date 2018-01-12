@@ -43,10 +43,20 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
-                    int height = (int) (parent.getHeight() * heightPercent);
+                    /*
+                     * ----20%----- margin top
+                     * ----60%----- content
+                     * ----20%----- margin bottom
+                     */
+                    float marginPercent = 0.2f;
+                    float contentPercent = 1 - marginPercent * 2;
+                    int height = (int) (parent.getHeight() * contentPercent);
                     int width = (int) (height * aspectRatio);
                     viewHolder.percentRelativeLayout.getLayoutParams().width = width;
                     viewHolder.percentRelativeLayout.getLayoutParams().height = height;
+                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) viewHolder.percentRelativeLayout.getLayoutParams();
+                    int margin = (int) (parent.getHeight() * heightPercent * marginPercent);
+                    layoutParams.setMargins(0, margin, 0, margin);
                     parent.requestLayout();
                 }
             });
