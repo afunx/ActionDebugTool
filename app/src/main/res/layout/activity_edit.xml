@@ -7,12 +7,35 @@
     android:layout_height="match_parent"
     tools:context="com.afunx.actiondebugtool.edit.EditActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/ryc_frame"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btn_frame_play"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
-        app:layout_heightPercent="25%"
+        android:layout_alignParentStart="true"
+        app:layout_heightPercent="@fraction/robot_parts_exclude"
+        app:layout_aspectRatio="100%"
+        />
+
+    <Button
+        android:id="@+id/btn_frame_add"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:layout_heightPercent="@fraction/robot_parts_exclude"
+        app:layout_aspectRatio="100%"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ryc_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_toEndOf="@+id/btn_frame_play"
+        android:layout_toStartOf="@+id/btn_frame_add"
+        android:layout_alignParentBottom="true"
+        app:layout_heightPercent="@fraction/robot_parts_exclude"
+        app:layout_widthPercent="100%"
         />
 
     <android.support.percent.PercentRelativeLayout
@@ -20,7 +43,7 @@
         android:layout_height="0dp"
         android:layout_above="@+id/ryc_frame"
         app:layout_aspectRatio="75%"
-        app:layout_heightPercent="75%"
+        app:layout_heightPercent="@fraction/robot_parts"
         >
 
         <include layout="@layout/robot_parts"/>

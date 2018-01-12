@@ -2,7 +2,12 @@
 <resources>
     <!--robot part square edge-->
     <fraction name="robot_part_edge">10%</fraction>
+    <!--robot_part_edge/2-->
     <fraction name="robot_part_edge_half">5%</fraction>
     <!--robot part square edge margin-->
     <fraction name="robot_part_margin">1%</fraction>
+    <!--robot parts in parent height-->
+    <fraction name="robot_parts">75%</fraction>
+    <!--robot parts exclude in parent height-->
+    <fraction name="robot_parts_exclude">25%</fraction>
 </resources>
