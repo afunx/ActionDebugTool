@@ -12,10 +12,16 @@ import android.widget.Toast;
 
 import com.afunx.actiondebugtool.R;
 
-public class EditActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditActivity extends AppCompatActivity implements View.OnClickListener, EditContract.View {
 
     private final int ROBOT_PART_COUNT = 14;
     private final Button[] mRobotParts = new Button[ROBOT_PART_COUNT + 1];
+    private EditContract.Presenter mPresenter;
+
+    @Override
+    public void setPresenter(EditContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_edit);
 
         initView();
+
+        new EditPresenter(EditModel.load(this), this);
     }
 
     @Override
@@ -147,4 +155,5 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
 }
