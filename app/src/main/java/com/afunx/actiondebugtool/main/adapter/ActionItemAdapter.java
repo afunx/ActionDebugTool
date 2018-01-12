@@ -1,4 +1,4 @@
-package com.afunx.actiondebugtool.adapter;
+package com.afunx.actiondebugtool.main.adapter;
 
 import android.content.Intent;
 import android.support.percent.PercentRelativeLayout;

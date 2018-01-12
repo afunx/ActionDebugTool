@@ -6,7 +6,7 @@
     android:id="@+id/prl_action_item"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    tools:context="com.afunx.actiondebugtool.MainActivity">
+    tools:context="com.afunx.actiondebugtool.main.MainActivity">
     <!--andoid:layout_height is defined in ActionItemAdapter.java percentHeight-->
 
     <ImageView

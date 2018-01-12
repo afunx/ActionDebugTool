@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/padding_medium"
-    tools:context="com.afunx.actiondebugtool.MainActivity">
+    tools:context="com.afunx.actiondebugtool.main.MainActivity">
 
     <TextView
         android:id="@+id/tv_robot_ip"

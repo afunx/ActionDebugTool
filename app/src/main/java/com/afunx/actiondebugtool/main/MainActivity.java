@@ -1,4 +1,4 @@
-package com.afunx.actiondebugtool;
+package com.afunx.actiondebugtool.main;
 
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -13,7 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afunx.actiondebugtool.adapter.ActionItemAdapter;
+import com.afunx.actiondebugtool.R;
+import com.afunx.actiondebugtool.main.adapter.ActionItemAdapter;
 import com.afunx.client.impl.UdpDiscoverClientImpl;
 import com.afunx.client.interfaces.UdpDiscoverClient;
 import com.afunx.data.bean.MotionBean;

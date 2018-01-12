@@ -1,4 +1,4 @@
-package com.afunx.actiondebugtool;
+package com.afunx.actiondebugtool.edit;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.afunx.actiondebugtool.R;
 
 public class EditActivity extends AppCompatActivity implements View.OnClickListener {
 
