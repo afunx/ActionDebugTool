@@ -65,7 +65,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, R.string.read, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_item_copy:
-                Toast.makeText(this, R.string.copy, Toast.LENGTH_SHORT).show();
+                mEditPresenter.copySelectedFrame();
                 return true;
             case R.id.menu_item_paste:
                 Toast.makeText(this, R.string.paste, Toast.LENGTH_SHORT).show();
@@ -294,6 +294,21 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void deleteFrame(int frameIndex) {
         mAdapterFrameItems.delete(frameIndex);
+    }
+
+    @Override
+    public void copyFrame(int frameIndex) {
+        mAdapterFrameItems.copy(frameIndex);
+    }
+
+    @Override
+    public int getCopiedFrameIndex() {
+        return mAdapterFrameItems.getCopiedFrameIndex();
+    }
+
+    @Override
+    public void clearCopy() {
+        mAdapterFrameItems.clearCopy();
     }
 
     @Override

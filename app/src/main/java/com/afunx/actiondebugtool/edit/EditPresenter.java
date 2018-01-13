@@ -98,6 +98,17 @@ public class EditPresenter implements EditContract.Presenter {
         if (DEBUG) {
             Log.d(TAG, "copySelectedFrame()");
         }
+        int frameIndex = mEditView.getSelectedFrameIndex();
+        if (frameIndex != -1) {
+            int copiedIndex = mEditView.getCopiedFrameIndex();
+            if (copiedIndex == frameIndex) {
+                // clear copy state if it is copied already
+                mEditView.clearCopy();
+            } else {
+                // add copy state
+                mEditView.copyFrame(frameIndex);
+            }
+        }
     }
 
     @Override

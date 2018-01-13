@@ -142,6 +142,25 @@ public interface EditContract {
          * @param frameIndex frame index to be deleted
          */
         void deleteFrame(int frameIndex);
+
+        /**
+         * copy frame of frameIndex
+         *
+         * @param frameIndex frame index to be copied
+         */
+        void copyFrame(int frameIndex);
+
+        /**
+         * get copied frame of frameIndex
+         *
+         * @return copied frame index or -1(no frame is copied)
+         */
+        int getCopiedFrameIndex();
+
+        /**
+         * clear copy frame state
+         */
+        void clearCopy();
     }
 
     interface Presenter extends BasePresenter {
@@ -185,7 +204,7 @@ public interface EditContract {
         void deleteSelectedFrame();
 
         /**
-         * copy selected frame
+         * copy selected frame or clear copied state(if it is copied already)
          */
         void copySelectedFrame();
 

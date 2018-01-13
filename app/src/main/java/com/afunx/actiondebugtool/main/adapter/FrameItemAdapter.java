@@ -27,6 +27,8 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
 
     private int mSelectedIndex = -1;
 
+    private int mCopiedIndex = -1;
+
     public FrameItemAdapter(List<FrameBean> frameBeanList, EditContract.Presenter editPresenter) {
         mFrameBeanList = frameBeanList;
         mEditPresenter = editPresenter;
@@ -46,6 +48,21 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
     public void delete(int index) {
         mFrameBeanList.remove(index);
         notifyItemRemoved(index);
+    }
+
+    public void copy(int index) {
+        int prevCopiedIndex = mCopiedIndex;
+        mCopiedIndex = index;
+        notifyItemChanged(prevCopiedIndex);
+        notifyItemChanged(mSelectedIndex);
+    }
+
+    public int getCopiedFrameIndex() {
+        return mCopiedIndex;
+    }
+
+    public void clearCopy() {
+        copy(-1);
     }
 
     private int _frameIndex = 0;
@@ -107,6 +124,11 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
         holder.tvFrameRuntime.setText(String.format(Locale.US, "%d", frameBean.getTime()));
         // set selected or not
         holder.percentRelativeLayout.setSelected(position == mSelectedIndex);
+        // set copied if necessary
+        if (position == mCopiedIndex) {
+            holder.tvFrameIndex.setText(String.format(Locale.US, "%d-C", frameBean.getIndex()));
+        }
+
         // set onClickListener
         holder.percentRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +149,7 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
     public int getItemCount() {
         return mFrameBeanList.size();
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
