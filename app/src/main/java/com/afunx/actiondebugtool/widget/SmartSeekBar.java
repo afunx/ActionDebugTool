@@ -34,7 +34,7 @@ public class SmartSeekBar extends PercentRelativeLayout
      * it will be called on SmartSeekBar value changed in any ways
      */
     public interface OnSmartSeekBarChangeListener {
-        void onSmartSeekBarChanged(int value);
+        void onSmartSeekBarChanged(View view, int value);
     }
 
     private static final String TAG = "SmartSeekBar";
@@ -154,6 +154,20 @@ public class SmartSeekBar extends PercentRelativeLayout
     }
 
     /**
+     * get current value from SmartSeekBar
+     *
+     * @return current value
+     */
+    public int getValue() {
+        int value1 = getEditTextValue();
+        int value2 = getSeekBarValue();
+        if (value1 != value2) {
+            throw new IllegalStateException("value1: " + value1 + ", value2: " + value2 + ", they should be equal!");
+        }
+        return value1;
+    }
+
+    /**
      * set current value of SmartSeekBar
      *
      * @param value current value
@@ -162,6 +176,15 @@ public class SmartSeekBar extends PercentRelativeLayout
         value = constraintValue(value);
         setSeekBarValue(value);
         setEditTextValue(value);
+    }
+
+    /**
+     * get min value of SmartSeekBar
+     *
+     * @return min value of SmartSeekBar
+     */
+    public int getMin() {
+        return mSeekBarMin;
     }
 
     /**
@@ -175,6 +198,15 @@ public class SmartSeekBar extends PercentRelativeLayout
             throw new IllegalArgumentException("seekBarMin: " + mSeekBarMin + " > " + "seekBarMax: " + mSeekBarMax);
         }
         mSeekBar.setMax(mSeekBarMax - mSeekBarMin);
+    }
+
+    /**
+     * get max value of SmartSeekBar
+     *
+     * @return max value of SmartSeekBar
+     */
+    public int getMax() {
+        return mSeekBarMax;
     }
 
     /**
@@ -327,7 +359,7 @@ public class SmartSeekBar extends PercentRelativeLayout
             Log.d(TAG, "triggerOnSmartSeekBarChangeListener() value: " + value);
         }
         if (mOnSmartSeekBarChangeListener != null) {
-            mOnSmartSeekBarChangeListener.onSmartSeekBarChanged(value);
+            mOnSmartSeekBarChangeListener.onSmartSeekBarChanged(this, value);
         }
     }
 
