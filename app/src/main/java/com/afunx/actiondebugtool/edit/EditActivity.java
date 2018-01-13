@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.afunx.actiondebugtool.R;
 import com.afunx.actiondebugtool.data.FrameData;
-import com.afunx.actiondebugtool.main.adapter.FrameItemAdapter;
+import com.afunx.actiondebugtool.edit.adapter.FrameItemAdapter;
 import com.afunx.actiondebugtool.widget.SmartSeekBar;
 import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotorBean;
