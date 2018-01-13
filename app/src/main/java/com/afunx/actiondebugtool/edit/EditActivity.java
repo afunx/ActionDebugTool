@@ -8,25 +8,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.afunx.actiondebugtool.R;
 import com.afunx.actiondebugtool.main.adapter.FrameItemAdapter;
+import com.afunx.actiondebugtool.widget.SmartSeekBar;
 import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotorBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditActivity extends AppCompatActivity implements View.OnClickListener, EditContract.View {
+public class EditActivity extends AppCompatActivity implements View.OnClickListener, EditContract.View, SmartSeekBar.OnSmartSeekBarChangeListener {
 
     private final int ROBOT_PART_COUNT = 14;
     private final Button[] mRobotParts = new Button[ROBOT_PART_COUNT + 1];
 
     private RecyclerView mRycFrameItems;
     private FrameItemAdapter mAdapterFrameItems;
+    private SmartSeekBar mSkbDeg;
+    private SmartSeekBar mSkbRuntime;
 
     private EditContract.Presenter mEditPresenter;
 
@@ -36,13 +38,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        initView();
-
         new EditPresenter(getApplicationContext(), this);
+
+        initView();
     }
 
     @Override
@@ -92,6 +93,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         // frame recyclerView
         initFrameRecyclerView();
+
+        // smart seek bar for degree and runtime
+        initSmartSeekBars();
     }
 
     private void initViewActionBar() {
@@ -163,8 +167,15 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mRycFrameItems = (RecyclerView) findViewById(R.id.ryc_frame);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRycFrameItems.setLayoutManager(llm);
-        mAdapterFrameItems = new FrameItemAdapter(mockFrameItems());
+        mAdapterFrameItems = new FrameItemAdapter(mockFrameItems(), mEditPresenter);
         mRycFrameItems.setAdapter(mAdapterFrameItems);
+    }
+
+    private void initSmartSeekBars() {
+        mSkbDeg = (SmartSeekBar) findViewById(R.id.smart_seek_bar_deg);
+        mSkbDeg.setOnSmartSeekBarChangeListener(this);
+        mSkbRuntime = (SmartSeekBar) findViewById(R.id.smart_seek_bar_runtime);
+        mSkbRuntime.setOnSmartSeekBarChangeListener(this);
     }
 
     private List<FrameBean> mockFrameItems() {
@@ -190,10 +201,119 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         for (int i = 1; i < mRobotParts.length; i++) {
             if (v == mRobotParts[i]) {
-                Toast.makeText(this, "robot part " + i + " is clicked", Toast.LENGTH_SHORT).show();
+                setSelectedMotorId(i);
                 return;
             }
         }
+    }
+
+
+    @Override
+    public void onSmartSeekBarChanged(View view, int value) {
+        if (view == mSkbDeg) {
+            mEditPresenter.setSelectedMotorDegree(value);
+        } else if(view == mSkbRuntime) {
+            mEditPresenter.setSelectedFrameRuntime(value);
+        }
+    }
+
+    @Override
+    public void showToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public int getSelectedMotorId() {
+        for (int i = 1; i < mRobotParts.length; i++) {
+            if (mRobotParts[i].isSelected()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public void setSelectedMotorId(int selectedMotorId) {
+        if (selectedMotorId <= 0) {
+            throw new IllegalArgumentException("selectedMotorId = " + selectedMotorId + " <= 0");
+        }
+        for (int i = 1; i < mRobotParts.length; i++) {
+            if (mRobotParts[i].isSelected()) {
+                mRobotParts[i].setSelected(false);
+                break;
+            }
+        }
+        mRobotParts[selectedMotorId].setSelected(true);
+    }
+
+    @Override
+    public int getSelectedFrameIndex() {
+        return mAdapterFrameItems.getSelectedIndex();
+    }
+
+    @Override
+    public void setSelectedFrameIndex(int frameIndex) {
+        mAdapterFrameItems.setSelectedIndex(frameIndex);
+    }
+
+    @Override
+    public int getFrameRuntime() {
+        return mSkbRuntime.getValue();
+    }
+
+    @Override
+    public void setFrameRuntime(int runtime) {
+        mSkbRuntime.setValue(runtime);
+    }
+
+    @Override
+    public int getFrameRuntimeMin() {
+        return mSkbRuntime.getMin();
+    }
+
+    @Override
+    public void setFrameRuntimeMin(int runtimeMin) {
+        mSkbRuntime.setMin(runtimeMin);
+    }
+
+    @Override
+    public int getFrameRuntimeMax() {
+        return mSkbRuntime.getMax();
+    }
+
+    @Override
+    public void setFrameRuntimeMax(int runtimeMax) {
+        mSkbRuntime.setMax(runtimeMax);
+    }
+
+    @Override
+    public int getMotorDeg() {
+        return mSkbDeg.getValue();
+    }
+
+    @Override
+    public void setMotorDeg(int deg) {
+        mSkbDeg.setValue(deg);
+    }
+
+    @Override
+    public int getMotorDegMin() {
+        return mSkbDeg.getMin();
+    }
+
+    @Override
+    public void setMotorDegMin(int degMin) {
+        mSkbDeg.setMin(degMin);
+    }
+
+    @Override
+    public int getMotorDegMax() {
+        return mSkbDeg.getMax();
+    }
+
+    @Override
+    public void setMotorDegMax(int degMax) {
+        mSkbDeg.setMax(degMax);
     }
 
 }

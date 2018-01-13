@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afunx.actiondebugtool.R;
+import com.afunx.actiondebugtool.edit.EditContract;
+import com.afunx.actiondebugtool.edit.EditPresenter;
 import com.afunx.data.bean.FrameBean;
 
 import java.util.List;
@@ -22,8 +24,22 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
 
     private final List<FrameBean> mFrameBeanList;
 
-    public FrameItemAdapter(List<FrameBean> frameBeanList) {
+    private final EditContract.Presenter mEditPresenter;
+
+    private int mSelectedIndex = -1;
+
+    public FrameItemAdapter(List<FrameBean> frameBeanList, EditContract.Presenter editPresenter) {
         mFrameBeanList = frameBeanList;
+        mEditPresenter = editPresenter;
+    }
+
+    public int getSelectedIndex() {
+        return mSelectedIndex;
+    }
+
+    public void setSelectedIndex(int selectedIndex) {
+        mSelectedIndex = selectedIndex;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -63,11 +79,27 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         FrameBean frameBean = mFrameBeanList.get(position);
         holder.tvFrameIndex.setText(String.format(Locale.US, "%d", position));
         holder.tvFrameName.setText(frameBean.getName());
         holder.tvFrameRuntime.setText(String.format(Locale.US, "%d", frameBean.getTime()));
+        // set selected or not
+        holder.percentRelativeLayout.setSelected(position == mSelectedIndex);
+        // set onClickListener
+        holder.percentRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.isSelected()) {
+                    // play frame when item has been selected already
+                    mEditPresenter.playSelectedFrame();
+                } else {
+                    // update selected index
+                    mSelectedIndex = holder.getAdapterPosition();
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override
@@ -87,7 +119,7 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
             super(view);
             percentRelativeLayout = (PercentRelativeLayout) view.findViewById(R.id.prl_frame_item);
             tvFrameIndex = (TextView) view.findViewById(R.id.tv_frame_index);
-            tvFrameName =  (TextView) view.findViewById(R.id.tv_frame_name);
+            tvFrameName = (TextView) view.findViewById(R.id.tv_frame_name);
             tvFrameRuntime = (TextView) view.findViewById(R.id.tv_frame_runtime);
         }
     }
