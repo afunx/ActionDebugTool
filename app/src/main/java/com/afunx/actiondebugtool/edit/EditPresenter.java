@@ -1,5 +1,6 @@
 package com.afunx.actiondebugtool.edit;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 /**
@@ -12,10 +13,10 @@ class EditPresenter implements EditContract.Presenter {
 
     private final EditContract.View mEditView;
 
-    EditPresenter(@NonNull EditModel editModel, @NonNull EditContract.View editView) {
-        mEditModel = editModel;
+    EditPresenter(@NonNull Context appContext, @NonNull EditContract.View editView) {
+        mEditModel = EditModelFactory.provideEditModel(appContext);
         mEditView = editView;
 
-        editView.setEditPresenter(this);
+        editView.setPresenter(this);
     }
 }

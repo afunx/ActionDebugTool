@@ -7,12 +7,4 @@ import android.content.Context;
  */
 
 class EditModel {
-    /**
-     * load model from storage, if null, create a instance
-     *
-     * @return EditModel
-     */
-    static EditModel load(Context context) {
-        return new EditModel();
-    }
 }

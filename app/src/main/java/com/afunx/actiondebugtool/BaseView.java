@@ -6,6 +6,6 @@ package com.afunx.actiondebugtool;
 
 public interface BaseView<T> {
 
-    void setEditPresenter(T editPresenter);
+    void setPresenter(T presenter);
 
 }

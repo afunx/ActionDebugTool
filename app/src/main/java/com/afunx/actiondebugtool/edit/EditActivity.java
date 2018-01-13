@@ -30,8 +30,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     private EditContract.Presenter mEditPresenter;
 
-    public void setEditPresenter(EditContract.Presenter editPresenter) {
-        mEditPresenter = editPresenter;
+    public void setPresenter(EditContract.Presenter presenter) {
+        mEditPresenter = presenter;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         initView();
 
-        new EditPresenter(EditModel.load(this), this);
+        new EditPresenter(getApplicationContext(), this);
     }
 
     @Override
