@@ -4,4 +4,6 @@
     <fraction name="robot_parts">85%</fraction>
     <!--robot parts exclude in parent height-->
     <fraction name="robot_parts_exclude">15%</fraction>
+    <!--frame edit tool padding-->
+    <fraction name="frame_edit_vertical_margin">25%</fraction>
 </resources>
