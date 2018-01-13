@@ -71,7 +71,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, R.string.paste, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_item_delete:
-                Toast.makeText(this, R.string.delete, Toast.LENGTH_SHORT).show();
+                mEditPresenter.deleteSelectedFrame();
                 return true;
             case R.id.menu_item_save:
                 Toast.makeText(this, R.string.save, Toast.LENGTH_SHORT).show();
@@ -257,6 +257,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public int getFrameCount() {
+        return mAdapterFrameItems.getItemCount();
+    }
+
+    @Override
     public int getFrameRuntime() {
         return mSkbRuntime.getValue();
     }
@@ -284,6 +289,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void setFrameRuntimeMax(int runtimeMax) {
         mSkbRuntime.setMax(runtimeMax);
+    }
+
+    @Override
+    public void deleteFrame(int frameIndex) {
+        mAdapterFrameItems.delete(frameIndex);
     }
 
     @Override

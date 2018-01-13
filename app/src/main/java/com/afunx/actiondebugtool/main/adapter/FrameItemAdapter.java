@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.afunx.actiondebugtool.R;
 import com.afunx.actiondebugtool.edit.EditContract;
-import com.afunx.actiondebugtool.edit.EditPresenter;
 import com.afunx.data.bean.FrameBean;
 
 import java.util.List;
@@ -38,8 +37,27 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
     }
 
     public void setSelectedIndex(int selectedIndex) {
+        int prevSelectedIndex = mSelectedIndex;
         mSelectedIndex = selectedIndex;
-        notifyDataSetChanged();
+        notifyItemChanged(prevSelectedIndex);
+        notifyItemChanged(mSelectedIndex);
+    }
+
+    public void delete(int index) {
+        mFrameBeanList.remove(index);
+        notifyItemRemoved(index);
+    }
+
+    private int _frameIndex = 0;
+
+    /**
+     * generate frame index(it should never repeat)
+     * (it only be used to show item, besides, frame index means mFrameBeanList's position)
+     *
+     * @return frame index
+     */
+    private int genFrameIndex() {
+        return ++_frameIndex;
     }
 
     @Override
@@ -81,7 +99,10 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         FrameBean frameBean = mFrameBeanList.get(position);
-        holder.tvFrameIndex.setText(String.format(Locale.US, "%d", position));
+        if (frameBean.getIndex() == 0) {
+            frameBean.setIndex(genFrameIndex());
+        }
+        holder.tvFrameIndex.setText(String.format(Locale.US, "%d", frameBean.getIndex()));
         holder.tvFrameName.setText(frameBean.getName());
         holder.tvFrameRuntime.setText(String.format(Locale.US, "%d", frameBean.getTime()));
         // set selected or not

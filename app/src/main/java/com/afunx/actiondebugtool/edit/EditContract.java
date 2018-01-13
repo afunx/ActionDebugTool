@@ -73,7 +73,6 @@ public interface EditContract {
          */
         void setMotorDegMax(int degMax);
 
-
         /**
          * get selected frame index
          *
@@ -87,6 +86,13 @@ public interface EditContract {
          * @param frameIndex selected frame index
          */
         void setSelectedFrameIndex(int frameIndex);
+
+        /**
+         * get frame list size
+         *
+         * @return frame list size
+         */
+        int getFrameCount();
 
         /**
          * get current frame runtime from ui
@@ -129,6 +135,13 @@ public interface EditContract {
          * @param runtimeMax max frame runtime
          */
         void setFrameRuntimeMax(int runtimeMax);
+
+        /**
+         * delete frame of frameIndex
+         *
+         * @param frameIndex frame index to be deleted
+         */
+        void deleteFrame(int frameIndex);
     }
 
     interface Presenter extends BasePresenter {

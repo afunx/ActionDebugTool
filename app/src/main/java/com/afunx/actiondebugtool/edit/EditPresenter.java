@@ -72,6 +72,25 @@ public class EditPresenter implements EditContract.Presenter {
         if (DEBUG) {
             Log.d(TAG, "deleteSelectedFrame()");
         }
+        int frameIndex = mEditView.getSelectedFrameIndex();
+        if (frameIndex != -1) {
+            mEditView.deleteFrame(frameIndex);
+            // set selected
+            if (mEditView.getFrameCount() > frameIndex) {
+                // first try to set selected after the deleted one
+                mEditView.setSelectedFrameIndex(frameIndex);
+            } else if (mEditView.getFrameCount() > 0) {
+                // second try to set selected before the deleted one
+                mEditView.setSelectedFrameIndex(frameIndex - 1);
+            } else {
+                // no frame available to be set selected
+                if (DEBUG) {
+                    Log.d(TAG, "deleteSelectedFrame() no more frame");
+                }
+            }
+            // TODO
+            Log.i(TAG, "TODO delete frame in model");
+        }
     }
 
     @Override
