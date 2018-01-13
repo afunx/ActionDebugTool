@@ -112,9 +112,27 @@ public class EditPresenter implements EditContract.Presenter {
     }
 
     @Override
-    public void insertFrameAfterSelected() {
+    public void pasteAfterSelected() {
         if (DEBUG) {
-            Log.d(TAG, "insertFrameAfterSelected()");
+            Log.d(TAG, "pasteAfterSelected()");
         }
+        int copiedIndex = mEditView.getCopiedFrameIndex();
+        if (copiedIndex != -1) {
+            int frameIndex = mEditView.getSelectedFrameIndex();
+            if (frameIndex != -1) {
+                mEditView.pasteAfterSelected();
+                // TODO
+                Log.i(TAG, "TODO paste frame in model");
+            } else {
+                if (DEBUG) {
+                    Log.d(TAG, "pasteAfterSelected() frameIndex = -1");
+                }
+            }
+        } else {
+            if (DEBUG) {
+                Log.d(TAG, "pasteAfterSelected() copiedIndex = -1");
+            }
+        }
+
     }
 }

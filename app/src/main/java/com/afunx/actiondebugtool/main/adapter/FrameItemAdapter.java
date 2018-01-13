@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afunx.actiondebugtool.R;
+import com.afunx.actiondebugtool.data.FrameData;
 import com.afunx.actiondebugtool.edit.EditContract;
 import com.afunx.data.bean.FrameBean;
 
@@ -21,55 +22,93 @@ import java.util.Locale;
 
 public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.ViewHolder> {
 
-    private final List<FrameBean> mFrameBeanList;
+    private final List<FrameData> mFrameDataList;
 
     private final EditContract.Presenter mEditPresenter;
 
-    private int mSelectedIndex = -1;
-
-    private int mCopiedIndex = -1;
-
-    public FrameItemAdapter(List<FrameBean> frameBeanList, EditContract.Presenter editPresenter) {
-        mFrameBeanList = frameBeanList;
+    public FrameItemAdapter(List<FrameData> frameDataList, EditContract.Presenter editPresenter) {
+        mFrameDataList = frameDataList;
         mEditPresenter = editPresenter;
     }
 
     public int getSelectedIndex() {
-        return mSelectedIndex;
+        for (int index = 0; index < mFrameDataList.size(); index++) {
+            if (mFrameDataList.get(index).isSelected()) {
+                return index;
+            }
+        }
+        return -1;
     }
 
     public void setSelectedIndex(int selectedIndex) {
-        int prevSelectedIndex = mSelectedIndex;
-        mSelectedIndex = selectedIndex;
-        notifyItemChanged(prevSelectedIndex);
-        notifyItemChanged(mSelectedIndex);
+        int prevSelectedIndex = getSelectedIndex();
+        if (prevSelectedIndex != selectedIndex) {
+            if (prevSelectedIndex != -1) {
+                mFrameDataList.get(prevSelectedIndex).setSelected(false);
+                notifyItemChanged(prevSelectedIndex);
+            }
+            mFrameDataList.get(selectedIndex).setSelected(true);
+            notifyItemChanged(selectedIndex);
+        }
     }
 
     public void delete(int index) {
-        mFrameBeanList.remove(index);
+        mFrameDataList.remove(index);
         notifyItemRemoved(index);
     }
 
-    public void copy(int index) {
-        int prevCopiedIndex = mCopiedIndex;
-        mCopiedIndex = index;
-        notifyItemChanged(prevCopiedIndex);
-        notifyItemChanged(mSelectedIndex);
+    public void copy(int copiedIndex) {
+        int prevCopiedIndex = getCopiedFrameIndex();
+        if (prevCopiedIndex != copiedIndex) {
+            if (prevCopiedIndex != -1) {
+                mFrameDataList.get(prevCopiedIndex).setCopied(false);
+                notifyItemChanged(prevCopiedIndex);
+            }
+            mFrameDataList.get(copiedIndex).setCopied(true);
+            notifyItemChanged(copiedIndex);
+        }
     }
 
     public int getCopiedFrameIndex() {
-        return mCopiedIndex;
+        for (int index = 0; index < mFrameDataList.size(); index++) {
+            if (mFrameDataList.get(index).isCopied()) {
+                return index;
+            }
+        }
+        return -1;
     }
 
     public void clearCopy() {
-        copy(-1);
+        for (int index = 0; index < mFrameDataList.size(); index++) {
+            FrameData frameData = mFrameDataList.get(index);
+            if (frameData.isCopied()) {
+                frameData.setCopied(false);
+                notifyItemChanged(index);
+                return;
+            }
+        }
+    }
+
+    public void pasteAfterSelected() {
+        int copiedIndex = getCopiedFrameIndex();
+        if (copiedIndex == -1) {
+            throw new IllegalStateException("copiedIndex should be >= 0");
+        }
+        int selectedIndex = getSelectedIndex();
+        if (selectedIndex == -1) {
+            throw new IllegalStateException("selectedIndex should be >= 0");
+        }
+        FrameData copied = mFrameDataList.get(copiedIndex).clone();
+        mFrameDataList.add(selectedIndex + 1, copied);
+        notifyItemInserted(selectedIndex + 1);
+        notifyItemChanged(selectedIndex + 2);
     }
 
     private int _frameIndex = 0;
 
     /**
      * generate frame index(it should never repeat)
-     * (it only be used to show item, besides, frame index means mFrameBeanList's position)
+     * (it only be used to show item, besides, frame index means mFrameDataList's position)
      *
      * @return frame index
      */
@@ -115,19 +154,21 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        FrameBean frameBean = mFrameBeanList.get(position);
+        final FrameData frameData = mFrameDataList.get(position);
+        final FrameBean frameBean = frameData.getFrameBean();
+        boolean isSelected = frameData.isSelected();
         if (frameBean.getIndex() == 0) {
             frameBean.setIndex(genFrameIndex());
         }
-        holder.tvFrameIndex.setText(String.format(Locale.US, "%d", frameBean.getIndex()));
+        // set text by copied state
+        String text = frameData.isCopied()
+                ? String.format(Locale.US, "%d-C", frameBean.getIndex())
+                : String.format(Locale.US, "%d", frameBean.getIndex());
+        holder.tvFrameIndex.setText(text);
         holder.tvFrameName.setText(frameBean.getName());
         holder.tvFrameRuntime.setText(String.format(Locale.US, "%d", frameBean.getTime()));
         // set selected or not
-        holder.percentRelativeLayout.setSelected(position == mSelectedIndex);
-        // set copied if necessary
-        if (position == mCopiedIndex) {
-            holder.tvFrameIndex.setText(String.format(Locale.US, "%d-C", frameBean.getIndex()));
-        }
+        holder.percentRelativeLayout.setSelected(isSelected);
 
         // set onClickListener
         holder.percentRelativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -138,8 +179,7 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
                     mEditPresenter.playSelectedFrame();
                 } else {
                     // update selected index
-                    mSelectedIndex = holder.getAdapterPosition();
-                    notifyDataSetChanged();
+                    setSelectedIndex(holder.getAdapterPosition());
                 }
             }
         });
@@ -147,7 +187,7 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
 
     @Override
     public int getItemCount() {
-        return mFrameBeanList.size();
+        return mFrameDataList.size();
     }
 
 

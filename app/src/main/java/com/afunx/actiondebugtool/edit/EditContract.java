@@ -161,6 +161,11 @@ public interface EditContract {
          * clear copy frame state
          */
         void clearCopy();
+
+        /**
+         * paste copied frame after selected
+         */
+        void pasteAfterSelected();
     }
 
     interface Presenter extends BasePresenter {
@@ -209,8 +214,8 @@ public interface EditContract {
         void copySelectedFrame();
 
         /**
-         * insert frame after selected
+         * paste copied frame after selected
          */
-        void insertFrameAfterSelected();
+        void pasteAfterSelected();
     }
 }

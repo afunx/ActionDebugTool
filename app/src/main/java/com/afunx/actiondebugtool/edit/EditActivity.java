@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.afunx.actiondebugtool.R;
+import com.afunx.actiondebugtool.data.FrameData;
 import com.afunx.actiondebugtool.main.adapter.FrameItemAdapter;
 import com.afunx.actiondebugtool.widget.SmartSeekBar;
 import com.afunx.data.bean.FrameBean;
@@ -68,7 +69,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 mEditPresenter.copySelectedFrame();
                 return true;
             case R.id.menu_item_paste:
-                Toast.makeText(this, R.string.paste, Toast.LENGTH_SHORT).show();
+                mEditPresenter.pasteAfterSelected();
                 return true;
             case R.id.menu_item_delete:
                 mEditPresenter.deleteSelectedFrame();
@@ -167,7 +168,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mRycFrameItems = (RecyclerView) findViewById(R.id.ryc_frame);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRycFrameItems.setLayoutManager(llm);
-        mAdapterFrameItems = new FrameItemAdapter(mockFrameItems(), mEditPresenter);
+        mAdapterFrameItems = new FrameItemAdapter(mockFrameDatas(), mEditPresenter);
         mRycFrameItems.setAdapter(mAdapterFrameItems);
     }
 
@@ -178,10 +179,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mSkbRuntime.setOnSmartSeekBarChangeListener(this);
     }
 
-    private List<FrameBean> mockFrameItems() {
+    private List<FrameData> mockFrameDatas() {
         final int motorCount = 14;
         final int frameCount = 20;
-        List<FrameBean> frameBeanList = new ArrayList<>();
+        List<FrameData> frameDataList = new ArrayList<>();
         for (int i = 0; i < frameCount; i++) {
             FrameBean frameBean = new FrameBean();
             for (int j = 0; j < motorCount; j++) {
@@ -192,9 +193,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             }
             frameBean.setTime(1000);
             frameBean.setName("item " + i);
-            frameBeanList.add(frameBean);
+            FrameData frameDate = new FrameData(frameBean);
+            frameDataList.add(frameDate);
         }
-        return frameBeanList;
+        return frameDataList;
     }
 
     @Override
@@ -309,6 +311,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void clearCopy() {
         mAdapterFrameItems.clearCopy();
+    }
+
+    @Override
+    public void pasteAfterSelected() {
+        mAdapterFrameItems.pasteAfterSelected();
     }
 
     @Override
