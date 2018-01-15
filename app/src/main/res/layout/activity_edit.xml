@@ -13,6 +13,7 @@
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:background="@drawable/sl_frames_play"
         app:layout_aspectRatio="100%"
         app:layout_heightPercent="@fraction/robot_parts_exclude"
         />
@@ -23,6 +24,7 @@
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:background="@drawable/sl_frame_add"
         app:layout_aspectRatio="100%"
         app:layout_heightPercent="@fraction/robot_parts_exclude"
         />
@@ -76,10 +78,10 @@
             />
 
         <android.support.percent.PercentRelativeLayout
-            android:layout_below="@+id/space_top"
-            android:layout_above="@+id/space_bottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/space_bottom"
+            android:layout_below="@+id/space_top"
             >
 
             <com.afunx.actiondebugtool.widget.SmartSeekBar
