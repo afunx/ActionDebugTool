@@ -2,6 +2,7 @@ package com.afunx.actiondebugtool.main;
 
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import com.afunx.actiondebugtool.main.adapter.ActionItemAdapter;
 import com.afunx.client.impl.UdpDiscoverClientImpl;
 import com.afunx.client.interfaces.UdpDiscoverClient;
 import com.afunx.data.bean.MotionBean;
+import com.afunx.permission.PermissionHelper;
+import com.afunx.permission.PermissionListener;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -41,6 +44,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initView();
         initData();
+
+        requestPermissions();
+    }
+
+    /**
+     * request permissions required util user allow all permissions
+     */
+    private void requestPermissions() {
+        final PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGrantedAll() {
+            }
+
+            @Override
+            public void onPermissionDenied(final List<String> deniedPermissionList) {
+                PermissionHelper.requestPermissions(1, this, MainActivity.this);
+            }
+        };
+        PermissionHelper.requestPermissions(1, permissionListener, this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        PermissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void initView() {
