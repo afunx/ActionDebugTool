@@ -1,6 +1,7 @@
 package com.afunx.actiondebugtool.main;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afunx.actiondebugtool.R;
+import com.afunx.actiondebugtool.common.ActionManager;
 import com.afunx.actiondebugtool.main.adapter.ActionItemAdapter;
 import com.afunx.client.impl.UdpDiscoverClientImpl;
 import com.afunx.client.interfaces.UdpDiscoverClient;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView mTvRobotIp;
     private Button mBtnScan;
+    private Button mBtnAdd;
     private InetAddress mRobotInetAddr;
 
     private final List<MotionBean> mMotionBeanList = new ArrayList<>();
@@ -43,9 +46,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        initData();
-
         requestPermissions();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
     }
 
     /**
@@ -75,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTvRobotIp = (TextView) findViewById(R.id.tv_robot_ip);
         mBtnScan = (Button) findViewById(R.id.btn_scan);
         mBtnScan.setOnClickListener(this);
+        mBtnAdd = (Button) findViewById(R.id.btn_add_new_action);
+        mBtnAdd.setOnClickListener(this);
         mRcyAction = (RecyclerView) findViewById(R.id.ryc_action);
         mAdapterAction = new ActionItemAdapter(mMotionBeanList);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -83,25 +92,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            MotionBean motionBean = new MotionBean();
-            motionBean.setName("item " + (i + 1));
-            mMotionBeanList.add(motionBean);
+        // clear previous motion bean list
+        mMotionBeanList.clear();
+        // init data from shared preferences
+        List<MotionBean> motionBeanList = ActionManager.get().readActionList(this);
+        if (!motionBeanList.isEmpty()) {
+            mMotionBeanList.addAll(motionBeanList);
+            mAdapterAction.notifyDataSetChanged();
         }
-        mAdapterAction.notifyDataSetChanged();
     }
-
 
     @Override
     public void onClick(View v) {
         if (v == mBtnScan) {
             doScan();
+        } else if (v == mBtnAdd) {
+            doAdd();
         }
     }
 
     private void doScan() {
         Log.i(TAG, "doScan()");
         new ScanTask().execute();
+    }
+
+    private void doAdd() {
+        Log.i(TAG, "doAdd()");
+        Intent intent = new Intent("com.afunx.actiondebugtool.editAction");
+        startActivity(intent);
     }
 
     private class ScanTask extends AsyncTask<Void, Void, List<InetAddress>> {

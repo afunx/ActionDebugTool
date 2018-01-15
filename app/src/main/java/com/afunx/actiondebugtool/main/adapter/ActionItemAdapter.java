@@ -3,6 +3,7 @@ package com.afunx.actiondebugtool.main.adapter;
 import android.content.Intent;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.afunx.actiondebugtool.R;
+import com.afunx.actiondebugtool.common.ActionManager;
 import com.afunx.data.bean.MotionBean;
 
 import java.util.List;
@@ -40,9 +42,8 @@ public class ActionItemAdapter extends RecyclerView.Adapter<ActionItemAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        MotionBean motionBean = mMotionBeanList.get(position);
+        final MotionBean motionBean = mMotionBeanList.get(position);
         holder.tvActionName.setText(motionBean.getName());
-        // TODO btnActionEdit
         holder.btnActionEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +52,15 @@ public class ActionItemAdapter extends RecyclerView.Adapter<ActionItemAdapter.Vi
                 v.getContext().startActivity(intent);
             }
         });
-        // TODO btnActionDelete
+        holder.btnActionDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActionManager.get().deleteMotion(v.getContext(), motionBean.getName());
+                int adapterPosition = holder.getAdapterPosition();
+                mMotionBeanList.remove(adapterPosition);
+                notifyItemRemoved(adapterPosition);
+            }
+        });
     }
 
     @Override

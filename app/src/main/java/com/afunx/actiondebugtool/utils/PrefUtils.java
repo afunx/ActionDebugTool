@@ -21,13 +21,13 @@ public class PrefUtils {
     private static final String FILE_KEY = "ACTION_LIST";
 
     /**
-     * save object to SharedPreferences
+     * write object to SharedPreferences
      *
      * @param appContext application context
      * @param object     object to be saved
      */
-    public static void saveObject(Context appContext, Object object) {
-        saveObject(appContext, FILE_NAME, FILE_KEY, object);
+    public static void writeObject(Context appContext, Object object) {
+        writeObject(appContext, FILE_NAME, FILE_KEY, object);
     }
 
     /**
@@ -41,14 +41,14 @@ public class PrefUtils {
     }
 
     /**
-     * save object to SharedPreferences
+     * write object to SharedPreferences
      *
      * @param appContext application context
      * @param name       sharedPreferences name
      * @param key        sharedPreferences key
      * @param object     object to be saved
      */
-    private static void saveObject(Context appContext, String name, String key, Object object) {
+    private static void writeObject(Context appContext, String name, String key, Object object) {
         SharedPreferences sharedPreferences = appContext.getSharedPreferences(name, Context.MODE_PRIVATE);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

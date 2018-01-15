@@ -1,5 +1,6 @@
 package com.afunx.actiondebugtool.edit;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,10 +13,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.afunx.actiondebugtool.R;
+import com.afunx.actiondebugtool.common.ActionManager;
 import com.afunx.actiondebugtool.data.FrameData;
 import com.afunx.actiondebugtool.edit.adapter.FrameItemAdapter;
+import com.afunx.actiondebugtool.save.SaveAsActivity;
 import com.afunx.actiondebugtool.widget.SmartSeekBar;
 import com.afunx.data.bean.FrameBean;
+import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private SmartSeekBar mSkbDeg;
     private SmartSeekBar mSkbRuntime;
 
+    private String mMotionName;
     private EditContract.Presenter mEditPresenter;
 
     public void setPresenter(EditContract.Presenter presenter) {
@@ -44,9 +49,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        new EditPresenter(getApplicationContext(), this);
+        List<FrameData> frameDataList = getIntentFrameDataList();
 
-        initView();
+        new EditPresenter(getApplicationContext(), this, frameDataList);
+
+        initView(frameDataList);
     }
 
     @Override
@@ -77,17 +84,59 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 mEditPresenter.deleteSelectedFrame();
                 return true;
             case R.id.menu_item_save:
-                Toast.makeText(this, R.string.save, Toast.LENGTH_SHORT).show();
+                doSave();
                 return true;
             case R.id.menu_item_save_as:
-                Toast.makeText(this, R.string.save_as, Toast.LENGTH_SHORT).show();
+                doSaveAs();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void initView() {
+    private void doSave() {
+        if (mMotionName == null) {
+            doSaveAs();
+        } else {
+            // get frame bean list from mAdapterFrameItems(it is cloned from mAdapterFrameItems)
+            List<FrameBean> frameBeanList = mAdapterFrameItems.getFrameBeanList();
+            // create a MotionBean and add frameBeanList into it
+            MotionBean motionBean = new MotionBean();
+            motionBean.setName(mMotionName);
+            motionBean.getFrameBeans().addAll(frameBeanList);
+            ActionManager.get().writeAction(this, motionBean);
+        }
+    }
+
+    private void doSaveAs() {
+
+        Intent intent = new Intent(this, SaveAsActivity.class);
+
+        // get frame bean list from mAdapterFrameItems(it is cloned from mAdapterFrameItems)
+        List<FrameBean> frameBeanList = mAdapterFrameItems.getFrameBeanList();
+        // create a MotionBean and add frameBeanList into it
+        MotionBean motionBean = new MotionBean();
+        motionBean.getFrameBeans().addAll(frameBeanList);
+
+        intent.putExtra("action", motionBean);
+        startActivity(intent);
+    }
+
+    private List<FrameData> getIntentFrameDataList() {
+        List<FrameData> frameDataList = new ArrayList<>();
+        MotionBean motionBean = (MotionBean) getIntent().getSerializableExtra("action");
+        if (motionBean != null) {
+            List<FrameBean> frameBeans = motionBean.getFrameBeans();
+            for (FrameBean frameBean : frameBeans) {
+                FrameData frameData = new FrameData(frameBean);
+                frameDataList.add(frameData);
+            }
+            mMotionName = motionBean.getName();
+        }
+        return frameDataList;
+    }
+
+    private void initView(List<FrameData> frameDataList) {
         // actionbar
         initViewActionBar();
 
@@ -98,7 +147,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         initOtherButtons();
 
         // frame recyclerView
-        initFrameRecyclerView();
+        initFrameRecyclerView(frameDataList);
 
         // smart seek bar for degree and runtime
         initSmartSeekBars();
@@ -178,11 +227,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mBtnFrameAdd.setOnClickListener(this);
     }
 
-    private void initFrameRecyclerView() {
+    private void initFrameRecyclerView(List<FrameData> frameDataList) {
         mRycFrameItems = (RecyclerView) findViewById(R.id.ryc_frame);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRycFrameItems.setLayoutManager(llm);
-        mAdapterFrameItems = new FrameItemAdapter(mRycFrameItems, mockFrameDatas(), mEditPresenter);
+        mAdapterFrameItems = new FrameItemAdapter(mRycFrameItems, frameDataList, mEditPresenter);
         mRycFrameItems.setAdapter(mAdapterFrameItems);
     }
 

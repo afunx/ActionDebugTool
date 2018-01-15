@@ -4,6 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.afunx.actiondebugtool.data.FrameData;
+
+import java.util.List;
+
 /**
  * Created by afunx on 12/01/2018.
  */
@@ -18,8 +22,8 @@ public class EditPresenter implements EditContract.Presenter {
 
     private final EditContract.View mEditView;
 
-    EditPresenter(@NonNull Context appContext, @NonNull EditContract.View editView) {
-        mEditModel = EditModelFactory.provideEditModel(appContext);
+    EditPresenter(@NonNull Context appContext, @NonNull EditContract.View editView, @NonNull List<FrameData> frameDataList) {
+        mEditModel = EditModelFactory.provideEditModel(appContext, frameDataList);
         mEditView = editView;
 
         editView.setPresenter(this);

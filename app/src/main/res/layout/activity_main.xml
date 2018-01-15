@@ -52,11 +52,22 @@
         app:layout_heightPercent='10%'
         app:layout_widthPercent='50%'/>
 
+    <Button
+        android:id="@+id/btn_add_new_action"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_output_uta_files"
+        android:text="@string/add_new_action"
+        android:textSize="@dimen/font_small"
+        app:layout_heightPercent='10%'
+        app:layout_widthPercent='50%'/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ryc_action"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/btn_output_uta_files"
+        android:layout_below="@+id/btn_add_new_action"
         />
 
 

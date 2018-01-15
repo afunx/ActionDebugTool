@@ -14,6 +14,7 @@ import com.afunx.actiondebugtool.data.FrameData;
 import com.afunx.actiondebugtool.edit.EditContract;
 import com.afunx.data.bean.FrameBean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,6 +66,20 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
     public void delete(int index) {
         mFrameDataList.remove(index);
         notifyItemRemoved(index);
+    }
+
+    /**
+     * get FrameBean list from mFrameDataList
+     * (FrameBean is cloned from FrameData)
+     *
+     * @return FrameBean list
+     */
+    public List<FrameBean> getFrameBeanList() {
+        List<FrameBean> frameBeanList = new ArrayList<>();
+        for (FrameData frameData : mFrameDataList) {
+            frameBeanList.add(frameData.getFrameBean().clone());
+        }
+        return frameBeanList;
     }
 
     /**

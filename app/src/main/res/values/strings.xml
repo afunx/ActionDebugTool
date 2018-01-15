@@ -9,6 +9,7 @@
     <string name="one_robot_found">Robot :%1$s is found</string>
     <string name="output_uta_files">Output uta action files</string>
     <string name="input_uta_files">Input uta action files</string>
+    <string name="add_new_action">Add new action</string>
     <string name="copy">Copy</string>
     <string name="paste">Paste</string>
     <string name="delete">Delete</string>
@@ -41,4 +42,9 @@
 
     <string name="hint_edit_selected_frame_name">Edit frame name</string>
     <string name="set_frame_name">Set Frame Name</string>
+
+    <string name="input_filename">Please input filename</string>
+
+    <string name="filename_cannot_empty">Filename cannot empty</string>
+    <string name="filename_has_exist">Filename has exist alreary</string>
 </resources>
