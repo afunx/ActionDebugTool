@@ -2,6 +2,7 @@ package com.afunx.actiondebugtool.edit.adapter;
 
 import android.os.Handler;
 import android.support.percent.PercentRelativeLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +23,14 @@ import java.util.Locale;
 
 public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.ViewHolder> {
 
+    private RecyclerView mRecyclerView;
+
     private final List<FrameData> mFrameDataList;
 
     private final EditContract.Presenter mEditPresenter;
 
-    public FrameItemAdapter(List<FrameData> frameDataList, EditContract.Presenter editPresenter) {
+    public FrameItemAdapter(RecyclerView rycFrameItems, List<FrameData> frameDataList, EditContract.Presenter editPresenter) {
+        mRecyclerView = rycFrameItems;
         mFrameDataList = frameDataList;
         mEditPresenter = editPresenter;
     }
@@ -52,9 +56,31 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
         }
     }
 
+    public void insertFrame(int frameIndex) {
+        mFrameDataList.add(frameIndex, new FrameData());
+        notifyItemInserted(frameIndex);
+        scrollToSuitablePosition();
+    }
+
     public void delete(int index) {
         mFrameDataList.remove(index);
         notifyItemRemoved(index);
+    }
+
+    /**
+     * scroll items to suitable position after adding or pasting
+     */
+    private void scrollToSuitablePosition() {
+        int lastVisibleItemPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
+        int firstVisibleItemPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+        int selectedPosition = getSelectedIndex();
+        if (selectedPosition >= lastVisibleItemPosition) {
+            mRecyclerView.scrollToPosition(selectedPosition + 1);
+        } else if (selectedPosition <= firstVisibleItemPosition) {
+            mRecyclerView.scrollToPosition(selectedPosition - 2 < 0 ? 0 : selectedPosition - 2);
+        } else {
+            mRecyclerView.scrollToPosition(lastVisibleItemPosition + 1);
+        }
     }
 
     public void copy(int copiedIndex) {
@@ -102,6 +128,7 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
         mFrameDataList.add(selectedIndex + 1, copied);
         notifyItemInserted(selectedIndex + 1);
         notifyItemChanged(selectedIndex + 2);
+        scrollToSuitablePosition();
     }
 
     private int _frameIndex = 0;

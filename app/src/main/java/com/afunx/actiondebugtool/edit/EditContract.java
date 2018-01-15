@@ -137,6 +137,13 @@ public interface EditContract {
         void setFrameRuntimeMax(int runtimeMax);
 
         /**
+         * insert frame after frameIndex
+         *
+         * @param frameIndex frame index to be inserted
+         */
+        void insertFrame(int frameIndex);
+
+        /**
          * delete frame of frameIndex
          *
          * @param frameIndex frame index to be deleted
@@ -169,6 +176,12 @@ public interface EditContract {
     }
 
     interface Presenter extends BasePresenter {
+
+        /**
+         * insert frame after the selected frame
+         */
+        void insertFrameAfterSelected();
+
         /**
          * set selected frame motor degree
          *

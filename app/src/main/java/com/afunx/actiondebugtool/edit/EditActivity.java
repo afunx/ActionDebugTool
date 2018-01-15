@@ -25,6 +25,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     private final int ROBOT_PART_COUNT = 14;
     private final Button[] mRobotParts = new Button[ROBOT_PART_COUNT + 1];
+    private Button mBtnFramesPlay;
+    private Button mBtnFrameAdd;
 
     private RecyclerView mRycFrameItems;
     private FrameItemAdapter mAdapterFrameItems;
@@ -91,6 +93,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         // robot part buttons
         initViewRobotPartButtons();
+
+        // other buttons
+        initOtherButtons();
 
         // frame recyclerView
         initFrameRecyclerView();
@@ -164,11 +169,20 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mRobotParts[14] = btnRobotPart14;
     }
 
+
+    private void initOtherButtons() {
+        mBtnFramesPlay = (Button) findViewById(R.id.btn_frames_play);
+        mBtnFramesPlay.setOnClickListener(this);
+
+        mBtnFrameAdd = (Button) findViewById(R.id.btn_frame_add);
+        mBtnFrameAdd.setOnClickListener(this);
+    }
+
     private void initFrameRecyclerView() {
         mRycFrameItems = (RecyclerView) findViewById(R.id.ryc_frame);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRycFrameItems.setLayoutManager(llm);
-        mAdapterFrameItems = new FrameItemAdapter(mockFrameDatas(), mEditPresenter);
+        mAdapterFrameItems = new FrameItemAdapter(mRycFrameItems, mockFrameDatas(), mEditPresenter);
         mRycFrameItems.setAdapter(mAdapterFrameItems);
     }
 
@@ -201,11 +215,19 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        // robot part buttons
         for (int i = 1; i < mRobotParts.length; i++) {
             if (v == mRobotParts[i]) {
                 setSelectedMotorId(i);
                 return;
             }
+        }
+        if (v == mBtnFramesPlay) {
+            // frames play button from selected frame
+            mEditPresenter.playMotionFromSelectedFrame();
+        } else if(v == mBtnFrameAdd) {
+            // insert frame after selected frame
+            mEditPresenter.insertFrameAfterSelected();
         }
     }
 
@@ -291,6 +313,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void setFrameRuntimeMax(int runtimeMax) {
         mSkbRuntime.setMax(runtimeMax);
+    }
+
+    @Override
+    public void insertFrame(int frameIndex) {
+        mAdapterFrameItems.insertFrame(frameIndex);
     }
 
     @Override

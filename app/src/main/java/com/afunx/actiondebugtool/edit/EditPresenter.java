@@ -26,6 +26,20 @@ public class EditPresenter implements EditContract.Presenter {
     }
 
     @Override
+    public void insertFrameAfterSelected() {
+        if (DEBUG) {
+            Log.d(TAG, "insertFrameAfterSelected()");
+        }
+        int frameIndex = mEditView.getSelectedFrameIndex();
+        // if frameIndex, it will insert first frame
+        mEditView.insertFrame(frameIndex + 1);
+        // set inserted frame as the selected frame index
+        mEditView.setSelectedFrameIndex(frameIndex + 1);
+        // TODO
+        Log.i(TAG, "TODO insert frame in model");
+    }
+
+    @Override
     public void setSelectedMotorDegree(int degree) {
         if (DEBUG) {
             Log.d(TAG, "setSelectedMotorDegree() degree: " + degree);
@@ -121,6 +135,8 @@ public class EditPresenter implements EditContract.Presenter {
             int frameIndex = mEditView.getSelectedFrameIndex();
             if (frameIndex != -1) {
                 mEditView.pasteAfterSelected();
+                // set inserted frame as the selected frame index
+                mEditView.setSelectedFrameIndex(frameIndex + 1);
                 // TODO
                 Log.i(TAG, "TODO paste frame in model");
             } else {
