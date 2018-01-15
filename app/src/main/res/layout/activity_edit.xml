@@ -8,7 +8,7 @@
     tools:context="com.afunx.actiondebugtool.edit.EditActivity">
 
     <Button
-        android:id="@+id/btn_frame_play"
+        android:id="@+id/btn_frames_play"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/btn_frame_play"
+        android:layout_toEndOf="@+id/btn_frames_play"
         android:layout_toStartOf="@+id/btn_frame_add"
         app:layout_heightPercent="@fraction/robot_parts_exclude"
         app:layout_widthPercent="100%"
