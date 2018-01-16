@@ -198,6 +198,7 @@ public class SmartSeekBar extends PercentRelativeLayout
             throw new IllegalArgumentException("seekBarMin: " + mSeekBarMin + " > " + "seekBarMax: " + mSeekBarMax);
         }
         mSeekBar.setMax(mSeekBarMax - mSeekBarMin);
+        updateTextValueIfNecessary();
     }
 
     /**
@@ -220,6 +221,19 @@ public class SmartSeekBar extends PercentRelativeLayout
             throw new IllegalArgumentException("seekBarMin: " + mSeekBarMin + " > " + "seekBarMax: " + mSeekBarMax);
         }
         mSeekBar.setMax(mSeekBarMax - mSeekBarMin);
+        updateTextValueIfNecessary();
+    }
+
+    /**
+     * update text value if necessary
+     */
+    private void updateTextValueIfNecessary() {
+        int textValue = getEditTextValue();
+        if (textValue < mSeekBarMin) {
+            setEditTextValue(mSeekBarMin);
+        } else if(textValue > mSeekBarMax) {
+            setEditTextValue(mSeekBarMax);
+        }
     }
 
     /**
