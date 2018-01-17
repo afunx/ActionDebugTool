@@ -96,12 +96,9 @@
                 android:id="@+id/smart_seek_bar_runtime"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-
                 android:layout_below="@+id/smart_seek_bar_deg"
                 app:layout_heightPercent="30%"
                 app:layout_widthPercent="100%"
-                app:smart_seek_bar_max="5000"
-                app:smart_seek_bar_min="100"
                 />
 
             <EditText

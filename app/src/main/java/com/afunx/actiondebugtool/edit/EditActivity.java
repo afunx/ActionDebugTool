@@ -238,6 +238,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private void initSmartSeekBars() {
         mSkbDeg = (SmartSeekBar) findViewById(R.id.smart_seek_bar_deg);
         mSkbDeg.setOnSmartSeekBarChangeListener(this);
+
         mSkbRuntime = (SmartSeekBar) findViewById(R.id.smart_seek_bar_runtime);
         mSkbRuntime.setOnSmartSeekBarChangeListener(this);
     }
@@ -362,6 +363,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void setFrameRuntimeMax(int runtimeMax) {
         mSkbRuntime.setMax(runtimeMax);
+    }
+
+    @Override
+    public void updateFrame(int frameIndex) {
+        mAdapterFrameItems.notifyItemChanged(frameIndex);
     }
 
     @Override

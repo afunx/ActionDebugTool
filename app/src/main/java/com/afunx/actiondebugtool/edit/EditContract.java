@@ -137,6 +137,13 @@ public interface EditContract {
         void setFrameRuntimeMax(int runtimeMax);
 
         /**
+         * update frame of some position
+         *
+         * @param frameIndex position to be updated
+         */
+        void updateFrame(int frameIndex);
+
+        /**
          * insert frame after frameIndex
          *
          * @param frameIndex frame index to be inserted
@@ -178,9 +185,37 @@ public interface EditContract {
     interface Presenter extends BasePresenter {
 
         /**
+         * get frame runtime min
+         *
+         * @return frame runtime min
+         */
+        int getFrameRuntimeMin();
+
+        /**
+         * get frame runtime max
+         *
+         * @return frame runtime max
+         */
+        int getFrameRuntimeMax();
+
+        /**
          * insert frame after the selected frame
          */
         void insertFrameAfterSelected();
+
+        /**
+         * set selected frame index
+         *
+         * @param frameIndex frame index
+         */
+        void setSelectedFrameIndex(int frameIndex);
+
+        /**
+         * set selected motor
+         *
+         * @param motorId selected motorId
+         */
+        void setSelectedMotor(int motorId);
 
         /**
          * set selected frame motor degree

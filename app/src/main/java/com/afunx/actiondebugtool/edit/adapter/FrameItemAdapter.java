@@ -46,6 +46,9 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
     }
 
     public void setSelectedIndex(int selectedIndex) {
+
+        mEditPresenter.setSelectedFrameIndex(selectedIndex);
+
         int prevSelectedIndex = getSelectedIndex();
         if (prevSelectedIndex != selectedIndex) {
             if (prevSelectedIndex != -1) {
@@ -220,8 +223,9 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
                     // play frame when item has been selected already
                     mEditPresenter.playSelectedFrame();
                 } else {
+                    int frameIndex = holder.getAdapterPosition();
                     // update selected index
-                    setSelectedIndex(holder.getAdapterPosition());
+                    setSelectedIndex(frameIndex);
                 }
             }
         });

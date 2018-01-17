@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.afunx.actiondebugtool.data.FrameData;
+import com.afunx.data.bean.FrameBean;
 
 import java.util.List;
 
@@ -29,6 +30,20 @@ public class EditPresenter implements EditContract.Presenter {
         editView.setPresenter(this);
     }
 
+    private List<FrameData> getFrameDataList() {
+        return mEditModel.getFrameDataList();
+    }
+
+    @Override
+    public int getFrameRuntimeMin() {
+        return mEditModel.getRuntimeMin();
+    }
+
+    @Override
+    public int getFrameRuntimeMax() {
+        return mEditModel.getRuntimeMax();
+    }
+
     @Override
     public void insertFrameAfterSelected() {
         if (DEBUG) {
@@ -44,16 +59,60 @@ public class EditPresenter implements EditContract.Presenter {
     }
 
     @Override
-    public void setSelectedMotorDegree(int degree) {
+    public void setSelectedFrameIndex(int frameIndex) {
         if (DEBUG) {
-            Log.d(TAG, "setSelectedMotorDegree() degree: " + degree);
+            Log.d(TAG, "setSelectedFrameIndex() frameIndex: " + frameIndex);
+        }
+        int runtimeMax = mEditModel.getRuntimeMax();
+        mEditView.setFrameRuntimeMax(runtimeMax);
+        int runtimeMin = mEditModel.getRuntimeMin();
+        mEditView.setFrameRuntimeMin(runtimeMin);
+
+        List<FrameData> frameDataList = getFrameDataList();
+        FrameData frameData = frameDataList.get(frameIndex);
+        int time = frameData.getFrameBean().getTime();
+        mEditView.setFrameRuntime(time);
+    }
+
+    @Override
+    public void setSelectedMotor(int motorId) {
+        if (DEBUG) {
+            Log.d(TAG, "setSelectedMotor() motorId: " + motorId);
+        }
+        int motorDegMax = mEditModel.getMotorDegMax(motorId);
+        mEditView.setMotorDegMax(motorDegMax);
+        int motorDegMin = mEditModel.getMotorDegMin(motorId);
+        mEditView.setMotorDegMin(motorDegMin);
+
+        List<FrameData> frameDataList = getFrameDataList();
+        int frameIndex = mEditView.getSelectedFrameIndex();
+        if (frameIndex != -1) {
+            FrameData frameData = frameDataList.get(frameIndex);
         }
     }
 
     @Override
-    public void setSelectedFrameRuntime(int runtime) {
+    public void setSelectedMotorDegree(int degree) {
         if (DEBUG) {
-            Log.d(TAG, "setSelectedFrameRuntime() runtime: " + runtime);
+            Log.d(TAG, "setSelectedMotorDegree() degree: " + degree);
+        }
+
+    }
+
+    @Override
+    public void setSelectedFrameRuntime(int runtime) {
+        int selectedFrameIndex = mEditView.getSelectedFrameIndex();
+        if (selectedFrameIndex != -1) {
+            if (DEBUG) {
+                Log.d(TAG, "setSelectedFrameRuntime() runtime: " + runtime);
+            }
+            List<FrameData> frameDataList = getFrameDataList();
+            frameDataList.get(selectedFrameIndex).getFrameBean().setTime(runtime);
+            mEditView.updateFrame(selectedFrameIndex);
+        } else {
+            if (DEBUG) {
+                Log.d(TAG, "setSelectedFrameRuntime() selectedFrameIndex = -1");
+            }
         }
     }
 
