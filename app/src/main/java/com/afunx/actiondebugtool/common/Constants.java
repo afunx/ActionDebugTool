@@ -17,4 +17,8 @@ public interface Constants {
     int RUNTIME_MAX = 5000;
 
     int RUNTIME_DEFAULT = 1000;
+
+    String UBA_ROOT_PATH = "/action-uba/";
+
+    String UBA_SUF = ".uba";
 }
