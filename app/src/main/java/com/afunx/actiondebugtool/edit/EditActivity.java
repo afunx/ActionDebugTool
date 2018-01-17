@@ -69,10 +69,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
                 return true;
             case R.id.menu_item_enter_read_mode:
-                Toast.makeText(this, R.string.enter_read_mode, Toast.LENGTH_SHORT).show();
+                mEditPresenter.enterReadMode();
                 return true;
             case R.id.menu_item_read:
-                Toast.makeText(this, R.string.read, Toast.LENGTH_SHORT).show();
+                mEditPresenter.readMotors();
                 return true;
             case R.id.menu_item_copy:
                 mEditPresenter.copySelectedFrame();
