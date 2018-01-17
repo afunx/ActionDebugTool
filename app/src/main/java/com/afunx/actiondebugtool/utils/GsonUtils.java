@@ -21,7 +21,7 @@ public class GsonUtils {
     private static final JsonParser jsonParser;
 
     static {
-        gson = new GsonBuilder().create();
+        gson = new GsonBuilder().setPrettyPrinting().create();
         jsonParser = new JsonParser();
     }
 
