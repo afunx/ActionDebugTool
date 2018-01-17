@@ -233,6 +233,8 @@ public class SmartSeekBar extends PercentRelativeLayout
             setEditTextValue(mSeekBarMin);
         } else if(textValue > mSeekBarMax) {
             setEditTextValue(mSeekBarMax);
+        } else {
+            mSeekBar.setProgress(textValue - mSeekBarMin);
         }
     }
 
