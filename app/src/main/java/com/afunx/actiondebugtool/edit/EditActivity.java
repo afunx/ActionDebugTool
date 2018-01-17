@@ -268,7 +268,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         // robot part buttons
         for (int i = 1; i < mRobotParts.length; i++) {
             if (v == mRobotParts[i]) {
-                setSelectedMotorId(i);
+                mEditPresenter.setSelectedMotor(i);
                 return;
             }
         }

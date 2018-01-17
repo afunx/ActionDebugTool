@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.afunx.actiondebugtool.data.FrameData;
-import com.afunx.data.bean.FrameBean;
+import com.afunx.data.bean.MotorBean;
 
 import java.util.List;
 
@@ -54,8 +54,6 @@ public class EditPresenter implements EditContract.Presenter {
         mEditView.insertFrame(frameIndex + 1);
         // set inserted frame as the selected frame index
         mEditView.setSelectedFrameIndex(frameIndex + 1);
-        // TODO
-        Log.i(TAG, "TODO insert frame in model");
     }
 
     @Override
@@ -63,15 +61,23 @@ public class EditPresenter implements EditContract.Presenter {
         if (DEBUG) {
             Log.d(TAG, "setSelectedFrameIndex() frameIndex: " + frameIndex);
         }
+        // set runtime min max
         int runtimeMax = mEditModel.getRuntimeMax();
         mEditView.setFrameRuntimeMax(runtimeMax);
         int runtimeMin = mEditModel.getRuntimeMin();
         mEditView.setFrameRuntimeMin(runtimeMin);
 
+        // set runtime value
         List<FrameData> frameDataList = getFrameDataList();
         FrameData frameData = frameDataList.get(frameIndex);
         int time = frameData.getFrameBean().getTime();
         mEditView.setFrameRuntime(time);
+
+        // update selected motor's deg
+        int motorId = mEditView.getSelectedMotorId();
+        if (motorId != -1) {
+            setSelectedMotor(motorId);
+        }
     }
 
     @Override
@@ -79,24 +85,65 @@ public class EditPresenter implements EditContract.Presenter {
         if (DEBUG) {
             Log.d(TAG, "setSelectedMotor() motorId: " + motorId);
         }
-        int motorDegMax = mEditModel.getMotorDegMax(motorId);
-        mEditView.setMotorDegMax(motorDegMax);
-        int motorDegMin = mEditModel.getMotorDegMin(motorId);
-        mEditView.setMotorDegMin(motorDegMin);
 
-        List<FrameData> frameDataList = getFrameDataList();
-        int frameIndex = mEditView.getSelectedFrameIndex();
-        if (frameIndex != -1) {
-            FrameData frameData = frameDataList.get(frameIndex);
+        int selectedFrameIndex = mEditView.getSelectedFrameIndex();
+        if (selectedFrameIndex != -1) {
+            // set motor degree min max
+            mEditView.setSelectedMotorId(motorId);
+            int motorDegMax = mEditModel.getMotorDegMax(motorId);
+            mEditView.setMotorDegMax(motorDegMax);
+            int motorDegMin = mEditModel.getMotorDegMin(motorId);
+            mEditView.setMotorDegMin(motorDegMin);
+
+            // set motor degree
+            List<FrameData> frameDataList = getFrameDataList();
+            List<MotorBean> motorBeanList = frameDataList.get(selectedFrameIndex).getFrameBean().getMotorBeans();
+            MotorBean motorBean = getMotorBean(motorBeanList, motorId);
+
+            // update motor degree
+            mEditView.setMotorDeg(motorBean.getDeg());
+            if (DEBUG) {
+                Log.d(TAG, "setSelectedMotor() motorId: " + motorId + ", selectedFrameIndex: " + selectedFrameIndex + ", motorDeg: " + motorBean.getDeg());
+            }
+        } else {
+            if (DEBUG) {
+                Log.d(TAG, "setSelectedMotor() selectedFrameIndex = -1");
+            }
         }
+    }
+
+    private MotorBean getMotorBean(List<MotorBean> motorBeanList, int motorId) {
+        for (MotorBean motorBean : motorBeanList) {
+            if (motorBean.getId() == motorId) {
+                return motorBean;
+            }
+        }
+        throw new IllegalStateException();
     }
 
     @Override
     public void setSelectedMotorDegree(int degree) {
-        if (DEBUG) {
-            Log.d(TAG, "setSelectedMotorDegree() degree: " + degree);
+        int selectedFrameIndex = mEditView.getSelectedFrameIndex();
+        if (selectedFrameIndex != -1) {
+            int selectedMotorId = mEditView.getSelectedMotorId();
+            if (selectedMotorId == -1) {
+                if (DEBUG) {
+                    Log.d(TAG, "setSelectedMotorDegree() selectedMotorId = -1");
+                }
+                return;
+            }
+            if (DEBUG) {
+                Log.d(TAG, "setSelectedMotorDegree() degree: " + degree);
+            }
+            List<FrameData> frameDataList = getFrameDataList();
+            List<MotorBean> motorBeanList = frameDataList.get(selectedFrameIndex).getFrameBean().getMotorBeans();
+            MotorBean motorBean = getMotorBean(motorBeanList, selectedMotorId);
+            motorBean.setDeg(degree);
+        } else {
+            if (DEBUG) {
+                Log.d(TAG, "setSelectedMotorDegree() selectedFrameIndex = -1");
+            }
         }
-
     }
 
     @Override
@@ -165,8 +212,6 @@ public class EditPresenter implements EditContract.Presenter {
                     Log.d(TAG, "deleteSelectedFrame() no more frame");
                 }
             }
-            // TODO
-            Log.i(TAG, "TODO delete frame in model");
         }
     }
 
@@ -200,8 +245,6 @@ public class EditPresenter implements EditContract.Presenter {
                 mEditView.pasteAfterSelected();
                 // set inserted frame as the selected frame index
                 mEditView.setSelectedFrameIndex(frameIndex + 1);
-                // TODO
-                Log.i(TAG, "TODO paste frame in model");
             } else {
                 if (DEBUG) {
                     Log.d(TAG, "pasteAfterSelected() frameIndex = -1");
