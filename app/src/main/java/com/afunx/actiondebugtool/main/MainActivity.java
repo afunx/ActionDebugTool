@@ -80,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    private ActionManager getActionManager() {
+        return ActionManager.get();
+    }
+
     private void initView() {
         mTvRobotIp = (TextView) findViewById(R.id.tv_robot_ip);
         mBtnScan = (Button) findViewById(R.id.btn_scan);
@@ -102,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // clear previous motion bean list
         mMotionBeanList.clear();
         // init data from shared preferences
-        List<MotionBean> motionBeanList = ActionManager.get().readActionList(this);
+        List<MotionBean> motionBeanList = getActionManager().readActionList(this);
         if (!motionBeanList.isEmpty()) {
             mMotionBeanList.addAll(motionBeanList);
             mAdapterAction.notifyDataSetChanged();
@@ -133,14 +137,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
+    private boolean isActionExisted(List<MotionBean> motionBeanList, String motionName) {
+        for (MotionBean motionBean : motionBeanList) {
+            if (motionName.equals(motionBean.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void doInput() {
         Log.i(TAG, "doInput()");
+        ActionManager actionManager = getActionManager();
+        List<MotionBean> motionBeanList = actionManager.inputActionList();
+        if (motionBeanList.isEmpty()) {
+            return;
+        }
+        List<MotionBean> inputList = new ArrayList<>();
+        // check whether motion bean has exist already
+        for (MotionBean motionBean : motionBeanList) {
+            String motionName = motionBean.getName();
+            boolean isActionExisted = isActionExisted(mMotionBeanList, motionName);
+            if (isActionExisted) {
+                String format = getString(R.string.action_file_has_exist_already);
+                String text = String.format(format, motionName);
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+            } else {
+                inputList.add(motionBean);
+            }
+        }
+        // input motion bean from sd card
+        int insertedStart = mMotionBeanList.size();
+        int itemCount = inputList.size();
+        mMotionBeanList.addAll(inputList);
+        mAdapterAction.notifyItemRangeInserted(insertedStart, itemCount);
+
+        // write action list to SharedPreferences
+        actionManager.writeActionList(this, mMotionBeanList);
     }
 
     private void doOutput() {
         Log.i(TAG, "doOutput()");
         if (!mMotionBeanList.isEmpty()) {
-            boolean isSuc = ActionManager.get().outputActionList(mMotionBeanList);
+            boolean isSuc = getActionManager().outputActionList(mMotionBeanList);
             String text = isSuc ? getString(R.string.action_files_output_suc) : getString(R.string.action_files_output_fail);
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
         }

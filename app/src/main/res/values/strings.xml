@@ -50,4 +50,6 @@
 
     <string name="action_files_output_suc">Action file output suc</string>
     <string name="action_files_output_fail">Action file output fail</string>
+
+    <string name="action_file_has_exist_already">Action file %1$s has exist already</string>
 </resources>

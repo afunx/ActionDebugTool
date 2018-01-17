@@ -18,7 +18,7 @@ import java.util.List;
 
 public class FileUtils {
 
-    private static boolean DEBUG = true;
+    private static boolean DEBUG = false;
     private static String TAG = "FileUtils";
 
     /**
@@ -66,7 +66,7 @@ public class FileUtils {
             return null;
         }
         StringBuilder sb = new StringBuilder();
-        String line = null;
+        String line;
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
         try {
@@ -91,6 +91,9 @@ public class FileUtils {
                 }
             }
         }
+        if (DEBUG) {
+            Log.d(TAG, "readString() path: " + path + ", content: " + sb.toString());
+        }
         return sb.toString();
     }
 
@@ -103,10 +106,15 @@ public class FileUtils {
     public static List<String> list(String path) {
         File file = new File(path);
         String[] files = file.list();
+        List list;
         if (files == null) {
-            return Collections.emptyList();
+            list = Collections.emptyList();
+        } else {
+            list = Arrays.asList(files);
         }
-        List<String> list = Arrays.asList(files);
+        if (DEBUG) {
+            Log.d(TAG, "list() path: " + path + ", list: " + list);
+        }
         return list;
     }
 }

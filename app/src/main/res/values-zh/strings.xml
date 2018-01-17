@@ -51,4 +51,6 @@
 
     <string name="action_files_output_suc">动作文件导出成功</string>
     <string name="action_files_output_fail">动作文件导出失败</string>
+
+    <string name="action_file_has_exist_already">动作文件 %1$s 已存在</string>
 </resources>

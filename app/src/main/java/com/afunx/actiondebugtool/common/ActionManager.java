@@ -9,6 +9,7 @@ import com.afunx.actiondebugtool.utils.PrefUtils;
 import com.afunx.data.bean.MotionBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,8 +25,39 @@ public class ActionManager {
         return SingletonHolder.INSTANCE;
     }
 
+    /**
+     * get action name by file name
+     *
+     * @param filename file name
+     * @return action name or null(invalid)
+     */
+    private String getActionName(String filename) {
+        if (filename.endsWith(Constants.UBA_SUF)) {
+            return filename.substring(0, filename.length() - Constants.UBA_SUF.length());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * get file path by action name
+     * ( /sdcard/action-uba/name.uba )
+     *
+     * @param name action
+     * @return file path
+     */
     private String getFilePath(String name) {
-        return Environment.getExternalStorageDirectory() + Constants.UBA_ROOT_PATH + name + Constants.UBA_SUF;
+        return getFilePathRoot() + name + Constants.UBA_SUF;
+    }
+
+    /**
+     * get action file root path
+     * ( /sdcard/action-uba/ )
+     *
+     * @return action file root path
+     */
+    private String getFilePathRoot() {
+        return Environment.getExternalStorageDirectory() + Constants.UBA_ROOT_PATH;
     }
 
     /**
@@ -105,7 +137,23 @@ public class ActionManager {
      * @return MotionBean list from sd card
      */
     public List<MotionBean> inputActionList() {
-        return null;
+        String filePathRoot = getFilePathRoot();
+        List<String> list = FileUtils.list(filePathRoot);
+        if (list.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            List<MotionBean> motionBeanList = new ArrayList<>();
+            for (String fileName : list) {
+                String actionName = getActionName(fileName);
+                String filePath = getFilePath(actionName);
+                String json = FileUtils.readString(filePath);
+                if (json != null) {
+                    MotionBean motionBean = GsonUtils.fromGson(json, MotionBean.class);
+                    motionBeanList.add(motionBean);
+                }
+            }
+            return motionBeanList;
+        }
     }
 
     /**
