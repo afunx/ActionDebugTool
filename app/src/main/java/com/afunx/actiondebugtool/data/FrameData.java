@@ -1,5 +1,6 @@
 package com.afunx.actiondebugtool.data;
 
+import com.afunx.actiondebugtool.common.Constants;
 import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotorBean;
 
@@ -9,8 +10,8 @@ import com.afunx.data.bean.MotorBean;
 
 public class FrameData implements Cloneable {
 
-    private static final int MOTORS_COUNT = 14;
-    private static final int DEFAULT_FRAME_TIME = 1000;
+    private static final int MOTORS_COUNT = Constants.MOTORS_COUNT;
+    private static final int DEFAULT_FRAME_TIME = Constants.RUNTIME_DEFAULT;
 
     private FrameBean frameBean;
 
