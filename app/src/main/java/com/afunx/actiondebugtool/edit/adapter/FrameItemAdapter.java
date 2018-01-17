@@ -46,9 +46,6 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
     }
 
     public void setSelectedIndex(int selectedIndex) {
-
-        mEditPresenter.setSelectedFrameIndex(selectedIndex);
-
         int prevSelectedIndex = getSelectedIndex();
         if (prevSelectedIndex != selectedIndex) {
             if (prevSelectedIndex != -1) {
@@ -57,6 +54,8 @@ public class FrameItemAdapter extends RecyclerView.Adapter<FrameItemAdapter.View
             }
             mFrameDataList.get(selectedIndex).setSelected(true);
             notifyItemChanged(selectedIndex);
+            // set selected frame index after mFrameDataList update new selected state
+            mEditPresenter.setSelectedFrameIndex(selectedIndex);
         }
     }
 
