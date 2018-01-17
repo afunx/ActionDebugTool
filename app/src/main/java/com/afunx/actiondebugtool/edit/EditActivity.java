@@ -20,7 +20,6 @@ import com.afunx.actiondebugtool.save.SaveAsActivity;
 import com.afunx.actiondebugtool.widget.SmartSeekBar;
 import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotionBean;
-import com.afunx.data.bean.MotorBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -241,26 +240,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         mSkbRuntime = (SmartSeekBar) findViewById(R.id.smart_seek_bar_runtime);
         mSkbRuntime.setOnSmartSeekBarChangeListener(this);
-    }
-
-    private List<FrameData> mockFrameDatas() {
-        final int motorCount = 14;
-        final int frameCount = 20;
-        List<FrameData> frameDataList = new ArrayList<>();
-        for (int i = 0; i < frameCount; i++) {
-            FrameBean frameBean = new FrameBean();
-            for (int j = 0; j < motorCount; j++) {
-                MotorBean motorBean = new MotorBean();
-                motorBean.setId(j + 1);
-                motorBean.setDeg(0);
-                frameBean.getMotorBeans().add(motorBean);
-            }
-            frameBean.setTime(1000);
-            frameBean.setName("item " + i);
-            FrameData frameDate = new FrameData(frameBean);
-            frameDataList.add(frameDate);
-        }
-        return frameDataList;
     }
 
     @Override
