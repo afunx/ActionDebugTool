@@ -1,7 +1,10 @@
 package com.afunx.actiondebugtool.common;
 
 import android.content.Context;
+import android.os.Environment;
 
+import com.afunx.actiondebugtool.utils.FileUtils;
+import com.afunx.actiondebugtool.utils.GsonUtils;
 import com.afunx.actiondebugtool.utils.PrefUtils;
 import com.afunx.data.bean.MotionBean;
 
@@ -19,6 +22,10 @@ public class ActionManager {
 
     public static ActionManager get() {
         return SingletonHolder.INSTANCE;
+    }
+
+    private String getFilePath(String name) {
+        return Environment.getExternalStorageDirectory() + Constants.UBA_ROOT_PATH + name + Constants.UBA_SUF;
     }
 
     /**
@@ -105,18 +112,27 @@ public class ActionManager {
      * output action to sd card
      *
      * @param motionBean MotionBean to be output
+     * @return write to sd card suc or not
      */
-    public void outputAction(MotionBean motionBean) {
-
+    public boolean outputAction(MotionBean motionBean) {
+        String filePath = getFilePath(motionBean.getName());
+        String json = GsonUtils.toGson(motionBean);
+        return FileUtils.writeString(filePath, json);
     }
 
     /**
      * output action list to sd card
      *
      * @param motionBeanList MotionBean List to be output
+     * @return write to sd card suc or not
      */
-    public void outputActionList(List<MotionBean> motionBeanList) {
-
+    public boolean outputActionList(List<MotionBean> motionBeanList) {
+        for (MotionBean motionBean : motionBeanList) {
+            if (!outputAction(motionBean)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

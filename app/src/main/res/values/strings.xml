@@ -47,4 +47,7 @@
 
     <string name="filename_cannot_empty">Filename cannot empty</string>
     <string name="filename_has_exist">Filename has exist alreary</string>
+
+    <string name="action_files_output_suc">Action file output suc</string>
+    <string name="action_files_output_fail">Action file output fail</string>
 </resources>

@@ -48,4 +48,7 @@
 
     <string name="filename_cannot_empty">文件名不能为空</string>
     <string name="filename_has_exist">文件名已存在</string>
+
+    <string name="action_files_output_suc">动作文件导出成功</string>
+    <string name="action_files_output_fail">动作文件导出失败</string>
 </resources>

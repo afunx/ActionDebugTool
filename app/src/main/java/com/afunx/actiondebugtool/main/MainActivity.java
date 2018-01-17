@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mTvRobotIp;
     private Button mBtnScan;
     private Button mBtnAdd;
+    private Button mBtnOutput;
+    private Button mBtnInput;
     private InetAddress mRobotInetAddr;
 
     private final List<MotionBean> mMotionBeanList = new ArrayList<>();
@@ -84,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnScan.setOnClickListener(this);
         mBtnAdd = (Button) findViewById(R.id.btn_add_new_action);
         mBtnAdd.setOnClickListener(this);
+        mBtnOutput = (Button) findViewById(R.id.btn_output_uta_files);
+        mBtnOutput.setOnClickListener(this);
+        mBtnInput = (Button) findViewById(R.id.btn_input_uta_files);
+        mBtnInput.setOnClickListener(this);
+
         mRcyAction = (RecyclerView) findViewById(R.id.ryc_action);
         mAdapterAction = new ActionItemAdapter(mMotionBeanList);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -108,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             doScan();
         } else if (v == mBtnAdd) {
             doAdd();
+        } else if (v == mBtnInput) {
+            doInput();
+        } else if (v == mBtnOutput) {
+            doOutput();
         }
     }
 
@@ -120,6 +131,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.i(TAG, "doAdd()");
         Intent intent = new Intent("com.afunx.actiondebugtool.editAction");
         startActivity(intent);
+    }
+
+    private void doInput() {
+        Log.i(TAG, "doInput()");
+    }
+
+    private void doOutput() {
+        Log.i(TAG, "doOutput()");
+        if (!mMotionBeanList.isEmpty()) {
+            boolean isSuc = ActionManager.get().outputActionList(mMotionBeanList);
+            String text = isSuc ? getString(R.string.action_files_output_suc) : getString(R.string.action_files_output_fail);
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class ScanTask extends AsyncTask<Void, Void, List<InetAddress>> {
