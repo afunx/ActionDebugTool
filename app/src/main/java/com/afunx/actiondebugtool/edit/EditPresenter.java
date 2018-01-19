@@ -1,17 +1,21 @@
 package com.afunx.actiondebugtool.edit;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.afunx.actiondebugtool.R;
+import com.afunx.actiondebugtool.common.Constants;
 import com.afunx.actiondebugtool.data.FrameData;
 import com.afunx.client.impl.RobotClientImpl;
 import com.afunx.client.interfaces.RobotClient;
+import com.afunx.data.bean.FrameBean;
 import com.afunx.data.bean.MotorBean;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +27,8 @@ public class EditPresenter implements EditContract.Presenter {
     private static final boolean DEBUG = true;
 
     private static final String TAG = "EditPresenter";
+
+    private static final int sMotorsCount = Constants.MOTORS_COUNT;
 
     private final EditModel mEditModel;
 
@@ -181,6 +187,38 @@ public class EditPresenter implements EditContract.Presenter {
         }
     }
 
+    private void showResult(int result,int sucResId) {
+        switch (result) {
+            case com.afunx.data.constants.Constants.RESULT.SUC:
+                mEditView.showToast(sucResId);
+                break;
+            case com.afunx.data.constants.Constants.RESULT.FAIL:
+                mEditView.showToast(R.string.robot_execute_err_1_fail);
+                break;
+            case com.afunx.data.constants.Constants.RESULT.NETWORK_TIMEOUT:
+                mEditView.showToast(R.string.robot_execute_err_2_fail);
+                break;
+            case com.afunx.data.constants.Constants.RESULT.ROBOT_BUSY:
+                mEditView.showToast(R.string.robot_execute_err_3_fail);
+                break;
+            case com.afunx.data.constants.Constants.RESULT.ROBOT_TIMEOUT:
+                mEditView.showToast(R.string.robot_execute_err_4_fail);
+                break;
+            case com.afunx.data.constants.Constants.RESULT.MOTION_ABSENT:
+                mEditView.showToast(R.string.robot_execute_err_5_fail);
+                break;
+            case com.afunx.data.constants.Constants.RESULT.MOTION_NAME_NULL:
+                mEditView.showToast(R.string.robot_execute_err_6_fail);
+                break;
+            case com.afunx.data.constants.Constants.RESULT.CLIENT_IOEXCEPTION:
+                mEditView.showToast(R.string.robot_execute_err_7_fail);
+                break;
+            case com.afunx.data.constants.Constants.RESULT.CLIENT_EXCEPTION:
+                mEditView.showToast(R.string.robot_execute_err_8_fail);
+                break;
+        }
+    }
+
     @Override
     public void enterReadMode() {
         if (DEBUG) {
@@ -193,19 +231,56 @@ public class EditPresenter implements EditContract.Presenter {
                 if (DEBUG) {
                     Log.d(TAG, "enterReadMode() ret: " + ret);
                 }
-                if (ret == 0) {
-                    mEditView.showToast(R.string.enter_read_mode_suc);
-                } else {
-                    mEditView.showToast(R.string.enter_read_mode_fail);
-                }
+                showResult(ret, R.string.enter_read_mode_suc);
             }
         }.start();
+    }
+
+    private void updateMotorBeanList(List<MotorBean> destMotorBeanList, List<MotorBean> srcMotorBeanList) {
+        for (MotorBean destMotorBean : destMotorBeanList) {
+            for (MotorBean srcMotorBean : srcMotorBeanList) {
+                if (srcMotorBean.getId() == destMotorBean.getId()) {
+                    destMotorBean.setDeg(srcMotorBean.getDeg());
+                    break;
+                }
+            }
+        }
     }
 
     @Override
     public void readMotors() {
         if (DEBUG) {
             Log.d(TAG, "readMotors()");
+        }
+
+
+        final int selectedFrameIndex = mEditView.getSelectedFrameIndex();
+        if (selectedFrameIndex == -1) {
+            mEditView.showToast(R.string.please_select_frame_first);
+        } else {
+            new Thread() {
+                @Override
+                public void run() {
+                    // query motor bean list
+                    List<MotorBean> motorBeanList = new ArrayList<>();
+                    for (int motorId = 1; motorId <= sMotorsCount; motorId++) {
+                        MotorBean motorBean = new MotorBean();
+                        motorBean.setId(motorId);
+                        motorBeanList.add(motorBean);
+                    }
+                    int ret = mRobotClient.queryMotors(motorBeanList);
+                    // show result
+                    showResult(ret, R.string.read_motors_suc);
+                    // update model UI if suc
+                    if (ret == com.afunx.data.constants.Constants.RESULT.SUC) {
+                        // update model
+                        FrameBean frameBean = mEditModel.getFrameDataList().get(selectedFrameIndex).getFrameBean();
+                        updateMotorBeanList(frameBean.getMotorBeans(), motorBeanList);
+                        // update UI
+                        setSelectedFrameIndex(selectedFrameIndex);
+                    }
+                }
+            }.start();
         }
     }
 

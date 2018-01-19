@@ -56,6 +56,17 @@
 
     <string name="ip_addr_invalid">Ip地址非法！</string>
 
+    <string name="robot_execute_err_1_fail">机器人执行失败 错误码：1, 未知原因</string>
+    <string name="robot_execute_err_2_fail">机器人执行失败 错误码：2, 网络超时</string>
+    <string name="robot_execute_err_3_fail">机器人执行失败 错误码：3, 机器人忙</string>
+    <string name="robot_execute_err_4_fail">机器人执行失败 错误码：4, 机器人超时</string>
+    <string name="robot_execute_err_5_fail">机器人执行失败 错误码：5, 动作不存在</string>
+    <string name="robot_execute_err_6_fail">机器人执行失败 错误码：6, 动作名为空</string>
+    <string name="robot_execute_err_7_fail">机器人执行失败 错误码：7, 客户端 IOException</string>
+    <string name="robot_execute_err_8_fail">机器人执行失败 错误码：8, 客户端 Exception</string>
+
     <string name="enter_read_mode_suc">进入回读成功</string>
-    <string name="enter_read_mode_fail">进入回读失败</string>
+    <string name="read_motors_suc">读取舵机成功</string>
+
+    <string name="please_select_frame_first">请先选中一帧</string>
 </resources>

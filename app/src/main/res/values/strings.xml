@@ -55,6 +55,17 @@
 
     <string name="ip_addr_invalid">Ip Address Invalid!</string>
 
+    <string name="robot_execute_err_1_fail">Robot execute fail error code: 1, unknown reason</string>
+    <string name="robot_execute_err_2_fail">Robot execute fail error code: 2, network timeout</string>
+    <string name="robot_execute_err_3_fail">Robot execute fail error code: 3, robot is busy</string>
+    <string name="robot_execute_err_4_fail">Robot execute fail error code: 4, robot timeout</string>
+    <string name="robot_execute_err_5_fail">Robot execute fail error code: 5, motion absent</string>
+    <string name="robot_execute_err_6_fail">Robot execute fail error code: 6, motion name is null</string>
+    <string name="robot_execute_err_7_fail">Robot execute fail error code: 7, client IOException</string>
+    <string name="robot_execute_err_8_fail">Robot execute fail error code: 8, client Exception</string>
+
     <string name="enter_read_mode_suc">Enter read mode suc</string>
-    <string name="enter_read_mode_fail">Enter read mode fail</string>
+    <string name="read_motors_suc">Read motors suc</string>
+
+    <string name="please_select_frame_first">Please select frame first</string>
 </resources>
