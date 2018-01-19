@@ -315,17 +315,22 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void setSelectedMotorId(int selectedMotorId) {
+    public void setSelectedMotorId(final int selectedMotorId) {
         if (selectedMotorId <= 0) {
             throw new IllegalArgumentException("selectedMotorId = " + selectedMotorId + " <= 0");
         }
-        for (int i = 1; i < mRobotParts.length; i++) {
-            if (mRobotParts[i].isSelected()) {
-                mRobotParts[i].setSelected(false);
-                break;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 1; i < mRobotParts.length; i++) {
+                    if (mRobotParts[i].isSelected()) {
+                        mRobotParts[i].setSelected(false);
+                        break;
+                    }
+                }
+                mRobotParts[selectedMotorId].setSelected(true);
             }
-        }
-        mRobotParts[selectedMotorId].setSelected(true);
+        });
     }
 
     @Override
@@ -334,8 +339,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void setSelectedFrameIndex(int frameIndex) {
-        mAdapterFrameItems.setSelectedIndex(frameIndex);
+    public void setSelectedFrameIndex(final int frameIndex) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapterFrameItems.setSelectedIndex(frameIndex);
+            }
+        });
     }
 
     @Override
@@ -349,8 +359,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void setFrameRuntime(int runtime) {
-        mSkbRuntime.setValue(runtime);
+    public void setFrameRuntime(final int runtime) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSkbRuntime.setValue(runtime);
+            }
+        });
     }
 
     @Override
@@ -359,8 +374,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void setFrameRuntimeMin(int runtimeMin) {
-        mSkbRuntime.setMin(runtimeMin);
+    public void setFrameRuntimeMin(final int runtimeMin) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSkbRuntime.setMin(runtimeMin);
+            }
+        });
     }
 
     @Override
@@ -369,28 +389,53 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void setFrameRuntimeMax(int runtimeMax) {
-        mSkbRuntime.setMax(runtimeMax);
+    public void setFrameRuntimeMax(final int runtimeMax) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSkbRuntime.setMax(runtimeMax);
+            }
+        });
     }
 
     @Override
-    public void updateFrame(int frameIndex) {
-        mAdapterFrameItems.notifyItemChanged(frameIndex);
+    public void updateFrame(final int frameIndex) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapterFrameItems.notifyItemChanged(frameIndex);
+            }
+        });
     }
 
     @Override
-    public void insertFrame(int frameIndex) {
-        mAdapterFrameItems.insertFrame(frameIndex);
+    public void insertFrame(final int frameIndex) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapterFrameItems.insertFrame(frameIndex);
+            }
+        });
     }
 
     @Override
-    public void deleteFrame(int frameIndex) {
-        mAdapterFrameItems.delete(frameIndex);
+    public void deleteFrame(final int frameIndex) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapterFrameItems.delete(frameIndex);
+            }
+        });
     }
 
     @Override
-    public void copyFrame(int frameIndex) {
-        mAdapterFrameItems.copy(frameIndex);
+    public void copyFrame(final int frameIndex) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapterFrameItems.copy(frameIndex);
+            }
+        });
     }
 
     @Override
@@ -400,12 +445,22 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void clearCopy() {
-        mAdapterFrameItems.clearCopy();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapterFrameItems.clearCopy();
+            }
+        });
     }
 
     @Override
     public void pasteAfterSelected() {
-        mAdapterFrameItems.pasteAfterSelected();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapterFrameItems.pasteAfterSelected();
+            }
+        });
     }
 
     @Override
@@ -414,8 +469,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void setMotorDeg(int deg) {
-        mSkbDeg.setValue(deg);
+    public void setMotorDeg(final int deg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSkbDeg.setValue(deg);
+            }
+        });
     }
 
     @Override
@@ -424,8 +484,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void setMotorDegMin(int degMin) {
-        mSkbDeg.setMin(degMin);
+    public void setMotorDegMin(final int degMin) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSkbDeg.setMin(degMin);
+            }
+        });
     }
 
     @Override
@@ -434,8 +499,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void setMotorDegMax(int degMax) {
-        mSkbDeg.setMax(degMax);
+    public void setMotorDegMax(final int degMax) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSkbDeg.setMax(degMax);
+            }
+        });
     }
 
 }
