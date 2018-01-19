@@ -1,7 +1,6 @@
 package com.afunx.actiondebugtool.edit;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -11,6 +10,7 @@ import com.afunx.actiondebugtool.data.FrameData;
 import com.afunx.client.impl.RobotClientImpl;
 import com.afunx.client.interfaces.RobotClient;
 import com.afunx.data.bean.FrameBean;
+import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 
 import java.net.InetAddress;
@@ -29,6 +29,24 @@ public class EditPresenter implements EditContract.Presenter {
     private static final String TAG = "EditPresenter";
 
     private static final int sMotorsCount = Constants.MOTORS_COUNT;
+
+    private static final int RESULT_SUC = com.afunx.data.constants.Constants.RESULT.SUC;
+
+    private static final int RESULT_FAIL = com.afunx.data.constants.Constants.RESULT.FAIL;
+
+    private static final int RESULT_NETWORK_TIMEOUT = com.afunx.data.constants.Constants.RESULT.NETWORK_TIMEOUT;
+
+    private static final int RESULT_ROBOT_BUSY = com.afunx.data.constants.Constants.RESULT.ROBOT_BUSY;
+
+    private static final int RESULT_ROBOT_TIMEOUT = com.afunx.data.constants.Constants.RESULT.ROBOT_TIMEOUT;
+
+    private static final int RESULT_MOTION_ABSENT = com.afunx.data.constants.Constants.RESULT.MOTION_ABSENT;
+
+    private static final int RESULT_MOTION_NAME_NULL = com.afunx.data.constants.Constants.RESULT.MOTION_NAME_NULL;
+
+    private static final int RESULT_CLIENT_IOEXCEPTION = com.afunx.data.constants.Constants.RESULT.CLIENT_IOEXCEPTION;
+
+    private static final int RESULT_CLIENT_EXCEPTION = com.afunx.data.constants.Constants.RESULT.CLIENT_EXCEPTION;
 
     private final EditModel mEditModel;
 
@@ -189,31 +207,31 @@ public class EditPresenter implements EditContract.Presenter {
 
     private void showResult(int result,int sucResId) {
         switch (result) {
-            case com.afunx.data.constants.Constants.RESULT.SUC:
+            case RESULT_SUC:
                 mEditView.showToast(sucResId);
                 break;
-            case com.afunx.data.constants.Constants.RESULT.FAIL:
+            case RESULT_FAIL:
                 mEditView.showToast(R.string.robot_execute_err_1_fail);
                 break;
-            case com.afunx.data.constants.Constants.RESULT.NETWORK_TIMEOUT:
+            case RESULT_NETWORK_TIMEOUT:
                 mEditView.showToast(R.string.robot_execute_err_2_fail);
                 break;
-            case com.afunx.data.constants.Constants.RESULT.ROBOT_BUSY:
+            case RESULT_ROBOT_BUSY:
                 mEditView.showToast(R.string.robot_execute_err_3_fail);
                 break;
-            case com.afunx.data.constants.Constants.RESULT.ROBOT_TIMEOUT:
+            case RESULT_ROBOT_TIMEOUT:
                 mEditView.showToast(R.string.robot_execute_err_4_fail);
                 break;
-            case com.afunx.data.constants.Constants.RESULT.MOTION_ABSENT:
+            case RESULT_MOTION_ABSENT:
                 mEditView.showToast(R.string.robot_execute_err_5_fail);
                 break;
-            case com.afunx.data.constants.Constants.RESULT.MOTION_NAME_NULL:
+            case RESULT_MOTION_NAME_NULL:
                 mEditView.showToast(R.string.robot_execute_err_6_fail);
                 break;
-            case com.afunx.data.constants.Constants.RESULT.CLIENT_IOEXCEPTION:
+            case RESULT_CLIENT_IOEXCEPTION:
                 mEditView.showToast(R.string.robot_execute_err_7_fail);
                 break;
-            case com.afunx.data.constants.Constants.RESULT.CLIENT_EXCEPTION:
+            case RESULT_CLIENT_EXCEPTION:
                 mEditView.showToast(R.string.robot_execute_err_8_fail);
                 break;
         }
@@ -253,7 +271,6 @@ public class EditPresenter implements EditContract.Presenter {
             Log.d(TAG, "readMotors()");
         }
 
-
         final int selectedFrameIndex = mEditView.getSelectedFrameIndex();
         if (selectedFrameIndex == -1) {
             mEditView.showToast(R.string.please_select_frame_first);
@@ -263,19 +280,17 @@ public class EditPresenter implements EditContract.Presenter {
                 public void run() {
                     // query motor bean list
                     List<MotorBean> motorBeanList = new ArrayList<>();
-                    for (int motorId = 1; motorId <= sMotorsCount; motorId++) {
-                        MotorBean motorBean = new MotorBean();
-                        motorBean.setId(motorId);
-                        motorBeanList.add(motorBean);
-                    }
                     int ret = mRobotClient.queryMotors(motorBeanList);
                     // show result
                     showResult(ret, R.string.read_motors_suc);
                     // update model UI if suc
-                    if (ret == com.afunx.data.constants.Constants.RESULT.SUC) {
+                    if (ret == RESULT_SUC) {
                         // update model
                         FrameBean frameBean = mEditModel.getFrameDataList().get(selectedFrameIndex).getFrameBean();
                         updateMotorBeanList(frameBean.getMotorBeans(), motorBeanList);
+                        if (DEBUG) {
+                            Log.i(TAG, "readMotors() motorBeanList: " + motorBeanList);
+                        }
                         // update UI
                         setSelectedFrameIndex(selectedFrameIndex);
                     }
@@ -289,6 +304,20 @@ public class EditPresenter implements EditContract.Presenter {
         if (DEBUG) {
             Log.d(TAG, "playSelectedFrame()");
         }
+
+        final int selectedFrameIndex = mEditView.getSelectedFrameIndex();
+        if (selectedFrameIndex == -1) {
+            throw new IllegalStateException("selectedFrameIndex is -1");
+        }
+        new Thread() {
+            @Override
+            public void run() {
+                // play selected frame bean
+                FrameBean frameBean = mEditModel.getFrameDataList().get(selectedFrameIndex).getFrameBean();
+                int ret = mRobotClient.execMotors(frameBean);
+                showResult(ret, R.string.play_frame_suc);
+            }
+        }.start();
     }
 
     @Override
@@ -296,6 +325,65 @@ public class EditPresenter implements EditContract.Presenter {
         if (DEBUG) {
             Log.d(TAG, "playMotionFromSelectedFrame()");
         }
+
+        int _selectedFrameIndex = mEditView.getSelectedFrameIndex();
+        // if no frame is selected, treat it as first frame is selected
+        final int selectedFrameIndex = _selectedFrameIndex != -1 ? _selectedFrameIndex : 0;
+        new Thread() {
+            @Override
+            public void run() {
+                // create temp motion
+                final String tempMotionName = "__temp__motion__";
+                List<FrameData> frameDataList = mEditModel.getFrameDataList();
+                MotionBean motionBean = new MotionBean();
+                motionBean.setName(tempMotionName);
+                for (int i = selectedFrameIndex; i < frameDataList.size(); i++) {
+                    motionBean.getFrameBeans().add(frameDataList.get(i).getFrameBean());
+                }
+                // prepare motion
+                int ret = mRobotClient.prepareMotion(motionBean);
+                if (ret != RESULT_SUC) {
+                    showResult(ret, -1);
+                    return;
+                }
+                // execute motion
+                ret = mRobotClient.execMotion(tempMotionName);
+                if (ret != RESULT_SUC) {
+                    showResult(ret, -1);
+                    return;
+                }
+                // wait motion finished
+                int lastFrameIndex;
+                int currentFrameIndex = -1;
+                int[] frameIndex = new int[1];
+                while (ret == RESULT_SUC && frameIndex[0] >= 0) {
+                    lastFrameIndex = currentFrameIndex;
+                    ret = mRobotClient.queryMotion(frameIndex);
+                    if (ret != 0) {
+                        Log.e(TAG, "playMotionFromSelectedFrame() ret: " + ret);
+                    }
+                    currentFrameIndex = frameIndex[0];
+                    if (currentFrameIndex != lastFrameIndex && currentFrameIndex >= 0) {
+                        if (DEBUG) {
+                            Log.i(TAG, "playMotionFromSelectedFrame() lastFrameIndex: " + lastFrameIndex);
+                        }
+                        mEditView.setSelectedFrameIndex(selectedFrameIndex + currentFrameIndex);
+                    } else {
+                        // just sleep 100ms to avoid too many connections
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                if (ret != RESULT_SUC) {
+                    showResult(ret, -1);
+                    return;
+                }
+                mEditView.setSelectedFrameIndex(selectedFrameIndex);
+            }
+        }.start();
     }
 
     @Override

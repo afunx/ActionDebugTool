@@ -66,6 +66,7 @@
 
     <string name="enter_read_mode_suc">Enter read mode suc</string>
     <string name="read_motors_suc">Read motors suc</string>
+    <string name="play_frame_suc">Play single frame suc</string>
 
     <string name="please_select_frame_first">Please select frame first</string>
 </resources>

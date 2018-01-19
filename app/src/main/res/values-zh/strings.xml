@@ -67,6 +67,7 @@
 
     <string name="enter_read_mode_suc">进入回读成功</string>
     <string name="read_motors_suc">读取舵机成功</string>
+    <string name="play_frame_suc">播放单帧成功</string>
 
     <string name="please_select_frame_first">请先选中一帧</string>
 </resources>
