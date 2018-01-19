@@ -134,6 +134,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void doAdd() {
         Log.i(TAG, "doAdd()");
         Intent intent = new Intent("com.afunx.actiondebugtool.editAction");
+        if (mRobotInetAddr != null) {
+            String ipAddr = mRobotInetAddr.getHostAddress();
+            intent.putExtra("ipAddr", ipAddr);
+        }
         startActivity(intent);
     }
 
@@ -207,6 +211,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private void selectInetAddressed(final List<InetAddress> inetAddresses, final int index) {
             mRobotInetAddr = inetAddresses.get(index);
             mTvRobotIp.setText(mRobotInetAddr.getHostAddress());
+
+            mAdapterAction.setIpAddr(mRobotInetAddr.getHostAddress());
         }
 
         private void clearInetAddres() {

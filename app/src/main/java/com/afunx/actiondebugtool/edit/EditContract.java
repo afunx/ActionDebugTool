@@ -18,6 +18,12 @@ public interface EditContract {
         void showToast(String text);
 
         /**
+         * show Toast
+         * @param resId Resource String id
+         */
+        void showToast(int resId);
+
+        /**
          * get selected motorId
          *
          * @return selected motorId or -1(no motor is selected)
@@ -183,6 +189,13 @@ public interface EditContract {
     }
 
     interface Presenter extends BasePresenter {
+
+        /**
+         * set robot ip address
+         *
+         * @param ipAddr robot's ip address
+         */
+        void setRobotIpAddr(String ipAddr);
 
         /**
          * get frame runtime min

@@ -52,4 +52,9 @@
     <string name="action_files_output_fail">Action file output fail</string>
 
     <string name="action_file_has_exist_already">Action file %1$s has exist already</string>
+
+    <string name="ip_addr_invalid">Ip Address Invalid!</string>
+
+    <string name="enter_read_mode_suc">Enter read mode suc</string>
+    <string name="enter_read_mode_fail">Enter read mode fail</string>
 </resources>

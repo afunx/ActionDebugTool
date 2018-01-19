@@ -48,9 +48,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+
         List<FrameData> frameDataList = getIntentFrameDataList();
 
         new EditPresenter(getApplicationContext(), this, frameDataList);
+
+        getIntentIpAddress();
 
         initView(frameDataList);
     }
@@ -119,6 +122,17 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         intent.putExtra("action", motionBean);
         startActivity(intent);
+    }
+
+    private void getIntentIpAddress() {
+        String ipAddr = getIntent().getStringExtra("ipAddr");
+        if (ipAddr != null) {
+            mEditPresenter.setRobotIpAddr(ipAddr);
+            ActionBar supportActionBar = getSupportActionBar();
+            if (supportActionBar != null) {
+                supportActionBar.setTitle(ipAddr);
+            }
+        }
     }
 
     private List<FrameData> getIntentFrameDataList() {
@@ -271,8 +285,23 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void showToast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    public void showToast(final String text) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(EditActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void showToast(final int resId) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(EditActivity.this, resId, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

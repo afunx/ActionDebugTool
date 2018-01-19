@@ -22,10 +22,16 @@ import java.util.List;
 
 public class ActionItemAdapter extends RecyclerView.Adapter<ActionItemAdapter.ViewHolder> {
 
+    private static final String TAG = "ActionItemAdapter";
     private final List<MotionBean> mMotionBeanList;
+    private String mIpAddr;
 
     public ActionItemAdapter(List<MotionBean> motionBeanList) {
         mMotionBeanList = motionBeanList;
+    }
+
+    public void setIpAddr(String ipAddr) {
+        mIpAddr = ipAddr;
     }
 
     @Override
@@ -49,6 +55,10 @@ public class ActionItemAdapter extends RecyclerView.Adapter<ActionItemAdapter.Vi
             public void onClick(View v) {
                 Intent intent = new Intent("com.afunx.actiondebugtool.editAction");
                 intent.putExtra("action", mMotionBeanList.get(holder.getAdapterPosition()));
+                if (mIpAddr != null) {
+                    Log.e(TAG, "ipAddr: " + mIpAddr);
+                    intent.putExtra("ipAddr", mIpAddr);
+                }
                 v.getContext().startActivity(intent);
             }
         });

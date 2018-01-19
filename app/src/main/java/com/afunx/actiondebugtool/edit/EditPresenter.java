@@ -4,9 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.afunx.actiondebugtool.R;
 import com.afunx.actiondebugtool.data.FrameData;
+import com.afunx.client.impl.RobotClientImpl;
+import com.afunx.client.interfaces.RobotClient;
 import com.afunx.data.bean.MotorBean;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 /**
@@ -23,6 +28,8 @@ public class EditPresenter implements EditContract.Presenter {
 
     private final EditContract.View mEditView;
 
+    private final RobotClient mRobotClient = new RobotClientImpl();
+
     EditPresenter(@NonNull Context appContext, @NonNull EditContract.View editView, @NonNull List<FrameData> frameDataList) {
         mEditModel = EditModelFactory.provideEditModel(appContext, frameDataList);
         mEditView = editView;
@@ -32,6 +39,17 @@ public class EditPresenter implements EditContract.Presenter {
 
     private List<FrameData> getFrameDataList() {
         return mEditModel.getFrameDataList();
+    }
+
+    @Override
+    public void setRobotIpAddr(String ipAddr) {
+        try {
+            InetAddress inetAddress = InetAddress.getByName(ipAddr);
+            mRobotClient.setIp4(inetAddress.getAddress());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            mEditView.showToast(R.string.ip_addr_invalid);
+        }
     }
 
     @Override
@@ -168,6 +186,20 @@ public class EditPresenter implements EditContract.Presenter {
         if (DEBUG) {
             Log.d(TAG, "enterReadMode()");
         }
+        new Thread() {
+            @Override
+            public void run() {
+                int ret = mRobotClient.execEnterReadmode();
+                if (DEBUG) {
+                    Log.d(TAG, "enterReadMode() ret: " + ret);
+                }
+                if (ret == 0) {
+                    mEditView.showToast(R.string.enter_read_mode_suc);
+                } else {
+                    mEditView.showToast(R.string.enter_read_mode_fail);
+                }
+            }
+        }.start();
     }
 
     @Override

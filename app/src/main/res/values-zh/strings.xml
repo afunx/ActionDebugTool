@@ -53,4 +53,9 @@
     <string name="action_files_output_fail">动作文件导出失败</string>
 
     <string name="action_file_has_exist_already">动作文件 %1$s 已存在</string>
+
+    <string name="ip_addr_invalid">Ip地址非法！</string>
+
+    <string name="enter_read_mode_suc">进入回读成功</string>
+    <string name="enter_read_mode_fail">进入回读失败</string>
 </resources>
