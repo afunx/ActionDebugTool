@@ -8,8 +8,8 @@
     android:padding="@dimen/padding_medium"
     tools:context="com.afunx.actiondebugtool.main.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_robot_ip"
+    <EditText
+        android:id="@+id/edt_robot_ip"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentStart="true"
@@ -35,7 +35,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tv_robot_ip"
+        android:layout_below="@+id/edt_robot_ip"
         android:text="@string/output_uta_files"
         android:textSize="@dimen/font_small"
         app:layout_heightPercent='10%'
@@ -46,7 +46,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/tv_robot_ip"
+        android:layout_below="@+id/edt_robot_ip"
         android:text="@string/input_uta_files"
         android:textSize="@dimen/font_small"
         app:layout_heightPercent='10%'
