@@ -8,6 +8,7 @@ import com.afunx.data.bean.MotorBean;
 import com.afunx.data.constants.Constants;
 import com.afunx.server.interfaces.Robot;
 import com.afunx.server.interfaces.RobotAdapter;
+import com.afunx.server.log.LogUtils;
 import com.afunx.service.interfaces.Recorder;
 import com.ubt.ip.ctrl_motor.listener.OpListener;
 import com.ubt.ip.ctrl_motor.util.MotorUtil;
@@ -141,7 +142,7 @@ public class RobotAdapterImpl implements RobotAdapter {
     }
 
     private int _queryMotors(List<MotorBean> motorBeanList, final Robot robot) {
-        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7};
+        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14};
         final int size = motorsId.length;
         final int[] motorsDeg = new int[size];
         int result = MotorUtil.getCurrentMotors(motorsId, motorsDeg);
@@ -157,7 +158,7 @@ public class RobotAdapterImpl implements RobotAdapter {
     }
 
     private int _execMotors(final FrameBean frameBean, final Robot robot) {
-        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7};
+        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14};
         final int size = motorsId.length;
         final int[] motorsDeg = new int[size];
         Arrays.fill(motorsDeg, SdkConstants.MotorDegree.KEEP_DEGREE);
@@ -204,7 +205,7 @@ public class RobotAdapterImpl implements RobotAdapter {
     }
 
     private int _execEnterReadmode(final Robot robot) {
-        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7};
+        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14};
         final boolean[] isSuc = new boolean[1];
         final int result = MotorUtil.enterReadMode(isSuc, motorsId);
         setRobotIdle(robot);
@@ -215,7 +216,7 @@ public class RobotAdapterImpl implements RobotAdapter {
     }
 
     private int _execExitReadmode(final Robot robot) {
-        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7};
+        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14};
         final boolean[] isSuc = new boolean[1];
         final int result = MotorUtil.exitReadMode(isSuc, motorsId);
         setRobotIdle(robot);
@@ -244,7 +245,7 @@ public class RobotAdapterImpl implements RobotAdapter {
 
     private boolean __execFrame(final Semaphore semaphore, final FrameBean frameBean, final Robot robot, final boolean isLast, final int frameIndex) {
         Log.d(TAG, "__execFrame() frameIndex: " + frameIndex);
-        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7};
+        final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14};
         final int size = motorsId.length;
         final int[] motorsDeg = new int[size];
         Arrays.fill(motorsDeg, SdkConstants.MotorDegree.KEEP_DEGREE);
