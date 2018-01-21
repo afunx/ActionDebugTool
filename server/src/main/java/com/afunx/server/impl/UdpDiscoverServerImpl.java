@@ -49,6 +49,12 @@ public class UdpDiscoverServerImpl implements UdpDiscoverServer {
         _close();
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        close();
+        super.finalize();
+    }
+
     private boolean _start(int port, byte[] secret, byte[] reply) {
         if (this.isStarted) {
             LogUtils.log(TAG, "_start() port: " + port + " ERROR!!!!!! only could be called onces");
@@ -63,6 +69,9 @@ public class UdpDiscoverServerImpl implements UdpDiscoverServer {
         } catch (IOException e) {
             e.printStackTrace();
             LogUtils.log(TAG, "_start() port: " + port + " IOException");
+            if (udpSocket != null) {
+                udpSocket.close();
+            }
         }
         return false;
     }
@@ -78,6 +87,9 @@ public class UdpDiscoverServerImpl implements UdpDiscoverServer {
         } catch (IOException e) {
             e.printStackTrace();
             LogUtils.log(TAG, "_reopen() port: " + port + " IOException");
+            if (udpSocket != null) {
+                udpSocket.close();
+            }
         }
         return false;
     }

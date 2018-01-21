@@ -64,6 +64,12 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
     }
 
     @Override
+    protected void finalize() throws Throwable {
+        this.stop();
+        super.finalize();
+    }
+
+    @Override
     public void setAdapter(RobotAdapter robotAdapter) {
         this.robotAdapter = robotAdapter;
     }
