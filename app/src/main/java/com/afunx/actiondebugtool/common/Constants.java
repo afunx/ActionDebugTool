@@ -8,9 +8,9 @@ public interface Constants {
 
     int MOTORS_COUNT = 14;
 
-    int[] MOTORS_DEG_MIN = new int[]{-120, -50, -120, -50, -120, -120, -50, -120, -120, -50, -10, -12, -50, -60};
+    int[] MOTORS_DEG_MIN = new int[]{-90, -10, -90, -10, -70, -70, -10, -70, -70, -10, -10, -20, -50, -20};
 
-    int[] MOTORS_DEG_MAX = new int[]{120, 50, 120, 50, 120, 120, 12, 120, 120, 12, 10, 10, 50, 100};
+    int[] MOTORS_DEG_MAX = new int[]{90, 10, 90, 10, 70, 70, 10, 70, 70, 10, 10, 5, 50, 20};
 
     int RUNTIME_MIN = 100;
 
