@@ -2,7 +2,7 @@ package com.afunx.service.impl;
 
 import android.util.Log;
 
-import com.afunx.data.bean.MotionBean;
+import com.afunx.data.bean.ActionBean;
 import com.afunx.service.interfaces.Recorder;
 
 import java.util.HashMap;
@@ -18,11 +18,11 @@ public class RecorderImpl implements Recorder {
 
     private volatile int mFrameIndex = -1;
 
-    private volatile int mMotionIndex = -1;
+    private volatile int mActionIndex = -1;
 
     private volatile boolean mIsCancelled = false;
 
-     Map<String, MotionBean> mMotionBeanMap = new HashMap<>();
+     Map<String, ActionBean> mActionBeanMap = new HashMap<>();
 
     @Override
     public int getFrameIndex() {
@@ -36,24 +36,24 @@ public class RecorderImpl implements Recorder {
     }
 
     @Override
-    public int getMotionIndex() {
-        return mMotionIndex;
+    public int getActionIndex() {
+        return mActionIndex;
     }
 
     @Override
-    public void setMotionIndex(int motionIndex) {
-        Log.i(TAG, "setMotionIndex() motionIndex: " + motionIndex);
-        mMotionIndex = motionIndex;
+    public void setActionIndex(int actionIndex) {
+        Log.i(TAG, "setActionIndex() actionIndex: " + actionIndex);
+        mActionIndex = actionIndex;
     }
 
     @Override
-    public void putMotionBean(MotionBean motionBean) {
-        mMotionBeanMap.put(motionBean.getName(), motionBean);
+    public void putActionBean(ActionBean actionBean) {
+        mActionBeanMap.put(actionBean.getName(), actionBean);
     }
 
     @Override
-    public MotionBean getMotionBean(String motionName) {
-        return mMotionBeanMap.get(motionName);
+    public ActionBean getActionBean(String actionName) {
+        return mActionBeanMap.get(actionName);
     }
 
     @Override

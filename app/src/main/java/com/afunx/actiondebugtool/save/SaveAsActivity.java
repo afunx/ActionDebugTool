@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 import com.afunx.actiondebugtool.R;
 import com.afunx.actiondebugtool.common.ActionManager;
 import com.afunx.actiondebugtool.main.MainActivity;
-import com.afunx.data.bean.MotionBean;
+import com.afunx.data.bean.ActionBean;
 
 public class SaveAsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,7 +21,7 @@ public class SaveAsActivity extends AppCompatActivity implements View.OnClickLis
 
     private EditText mEdtFilename;
 
-    private MotionBean mMotionBean;
+    private ActionBean mActionBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +30,11 @@ public class SaveAsActivity extends AppCompatActivity implements View.OnClickLis
 
         initView();
 
-        mMotionBean = getIntentMotion();
+        mActionBean = getIntentAction();
     }
 
-    private MotionBean getIntentMotion() {
-        return (MotionBean) getIntent().getSerializableExtra("action");
+    private ActionBean getIntentAction() {
+        return (ActionBean) getIntent().getSerializableExtra("action");
     }
 
     private void initView() {
@@ -66,9 +65,9 @@ public class SaveAsActivity extends AppCompatActivity implements View.OnClickLis
                 // file name has exist in SharedPreference already
                 Toast.makeText(this, R.string.filename_has_exist, Toast.LENGTH_SHORT).show();
             } else {
-                mMotionBean.setName(filename);
+                mActionBean.setName(filename);
                 // write file in SharedPreference
-                actionManager.writeAction(this, mMotionBean);
+                actionManager.writeAction(this, mActionBean);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();

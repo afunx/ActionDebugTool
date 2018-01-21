@@ -6,7 +6,7 @@ import android.os.Environment;
 import com.afunx.actiondebugtool.utils.FileUtils;
 import com.afunx.actiondebugtool.utils.GsonUtils;
 import com.afunx.actiondebugtool.utils.PrefUtils;
-import com.afunx.data.bean.MotionBean;
+import com.afunx.data.bean.ActionBean;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,31 +64,31 @@ public class ActionManager {
      * read action list from SharedPreference
      *
      * @param appContext application Context
-     * @return MotionBean list from SharedPreference
+     * @return ActionBean list from SharedPreference
      */
-    public List<MotionBean> readActionList(Context appContext) {
-        List<MotionBean> list = (List<MotionBean>) PrefUtils.readObject(appContext);
-        return list != null ? list : new ArrayList<MotionBean>();
+    public List<ActionBean> readActionList(Context appContext) {
+        List<ActionBean> list = (List<ActionBean>) PrefUtils.readObject(appContext);
+        return list != null ? list : new ArrayList<ActionBean>();
     }
 
     /**
      * write action to SharedPreference
      *
      * @param appContext application Context
-     * @param motionBean MotionBean to be written
+     * @param actionBean ActionBean to be written
      */
-    public void writeAction(Context appContext, MotionBean motionBean) {
-        List<MotionBean> list = readActionList(appContext);
-        // find motion bean with the same motion name
-        int index = getMotionBeanIndex(list, motionBean.getName());
+    public void writeAction(Context appContext, ActionBean actionBean) {
+        List<ActionBean> list = readActionList(appContext);
+        // find action bean with the same action name
+        int index = getActionBeanIndex(list, actionBean.getName());
         if (index != -1) {
             // remove previous one
             list.remove(index);
             // add new one
-            list.add(index, motionBean);
+            list.add(index, actionBean);
         } else {
-            // add new motionBean at the end
-            list.add(motionBean);
+            // add new actionBean at the end
+            list.add(actionBean);
         }
         writeActionList(appContext, list);
     }
@@ -97,10 +97,10 @@ public class ActionManager {
      * write action list to SharedPreference
      *
      * @param appContext     application Context
-     * @param motionBeanList MotionBean list to be written
+     * @param actionBeanList ActionBean list to be written
      */
-    public void writeActionList(Context appContext, List<MotionBean> motionBeanList) {
-        PrefUtils.writeObject(appContext, motionBeanList);
+    public void writeActionList(Context appContext, List<ActionBean> actionBeanList) {
+        PrefUtils.writeObject(appContext, actionBeanList);
     }
 
     /**
@@ -111,19 +111,19 @@ public class ActionManager {
      * @return action of the same name exist or not
      */
     public boolean isActionNameExistInSp(Context appContext, String actionName) {
-        List<MotionBean> list = readActionList(appContext);
-        return getMotionBeanIndex(list, actionName) != -1;
+        List<ActionBean> list = readActionList(appContext);
+        return getActionBeanIndex(list, actionName) != -1;
     }
 
     /**
-     * delete action to SharedPreference by motionName
+     * delete action to SharedPreference by actionName
      *
      * @param appContext application Context
      * @param actionName action name to be deleted
      */
-    public void deleteMotion(Context appContext, String actionName) {
-        List<MotionBean> list = readActionList(appContext);
-        int index = getMotionBeanIndex(list, actionName);
+    public void deleteAction(Context appContext, String actionName) {
+        List<ActionBean> list = readActionList(appContext);
+        int index = getActionBeanIndex(list, actionName);
         if (index == -1) {
             throw new IllegalStateException("actionName: " + actionName + " not exist");
         }
@@ -134,49 +134,49 @@ public class ActionManager {
     /**
      * input action list from sd card
      *
-     * @return MotionBean list from sd card
+     * @return ActionBean list from sd card
      */
-    public List<MotionBean> inputActionList() {
+    public List<ActionBean> inputActionList() {
         String filePathRoot = getFilePathRoot();
         List<String> list = FileUtils.list(filePathRoot);
         if (list.isEmpty()) {
             return Collections.emptyList();
         } else {
-            List<MotionBean> motionBeanList = new ArrayList<>();
+            List<ActionBean> actionBeanList = new ArrayList<>();
             for (String fileName : list) {
                 String actionName = getActionName(fileName);
                 String filePath = getFilePath(actionName);
                 String json = FileUtils.readString(filePath);
                 if (json != null) {
-                    MotionBean motionBean = GsonUtils.fromGson(json, MotionBean.class);
-                    motionBeanList.add(motionBean);
+                    ActionBean actionBean = GsonUtils.fromGson(json, ActionBean.class);
+                    actionBeanList.add(actionBean);
                 }
             }
-            return motionBeanList;
+            return actionBeanList;
         }
     }
 
     /**
      * output action to sd card
      *
-     * @param motionBean MotionBean to be output
+     * @param actionBean ActionBean to be output
      * @return write to sd card suc or not
      */
-    public boolean outputAction(MotionBean motionBean) {
-        String filePath = getFilePath(motionBean.getName());
-        String json = GsonUtils.toGson(motionBean);
+    public boolean outputAction(ActionBean actionBean) {
+        String filePath = getFilePath(actionBean.getName());
+        String json = GsonUtils.toGson(actionBean);
         return FileUtils.writeString(filePath, json);
     }
 
     /**
      * output action list to sd card
      *
-     * @param motionBeanList MotionBean List to be output
+     * @param actionBeanList ActionBean List to be output
      * @return write to sd card suc or not
      */
-    public boolean outputActionList(List<MotionBean> motionBeanList) {
-        for (MotionBean motionBean : motionBeanList) {
-            if (!outputAction(motionBean)) {
+    public boolean outputActionList(List<ActionBean> actionBeanList) {
+        for (ActionBean actionBean : actionBeanList) {
+            if (!outputAction(actionBean)) {
                 return false;
             }
         }
@@ -184,15 +184,15 @@ public class ActionManager {
     }
 
     /**
-     * get MotionBean index by motion name
+     * get ActionBean index by action name
      *
-     * @param motionBeanList MotionBean List
-     * @param motionName     motion name
+     * @param actionBeanList ActionBean List
+     * @param actionName     action name
      * @return index
      */
-    private int getMotionBeanIndex(List<MotionBean> motionBeanList, String motionName) {
-        for (int i = 0; i < motionBeanList.size(); i++) {
-            if (motionName.equals(motionBeanList.get(i).getName())) {
+    private int getActionBeanIndex(List<ActionBean> actionBeanList, String actionName) {
+        for (int i = 0; i < actionBeanList.size(); i++) {
+            if (actionName.equals(actionBeanList.get(i).getName())) {
                 return i;
             }
         }

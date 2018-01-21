@@ -1,6 +1,6 @@
 package com.afunx.service.interfaces;
 
-import com.afunx.data.bean.MotionBean;
+import com.afunx.data.bean.ActionBean;
 
 /**
  * Created by afunx on 27/12/2017.
@@ -23,45 +23,45 @@ public interface Recorder {
     void setFrameIndex(int frameIndex);
 
     /**
-     * get running motion index(-1 means not started yet)
+     * get running action index(-1 means not started yet)
      *
-     * @return running motion index(-1 means not started yet)
+     * @return running action index(-1 means not started yet)
      */
-    int getMotionIndex();
+    int getActionIndex();
 
     /**
-     * set running motion index(-1 means complete)
+     * set running action index(-1 means complete)
      *
-     * @param motionIndex motion index(-1 means complete)
+     * @param actionIndex action index(-1 means complete)
      */
-    void setMotionIndex(int motionIndex);
+    void setActionIndex(int actionIndex);
 
     /**
-     * put motion bean into motionBeanMap
+     * put action bean into actionBeanMap
      *
-     * @param motionBean motion bean
+     * @param actionBean action bean
      */
-    void putMotionBean(MotionBean motionBean);
+    void putActionBean(ActionBean actionBean);
 
     /**
-     * get motion bean from motionBeanMap
+     * get action bean from actionBeanMap
      *
-     * @param motionName motion bean name
+     * @param actionName action bean name
      * @return
      */
-    MotionBean getMotionBean(String motionName);
+    ActionBean getActionBean(String actionName);
 
     /**
-     * set whether current motion is cancelled
+     * set whether current action is cancelled
      *
-     * @param isCancelled whether current motion is cancelled
+     * @param isCancelled whether current action is cancelled
      */
     void setIsCancelled(boolean isCancelled);
 
     /**
-     * check whether current motion is cancelled
+     * check whether current action is cancelled
      *
-     * @return whether current motion is cancelled
+     * @return whether current action is cancelled
      */
     boolean isCancelled();
 }

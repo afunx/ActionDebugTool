@@ -8,9 +8,9 @@ import java.util.List;
  * Created by afunx on 21/12/2017.
  */
 
-public class MotionBean implements Cloneable, Serializable {
+public class ActionBean implements Cloneable, Serializable {
     /**
-     * motion name
+     * action name
      */
     private String name;
     /**
@@ -26,11 +26,11 @@ public class MotionBean implements Cloneable, Serializable {
         this.name = name;
     }
 
-    public List<FrameBean> getFrameBeans() {
+    public List<FrameBean> getFrameBeanList() {
         return frameBeans;
     }
 
-    public void setFrameBeans(List<FrameBean> frameBeans) {
+    public void setFrameBeanList(List<FrameBean> frameBeans) {
         this.frameBeans = frameBeans;
     }
 
@@ -42,9 +42,9 @@ public class MotionBean implements Cloneable, Serializable {
     }
 
     @Override
-    public MotionBean clone() {
+    public ActionBean clone() {
         try {
-            MotionBean clone = (MotionBean) super.clone();
+            ActionBean clone = (ActionBean) super.clone();
             clone.frameBeans = new ArrayList<>();
             for (FrameBean frameBean : this.frameBeans) {
                 clone.frameBeans.add(frameBean.clone());
@@ -56,7 +56,7 @@ public class MotionBean implements Cloneable, Serializable {
     }
 
     public static void main(String args[]) {
-        // test MotionBean toString() method
+        // test ActionBean toString() method
         MotorBean motorBean1 = new MotorBean();
         motorBean1.setId(1);
         motorBean1.setDeg(10);
@@ -67,24 +67,24 @@ public class MotionBean implements Cloneable, Serializable {
         frameBean1.setIndex(1);
         frameBean1.setName("frame1");
         frameBean1.setTime(1000);
-        frameBean1.getMotorBeans().add(motorBean1);
-        frameBean1.getMotorBeans().add(motorBean2);
+        frameBean1.getMotorBeanList().add(motorBean1);
+        frameBean1.getMotorBeanList().add(motorBean2);
         FrameBean frameBean2 = new FrameBean();
         frameBean2.setIndex(2);
         frameBean2.setName("frame2");
         frameBean2.setTime(2000);
-        frameBean2.getMotorBeans().add(motorBean2);
-        frameBean2.getMotorBeans().add(motorBean1);
-        MotionBean motionBean = new MotionBean();
-        motionBean.setName("motion");
-        motionBean.getFrameBeans().add(frameBean1);
-        motionBean.getFrameBeans().add(frameBean2);
-        System.out.println(motionBean);
-        // test MotionBean clone()
-        MotionBean clone = motionBean.clone();
-        clone.getFrameBeans().get(0).setName("frame111111");
-        clone.getFrameBeans().get(0).getMotorBeans().get(0).setId(11);
-        System.out.println(motionBean);
+        frameBean2.getMotorBeanList().add(motorBean2);
+        frameBean2.getMotorBeanList().add(motorBean1);
+        ActionBean actionBean = new ActionBean();
+        actionBean.setName("action");
+        actionBean.getFrameBeanList().add(frameBean1);
+        actionBean.getFrameBeanList().add(frameBean2);
+        System.out.println(actionBean);
+        // test ActionBean clone()
+        ActionBean clone = actionBean.clone();
+        clone.getFrameBeanList().get(0).setName("frame111111");
+        clone.getFrameBeanList().get(0).getMotorBeanList().get(0).setId(11);
+        System.out.println(actionBean);
         System.out.println(clone);
     }
 }

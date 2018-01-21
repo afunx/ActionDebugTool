@@ -260,9 +260,9 @@ public interface EditContract {
         void playSelectedFrame();
 
         /**
-         * play motion from selected frame
+         * play action from selected frame
          */
-        void playMotionFromSelectedFrame();
+        void playActionFromSelectedFrame();
 
         /**
          * delete selected frame

@@ -28,7 +28,7 @@ public class FrameData implements Cloneable {
             MotorBean motorBean = new MotorBean();
             motorBean.setId(i + 1);
             motorBean.setDeg(0);
-            frameBean.getMotorBeans().add(motorBean);
+            frameBean.getMotorBeanList().add(motorBean);
         }
         frameBean.setTime(DEFAULT_FRAME_TIME);
         this.frameBean = frameBean;

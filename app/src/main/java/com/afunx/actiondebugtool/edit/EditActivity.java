@@ -18,8 +18,8 @@ import com.afunx.actiondebugtool.data.FrameData;
 import com.afunx.actiondebugtool.edit.adapter.FrameItemAdapter;
 import com.afunx.actiondebugtool.save.SaveAsActivity;
 import com.afunx.actiondebugtool.widget.SmartSeekBar;
+import com.afunx.data.bean.ActionBean;
 import com.afunx.data.bean.FrameBean;
-import com.afunx.data.bean.MotionBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private SmartSeekBar mSkbDeg;
     private SmartSeekBar mSkbRuntime;
 
-    private String mMotionName;
+    private String mActionName;
     private EditContract.Presenter mEditPresenter;
 
     public void setPresenter(EditContract.Presenter presenter) {
@@ -97,16 +97,16 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void doSave() {
-        if (mMotionName == null) {
+        if (mActionName == null) {
             doSaveAs();
         } else {
             // get frame bean list from mAdapterFrameItems(it is cloned from mAdapterFrameItems)
             List<FrameBean> frameBeanList = mAdapterFrameItems.getFrameBeanList();
-            // create a MotionBean and add frameBeanList into it
-            MotionBean motionBean = new MotionBean();
-            motionBean.setName(mMotionName);
-            motionBean.getFrameBeans().addAll(frameBeanList);
-            ActionManager.get().writeAction(this, motionBean);
+            // create a ActionBean and add frameBeanList into it
+            ActionBean action = new ActionBean();
+            action.setName(mActionName);
+            action.getFrameBeanList().addAll(frameBeanList);
+            ActionManager.get().writeAction(this, action);
         }
     }
 
@@ -116,11 +116,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         // get frame bean list from mAdapterFrameItems(it is cloned from mAdapterFrameItems)
         List<FrameBean> frameBeanList = mAdapterFrameItems.getFrameBeanList();
-        // create a MotionBean and add frameBeanList into it
-        MotionBean motionBean = new MotionBean();
-        motionBean.getFrameBeans().addAll(frameBeanList);
+        // create a ActionBean and add frameBeanList into it
+        ActionBean actionBean = new ActionBean();
+        actionBean.getFrameBeanList().addAll(frameBeanList);
 
-        intent.putExtra("action", motionBean);
+        intent.putExtra("action", actionBean);
         startActivity(intent);
     }
 
@@ -137,14 +137,14 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     private List<FrameData> getIntentFrameDataList() {
         List<FrameData> frameDataList = new ArrayList<>();
-        MotionBean motionBean = (MotionBean) getIntent().getSerializableExtra("action");
-        if (motionBean != null) {
-            List<FrameBean> frameBeans = motionBean.getFrameBeans();
+        ActionBean actionBean = (ActionBean) getIntent().getSerializableExtra("action");
+        if (actionBean != null) {
+            List<FrameBean> frameBeans = actionBean.getFrameBeanList();
             for (FrameBean frameBean : frameBeans) {
                 FrameData frameData = new FrameData(frameBean);
                 frameDataList.add(frameData);
             }
-            mMotionName = motionBean.getName();
+            mActionName = actionBean.getName();
         }
         return frameDataList;
     }
@@ -267,7 +267,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (v == mBtnFramesPlay) {
             // frames play button from selected frame
-            mEditPresenter.playMotionFromSelectedFrame();
+            mEditPresenter.playActionFromSelectedFrame();
         } else if(v == mBtnFrameAdd) {
             // insert frame after selected frame
             mEditPresenter.insertFrameAfterSelected();

@@ -1,7 +1,7 @@
 package com.afunx.server.impl;
 
 import com.afunx.data.bean.FrameBean;
-import com.afunx.data.bean.MotionBean;
+import com.afunx.data.bean.ActionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.bean.RequestBean;
 import com.afunx.data.bean.ResponseBean;
@@ -107,25 +107,25 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         } else if (session.getUri().equals("/exec/readmode/exit") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.EXECUTE);
             response = serveExecExitReadmode(session);
-        } else if (session.getUri().equals("/query/motion/index") && session.getMethod().equals(Method.POST)) {
-            response = serveQueryMotion(session);
-        } else if (session.getUri().equals("/prepare/motion") && session.getMethod().equals(Method.POST)) {
+        } else if (session.getUri().equals("/query/action/index") && session.getMethod().equals(Method.POST)) {
+            response = serveQueryAction(session);
+        } else if (session.getUri().equals("/prepare/action") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.PREPARE);
-            response = servePrepareMotion(session);
-        } else if (session.getUri().equals("/exec/motion") && session.getMethod().equals(Method.POST)) {
+            response = servePrepareAction(session);
+        } else if (session.getUri().equals("/exec/action") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.EXECUTE);
-            response = serveExecMotion(session);
-        } else if (session.getUri().equals("/query/motions/index") && session.getMethod().equals(Method.POST)) {
-            response = serveQueryMotions(session);
-        } else if (session.getUri().equals("/prepare/motions") && session.getMethod().equals(Method.POST)) {
+            response = serveExecAction(session);
+        } else if (session.getUri().equals("/query/actions/index") && session.getMethod().equals(Method.POST)) {
+            response = serveQueryActions(session);
+        } else if (session.getUri().equals("/prepare/actions") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.PREPARE);
-            response = servePrepareMotions(session);
-        } else if (session.getUri().equals("/exec/motions") && session.getMethod().equals(Method.POST)) {
+            response = servePrepareActions(session);
+        } else if (session.getUri().equals("/exec/actions") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.EXECUTE);
-            response = serveExecMotions(session);
-        } else if (session.getUri().equals("/cancel/motions") && session.getMethod().equals(Method.POST)) {
+            response = serveExecActions(session);
+        } else if (session.getUri().equals("/cancel/actions") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.CANCEL);
-            response = serveCancelMotions(session);
+            response = serveCancelActions(session);
         }
 
         return response != null ? response :
@@ -339,20 +339,20 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         return assembleResponse(result[0], id);
     }
 
-    private Response serveQueryMotion(IHTTPSession session) {
-        LogUtils.log(TAG, "serveQueryMotion()");
+    private Response serveQueryAction(IHTTPSession session) {
+        LogUtils.log(TAG, "serveQueryAction()");
         final RequestBean<?> requestBean = parseRequestBean(session);
         if (requestBean == null) {
-            LogUtils.log(TAG, "serveQueryMotion() requestBean is null");
+            LogUtils.log(TAG, "serveQueryAction() requestBean is null");
             return null;
         }
         final long id = requestBean.getId();
         final Robot robot = this.robot;
         final Semaphore semaphore = new Semaphore(0);
         final int[] result = new int[]{Constants.RESULT.FAIL};
-        // query motion frame index async
+        // query action frame index async
         final int[] frameIndex = new int[1];
-        queryMotionAsync(frameIndex, result, semaphore, robot);
+        queryActionAsync(frameIndex, result, semaphore, robot);
         final int timeout = requestBean.getTimeout();
         final boolean timely = waitTimeout(timeout, semaphore);
         if (!timely) {
@@ -362,19 +362,19 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         return assembleResponse(result[0], id, frameIndex[0]);
     }
 
-    private Response servePrepareMotion(IHTTPSession session) {
-        LogUtils.log(TAG, "servePrepareMotion()");
-        final RequestBean<MotionBean> requestBean = parseRequestBean(session, MotionBean.class);
+    private Response servePrepareAction(IHTTPSession session) {
+        LogUtils.log(TAG, "servePrepareAction()");
+        final RequestBean<ActionBean> requestBean = parseRequestBean(session, ActionBean.class);
         if (requestBean == null) {
-            LogUtils.log(TAG, "servePrepareMotion() requestBean is null");
+            LogUtils.log(TAG, "servePrepareAction() requestBean is null");
             return null;
         }
         final long id = requestBean.getId();
         final Robot robot = this.robot;
         final Semaphore semaphore = new Semaphore(0);
         final int[] result = new int[]{Constants.RESULT.FAIL};
-        // prepare motion async
-        prepareMotionAsync(requestBean.getBody(), result, semaphore, robot);
+        // prepare action async
+        prepareActionAsync(requestBean.getBody(), result, semaphore, robot);
         final int timeout = requestBean.getTimeout();
         final boolean timely = waitTimeout(timeout, semaphore);
         if (!timely) {
@@ -384,19 +384,19 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         return assembleResponse(result[0], id);
     }
 
-    private Response serveExecMotion(IHTTPSession session) {
-        LogUtils.log(TAG, "serveExecMotion()");
+    private Response serveExecAction(IHTTPSession session) {
+        LogUtils.log(TAG, "serveExecAction()");
         final RequestBean<String> requestBean = parseRequestBean(session);
         if (requestBean == null) {
-            LogUtils.log(TAG, "serveExecMotion() requestBean is null");
+            LogUtils.log(TAG, "serveExecAction() requestBean is null");
             return null;
         }
         final long id = requestBean.getId();
         final Robot robot = this.robot;
         final Semaphore semaphore = new Semaphore(0);
         final int[] result = new int[]{Constants.RESULT.FAIL};
-        // execute motion async
-        execMotionAsync(requestBean.getBody(), result, semaphore, robot);
+        // execute action async
+        execActionAsync(requestBean.getBody(), result, semaphore, robot);
         final int timeout = requestBean.getTimeout();
         final boolean timely = waitTimeout(timeout, semaphore);
         if (!timely) {
@@ -406,11 +406,11 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         return assembleResponse(result[0], id);
     }
 
-    private Response serveQueryMotions(IHTTPSession session) {
-        LogUtils.log(TAG, "serveQueryMotions()");
+    private Response serveQueryActions(IHTTPSession session) {
+        LogUtils.log(TAG, "serveQueryActions()");
         final RequestBean<?> requestBean = parseRequestBean(session);
         if (requestBean == null) {
-            LogUtils.log(TAG, "serveQueryMotions() requestBean is null");
+            LogUtils.log(TAG, "serveQueryActions() requestBean is null");
             return null;
         }
         final long id = requestBean.getId();
@@ -418,8 +418,8 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         final Semaphore semaphore = new Semaphore(0);
         final int[] result = new int[]{Constants.RESULT.FAIL};
         // query motors async
-        final int[] motionIndex = new int[1];
-        queryMotionsAsync(motionIndex, result, semaphore, robot);
+        final int[] actionIndex = new int[1];
+        queryActionsAsync(actionIndex, result, semaphore, robot);
         // wait execute finished or timeout
         final int timeout = requestBean.getTimeout();
         final boolean timely = waitTimeout(timeout, semaphore);
@@ -427,22 +427,22 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
             return RESPONSE_ROBOT_TIMEOUT;
         }
         // assemble response
-        return assembleResponse(result[0], id, motionIndex[0]);
+        return assembleResponse(result[0], id, actionIndex[0]);
     }
 
-    private Response servePrepareMotions(IHTTPSession session) {
-        LogUtils.log(TAG, "servePrepareMotions()");
-        final RequestBean<List<MotionBean>> requestBean = parseRequestBeanList(session, MotionBean.class);
+    private Response servePrepareActions(IHTTPSession session) {
+        LogUtils.log(TAG, "servePrepareActions()");
+        final RequestBean<List<ActionBean>> requestBean = parseRequestBeanList(session, ActionBean.class);
         if (requestBean == null) {
-            LogUtils.log(TAG, "servePrepareMotions() requestBean is null");
+            LogUtils.log(TAG, "servePrepareActions() requestBean is null");
             return null;
         }
         final long id = requestBean.getId();
         final Robot robot = this.robot;
         final Semaphore semaphore = new Semaphore(0);
         final int[] result = new int[]{Constants.RESULT.FAIL};
-        // prepare motions async
-        prepareMotionsAsync(requestBean.getBody(), result, semaphore, robot);
+        // prepare actions async
+        prepareActionsAsync(requestBean.getBody(), result, semaphore, robot);
         final int timeout = requestBean.getTimeout();
         final boolean timely = waitTimeout(timeout, semaphore);
         if (!timely) {
@@ -452,19 +452,19 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         return assembleResponse(result[0], id);
     }
 
-    private Response serveExecMotions(IHTTPSession session) {
-        LogUtils.log(TAG, "serveExecMotions()");
+    private Response serveExecActions(IHTTPSession session) {
+        LogUtils.log(TAG, "serveExecActions()");
         final RequestBean<List<String>> requestBean = parseRequestBeanList(session, String.class);
         if (requestBean == null) {
-            LogUtils.log(TAG, "serveExecMotions() requestBean is null");
+            LogUtils.log(TAG, "serveExecActions() requestBean is null");
             return null;
         }
         final long id = requestBean.getId();
         final Robot robot = this.robot;
         final Semaphore semaphore = new Semaphore(0);
         final int[] result = new int[]{Constants.RESULT.FAIL};
-        // execute motions async
-        execMotionsAsync(requestBean.getBody(), result, semaphore, robot);
+        // execute actions async
+        execActionsAsync(requestBean.getBody(), result, semaphore, robot);
         final int timeout = requestBean.getTimeout();
         final boolean timely = waitTimeout(timeout, semaphore);
         if (!timely) {
@@ -473,19 +473,19 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         // assemble response
         return assembleResponse(result[0], id);
     }
-    private Response serveCancelMotions(IHTTPSession session) {
-        LogUtils.log(TAG, "serveCancelMotions()");
+    private Response serveCancelActions(IHTTPSession session) {
+        LogUtils.log(TAG, "serveCancelActions()");
         final RequestBean<?> requestBean = parseRequestBean(session);
         if (requestBean == null) {
-            LogUtils.log(TAG, "serveCancelMotions() requestBean is null");
+            LogUtils.log(TAG, "serveCancelActions() requestBean is null");
             return null;
         }
         final long id = requestBean.getId();
         final Robot robot = this.robot;
         final Semaphore semaphore = new Semaphore(0);
         final int[] result = new int[]{Constants.RESULT.FAIL};
-        // execute motions async
-        cancelMotionsAsync(result, semaphore, robot);
+        // execute actions async
+        cancelActionsAsync(result, semaphore, robot);
         final int timeout = requestBean.getTimeout();
         final boolean timely = waitTimeout(timeout, semaphore);
         if (!timely) {
@@ -580,14 +580,14 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         }.start();
     }
 
-    private void queryMotionAsync(final int[] frameIndex, final int[] result, final Semaphore semaphore, final Robot robot) {
+    private void queryActionAsync(final int[] frameIndex, final int[] result, final Semaphore semaphore, final Robot robot) {
         new Thread() {
             @Override
             public void run() {
                 if (robotAdapter != null) {
                     // catch Exception here, let semaphore will be released forever
                     try {
-                        result[0] = robotAdapter.queryMotion(frameIndex, robot);
+                        result[0] = robotAdapter.queryAction(frameIndex, robot);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -597,14 +597,14 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         }.start();
     }
 
-    private void prepareMotionAsync(final MotionBean motionBean, final int[] result, final Semaphore semaphore, final Robot robot) {
+    private void prepareActionAsync(final ActionBean actionBean, final int[] result, final Semaphore semaphore, final Robot robot) {
         new Thread() {
             @Override
             public void run() {
                 if (robotAdapter != null) {
                     // catch Exception here, let semaphore will be released forever
                     try {
-                        result[0] = robotAdapter.prepareMotion(motionBean, robot);
+                        result[0] = robotAdapter.prepareAction(actionBean, robot);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -614,14 +614,14 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         }.start();
     }
 
-    private void execMotionAsync(final String motionName, final int[] result, final Semaphore semaphore, final Robot robot) {
+    private void execActionAsync(final String actionName, final int[] result, final Semaphore semaphore, final Robot robot) {
         new Thread() {
             @Override
             public void run() {
                 if (robotAdapter != null) {
                     // catch Exception here, let semaphore will be released forever
                     try {
-                        result[0] = robotAdapter.execMotion(motionName, robot);
+                        result[0] = robotAdapter.execAction(actionName, robot);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -631,14 +631,14 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         }.start();
     }
 
-    private void queryMotionsAsync(final int[] motionIndex, final int[] result, final Semaphore semaphore, final Robot robot) {
+    private void queryActionsAsync(final int[] actionIndex, final int[] result, final Semaphore semaphore, final Robot robot) {
         new Thread() {
             @Override
             public void run() {
                 if (robotAdapter != null) {
                     // catch Exception here, let semaphore will be released forever
                     try {
-                        result[0] = robotAdapter.queryMotions(motionIndex, robot);
+                        result[0] = robotAdapter.queryActions(actionIndex, robot);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -648,14 +648,14 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         }.start();
     }
 
-    private void prepareMotionsAsync(final List<MotionBean> motionBeanList, final int[] result, final Semaphore semaphore, final Robot robot) {
+    private void prepareActionsAsync(final List<ActionBean> actionBeanList, final int[] result, final Semaphore semaphore, final Robot robot) {
         new Thread() {
             @Override
             public void run() {
                 if (robotAdapter != null) {
                     // catch Exception here, let semaphore will be released forever
                     try {
-                        result[0] = robotAdapter.prepareMotions(motionBeanList, robot);
+                        result[0] = robotAdapter.prepareActions(actionBeanList, robot);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -665,14 +665,14 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         }.start();
     }
 
-    private void execMotionsAsync(final List<String> motionNameList, final int[] result, final Semaphore semaphore, final Robot robot) {
+    private void execActionsAsync(final List<String> actionNameList, final int[] result, final Semaphore semaphore, final Robot robot) {
         new Thread() {
             @Override
             public void run() {
                 if (robotAdapter != null) {
                     // catch Exception here, let semaphore will be released forever
                     try {
-                        result[0] = robotAdapter.execMotions(motionNameList, robot);
+                        result[0] = robotAdapter.execActions(actionNameList, robot);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -682,14 +682,14 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         }.start();
     }
 
-    private void cancelMotionsAsync(final int[] result,final Semaphore semaphore,final Robot robot) {
+    private void cancelActionsAsync(final int[] result,final Semaphore semaphore,final Robot robot) {
         new Thread() {
             @Override
             public void run() {
                 if (robotAdapter != null) {
                     // catch Exception here, let semaphore will be released forever
                     try {
-                        result[0] = robotAdapter.cancelAllMotions(robot);
+                        result[0] = robotAdapter.cancelAllActions(robot);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

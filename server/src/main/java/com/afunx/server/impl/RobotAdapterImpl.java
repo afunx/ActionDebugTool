@@ -1,7 +1,7 @@
 package com.afunx.server.impl;
 
 import com.afunx.data.bean.FrameBean;
-import com.afunx.data.bean.MotionBean;
+import com.afunx.data.bean.ActionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.server.interfaces.Robot;
 import com.afunx.server.interfaces.RobotAdapter;
@@ -59,53 +59,53 @@ public class RobotAdapterImpl implements RobotAdapter {
     }
 
     @Override
-    public int queryMotion(int[] frameIndex, Robot robot) {
-        LogUtils.log(TAG, "queryMotion() frameIndex[0] = 1");
+    public int queryAction(int[] frameIndex, Robot robot) {
+        LogUtils.log(TAG, "queryAction() frameIndex[0] = 1");
         setRobotIdle(robot);
         frameIndex[0] = 1;
         return 0;
     }
 
     @Override
-    public int prepareMotion(MotionBean motionBean, Robot robot) {
-        LogUtils.log(TAG, "prepareMotion() motionBean: " + motionBean);
+    public int prepareAction(ActionBean actionBean, Robot robot) {
+        LogUtils.log(TAG, "prepareAction() actionBean: " + actionBean);
         setRobotIdle(robot);
         return 0;
     }
 
     @Override
-    public int execMotion(String motionName, Robot robot) {
-        LogUtils.log(TAG, "execMotion() motionName: " + motionName);
+    public int execAction(String actionName, Robot robot) {
+        LogUtils.log(TAG, "execAction() actionName: " + actionName);
         setRobotIdle(robot);
         return 0;
     }
 
     @Override
-    public int queryMotions(int[] motionIndex, Robot robot) {
-        LogUtils.log(TAG, "queryMotions() motionIndex[0] = 2");
+    public int queryActions(int[] actionIndex, Robot robot) {
+        LogUtils.log(TAG, "queryActions() actionIndex[0] = 2");
         setRobotIdle(robot);
-        motionIndex[0] = 2;
+        actionIndex[0] = 2;
         return 0;
     }
 
     @Override
-    public int prepareMotions(List<MotionBean> motionBeanList, Robot robot) {
+    public int prepareActions(List<ActionBean> actionBeanList, Robot robot) {
         LogUtils.log(TAG, "prepareMotionList()");
         setRobotIdle(robot);
-        LogUtils.log(TAG, "motionBeanList:\n" + motionBeanList);
+        LogUtils.log(TAG, "actionBeanList:\n" + actionBeanList);
         return 0;
     }
 
     @Override
-    public int execMotions(List<String> motionNameList, Robot robot) {
-        LogUtils.log(TAG, "execMotionsList() motionNameList: " + motionNameList);
+    public int execActions(List<String> actionNameList, Robot robot) {
+        LogUtils.log(TAG, "execMotionsList() actionNameList: " + actionNameList);
         setRobotIdle(robot);
         return 0;
     }
 
     @Override
-    public int cancelAllMotions(Robot robot) {
-        LogUtils.log(TAG, "cancelAllMotions()");
+    public int cancelAllActions(Robot robot) {
+        LogUtils.log(TAG, "cancelAllActions()");
         setRobotIdle(robot);
         return 0;
     }

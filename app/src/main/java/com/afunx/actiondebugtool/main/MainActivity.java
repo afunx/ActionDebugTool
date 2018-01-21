@@ -20,7 +20,7 @@ import com.afunx.actiondebugtool.common.ActionManager;
 import com.afunx.actiondebugtool.main.adapter.ActionItemAdapter;
 import com.afunx.client.impl.UdpDiscoverClientImpl;
 import com.afunx.client.interfaces.UdpDiscoverClient;
-import com.afunx.data.bean.MotionBean;
+import com.afunx.data.bean.ActionBean;
 import com.afunx.permission.PermissionHelper;
 import com.afunx.permission.PermissionListener;
 
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnInput;
     private InetAddress mRobotInetAddr;
 
-    private final List<MotionBean> mMotionBeanList = new ArrayList<>();
+    private final List<ActionBean> mActionBeanList = new ArrayList<>();
     private RecyclerView mRcyAction;
     private ActionItemAdapter mAdapterAction;
 
@@ -96,19 +96,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnInput.setOnClickListener(this);
 
         mRcyAction = (RecyclerView) findViewById(R.id.ryc_action);
-        mAdapterAction = new ActionItemAdapter(mMotionBeanList);
+        mAdapterAction = new ActionItemAdapter(mActionBeanList);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRcyAction.setLayoutManager(llm);
         mRcyAction.setAdapter(mAdapterAction);
     }
 
     private void initData() {
-        // clear previous motion bean list
-        mMotionBeanList.clear();
+        // clear previous action bean list
+        mActionBeanList.clear();
         // init data from shared preferences
-        List<MotionBean> motionBeanList = getActionManager().readActionList(this);
-        if (!motionBeanList.isEmpty()) {
-            mMotionBeanList.addAll(motionBeanList);
+        List<ActionBean> actionBeanList = getActionManager().readActionList(this);
+        if (!actionBeanList.isEmpty()) {
+            mActionBeanList.addAll(actionBeanList);
             mAdapterAction.notifyDataSetChanged();
         }
     }
@@ -141,9 +141,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    private boolean isActionExisted(List<MotionBean> motionBeanList, String motionName) {
-        for (MotionBean motionBean : motionBeanList) {
-            if (motionName.equals(motionBean.getName())) {
+    private boolean isActionExisted(List<ActionBean> actionBeanList, String actionName) {
+        for (ActionBean actionBean : actionBeanList) {
+            if (actionName.equals(actionBean.getName())) {
                 return true;
             }
         }
@@ -153,37 +153,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void doInput() {
         Log.i(TAG, "doInput()");
         ActionManager actionManager = getActionManager();
-        List<MotionBean> motionBeanList = actionManager.inputActionList();
-        if (motionBeanList.isEmpty()) {
+        List<ActionBean> actionBeanList = actionManager.inputActionList();
+        if (actionBeanList.isEmpty()) {
             return;
         }
-        List<MotionBean> inputList = new ArrayList<>();
-        // check whether motion bean has exist already
-        for (MotionBean motionBean : motionBeanList) {
-            String motionName = motionBean.getName();
-            boolean isActionExisted = isActionExisted(mMotionBeanList, motionName);
+        List<ActionBean> inputList = new ArrayList<>();
+        // check whether action bean has exist already
+        for (ActionBean actionBean : actionBeanList) {
+            String actionName = actionBean.getName();
+            boolean isActionExisted = isActionExisted(mActionBeanList, actionName);
             if (isActionExisted) {
                 String format = getString(R.string.action_file_has_exist_already);
-                String text = String.format(format, motionName);
+                String text = String.format(format, actionName);
                 Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
             } else {
-                inputList.add(motionBean);
+                inputList.add(actionBean);
             }
         }
-        // input motion bean from sd card
-        int insertedStart = mMotionBeanList.size();
+        // input action bean from sd card
+        int insertedStart = mActionBeanList.size();
         int itemCount = inputList.size();
-        mMotionBeanList.addAll(inputList);
+        mActionBeanList.addAll(inputList);
         mAdapterAction.notifyItemRangeInserted(insertedStart, itemCount);
 
         // write action list to SharedPreferences
-        actionManager.writeActionList(this, mMotionBeanList);
+        actionManager.writeActionList(this, mActionBeanList);
     }
 
     private void doOutput() {
         Log.i(TAG, "doOutput()");
-        if (!mMotionBeanList.isEmpty()) {
-            boolean isSuc = getActionManager().outputActionList(mMotionBeanList);
+        if (!mActionBeanList.isEmpty()) {
+            boolean isSuc = getActionManager().outputActionList(mActionBeanList);
             String text = isSuc ? getString(R.string.action_files_output_suc) : getString(R.string.action_files_output_fail);
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
         }

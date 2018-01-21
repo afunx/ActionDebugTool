@@ -1,7 +1,7 @@
 package com.afunx.client.interfaces;
 
 import com.afunx.data.bean.FrameBean;
-import com.afunx.data.bean.MotionBean;
+import com.afunx.data.bean.ActionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.bean.RequestBean;
 import com.afunx.data.bean.ResponseBean;
@@ -10,7 +10,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -37,25 +36,25 @@ public interface ClientProtocol {
     @POST("/exec/readmode/exit")
     Call<ResponseBean> execExitReadmode(@Body RequestBean body);
 
-    @POST("/query/motion/index")
-    Call<ResponseBean<Integer>> queryMotion(@Body RequestBean<Integer> body);
+    @POST("/query/action/index")
+    Call<ResponseBean<Integer>> queryAction(@Body RequestBean<Integer> body);
 
-    @POST("/prepare/motion")
-    Call<ResponseBean> prepareMotion(@Body RequestBean<MotionBean> body);
+    @POST("/prepare/action")
+    Call<ResponseBean> prepareAction(@Body RequestBean<ActionBean> body);
 
-    @POST("/exec/motion")
-    Call<ResponseBean> execMotion(@Body RequestBean<String> body);
+    @POST("/exec/action")
+    Call<ResponseBean> execAction(@Body RequestBean<String> body);
 
-    @POST("/query/motions/index")
-    Call<ResponseBean<Integer>> queryMotions(@Body RequestBean<Integer> body);
+    @POST("/query/actions/index")
+    Call<ResponseBean<Integer>> queryActions(@Body RequestBean<Integer> body);
 
-    @POST("/prepare/motions")
-    Call<ResponseBean> prepareMotions(@Body RequestBean<List<MotionBean>> body);
+    @POST("/prepare/actions")
+    Call<ResponseBean> prepareActions(@Body RequestBean<List<ActionBean>> body);
 
-    @POST("/exec/motions")
-    Call<ResponseBean> execMotions(@Body RequestBean<List<String>> body);
+    @POST("/exec/actions")
+    Call<ResponseBean> execActions(@Body RequestBean<List<String>> body);
 
-    @POST("/cancel/motions")
-    Call<ResponseBean> cancelAllMotions(@Body RequestBean body);
+    @POST("/cancel/actions")
+    Call<ResponseBean> cancelAllActions(@Body RequestBean body);
 
 }

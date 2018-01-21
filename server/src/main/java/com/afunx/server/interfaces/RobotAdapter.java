@@ -1,7 +1,7 @@
 package com.afunx.server.interfaces;
 
+import com.afunx.data.bean.ActionBean;
 import com.afunx.data.bean.FrameBean;
-import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.constants.Constants;
 
@@ -66,77 +66,77 @@ public interface RobotAdapter {
     int execExitReadmode(Robot robot);
 
     /**
-     * POST /query/motion/index
+     * POST /query/action/index
      * <p>
-     * query motion's frame index running
+     * query action's frame index running
      *
-     * @param frameIndex motion's frame index (when index < 0 means no motion is running)
+     * @param frameIndex action's frame index (when index < 0 means no action is running)
      * @param robot      robot
      * @return {@link Constants.RESULT}
      */
-    int queryMotion(int[] frameIndex, Robot robot);
+    int queryAction(int[] frameIndex, Robot robot);
 
     /**
-     * POST /prepare/motion
+     * POST /prepare/action
      * <p>
-     * prepare motion for play
+     * prepare action for play
      *
-     * @param motionBean motion bean(store request)
+     * @param actionBean action bean(store request)
      * @return {@link Constants.RESULT}
      */
-    int prepareMotion(MotionBean motionBean, Robot robot);
+    int prepareAction(ActionBean actionBean, Robot robot);
 
     /**
-     * POST /exec/motion
+     * POST /exec/action
      * <p>
-     * play motion have been prepared
+     * play action have been prepared
      *
-     * @param motionName motion name
+     * @param actionName action name
      * @param robot      robot
      * @return {@link Constants.RESULT}
      */
-    int execMotion(String motionName, Robot robot);
+    int execAction(String actionName, Robot robot);
 
     /**
-     * POST /query/motions/index
+     * POST /query/actions/index
      * <p>
-     * query motion index running
+     * query action index running
      *
-     * @param motionIndex motion index (when index < 0 means no motion is running)
+     * @param actionIndex action index (when index < 0 means no action is running)
      * @return {@link Constants.RESULT}
      */
-    int queryMotions(int[] motionIndex, Robot robot);
+    int queryActions(int[] actionIndex, Robot robot);
 
     /**
-     * POST /prepare/motions
+     * POST /prepare/actions
      * <p>
-     * prepare motion list for play
+     * prepare action list for play
      *
-     * @param motionBeanList motion bean list(store request)
+     * @param actionBeanList action bean list(store request)
      * @param robot          robot
      * @return {@link Constants.RESULT}
      */
-    int prepareMotions(List<MotionBean> motionBeanList, Robot robot);
+    int prepareActions(List<ActionBean> actionBeanList, Robot robot);
 
     /**
-     * POST /exec/motions
+     * POST /exec/actions
      * <p>
-     * play motion have been prepared
+     * play action have been prepared
      *
-     * @param motionNameList motion name List
+     * @param actionNameList action name List
      * @param robot          robot
      * @return {@link Constants.RESULT}
      */
-    int execMotions(List<String> motionNameList, Robot robot);
+    int execActions(List<String> actionNameList, Robot robot);
 
     /**
-     * POST /cancel/motions
+     * POST /cancel/actions
      * <p>
-     * cancel all motions
+     * cancel all actions
      *
      * @param robot robot
      * @return {@link Constants.RESULT}
      */
-    int cancelAllMotions(Robot robot);
+    int cancelAllActions(Robot robot);
 
 }

@@ -2,8 +2,8 @@ package com.afunx.client.impl;
 
 import com.afunx.client.interfaces.ClientProtocol;
 import com.afunx.client.interfaces.RobotClient;
+import com.afunx.data.bean.ActionBean;
 import com.afunx.data.bean.FrameBean;
-import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.bean.RequestBean;
 import com.afunx.data.bean.ResponseBean;
@@ -168,12 +168,12 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public synchronized int queryMotion(int[] frameIndex) {
+    public synchronized int queryAction(int[] frameIndex) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<Integer> requestBean = new RequestBean<>();
         final long id = genRequestId();
         requestBean.setId(id);
-        Call<ResponseBean<Integer>> responseBeanCall = clientProtocol.queryMotion(requestBean);
+        Call<ResponseBean<Integer>> responseBeanCall = clientProtocol.queryAction(requestBean);
         try {
             Response<ResponseBean<Integer>> response = responseBeanCall.execute();
             frameIndex[0] = response.body().getBody();
@@ -188,13 +188,13 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public synchronized int prepareMotion(MotionBean motionBean) {
+    public synchronized int prepareAction(ActionBean action) {
         ClientProtocol clientProtocol = createClientProtocol();
-        RequestBean<MotionBean> requestBean = new RequestBean<>();
+        RequestBean<ActionBean> requestBean = new RequestBean<>();
         final long id = genRequestId();
         requestBean.setId(id);
-        requestBean.setBody(motionBean);
-        Call<ResponseBean> responseBeanCall = clientProtocol.prepareMotion(requestBean);
+        requestBean.setBody(action);
+        Call<ResponseBean> responseBeanCall = clientProtocol.prepareAction(requestBean);
         try {
             Response<ResponseBean> response = responseBeanCall.execute();
             return response.body().getResult();
@@ -208,13 +208,13 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public synchronized int execMotion(String motionName) {
+    public synchronized int execAction(String actionName) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<String> requestBean = new RequestBean<>();
         final long id = genRequestId();
         requestBean.setId(id);
-        requestBean.setBody(motionName);
-        Call<ResponseBean> responseBeanCall = clientProtocol.execMotion(requestBean);
+        requestBean.setBody(actionName);
+        Call<ResponseBean> responseBeanCall = clientProtocol.execAction(requestBean);
         try {
             Response<ResponseBean> response = responseBeanCall.execute();
             return  response.body().getResult();
@@ -228,15 +228,15 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public synchronized int queryMotions(int[] motionIndex) {
+    public synchronized int queryActions(int[] actionIndex) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<Integer> requestBean = new RequestBean<>();
         final long id = genRequestId();
         requestBean.setId(id);
-        Call<ResponseBean<Integer>> responseBeanCall = clientProtocol.queryMotions(requestBean);
+        Call<ResponseBean<Integer>> responseBeanCall = clientProtocol.queryActions(requestBean);
         try {
             Response<ResponseBean<Integer>> response = responseBeanCall.execute();
-            motionIndex[0] = response.body().getBody();
+            actionIndex[0] = response.body().getBody();
             return response.body().getResult();
         } catch (IOException e) {
             e.printStackTrace();
@@ -248,13 +248,13 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public synchronized int prepareMotions(List<MotionBean> motionBeanList) {
+    public synchronized int prepareActions(List<ActionBean> actionBeanList) {
         ClientProtocol clientProtocol = createClientProtocol();
-        RequestBean<List<MotionBean>> requestBean = new RequestBean<>();
+        RequestBean<List<ActionBean>> requestBean = new RequestBean<>();
         final long id = genRequestId();
         requestBean.setId(id);
-        requestBean.setBody(motionBeanList);
-        Call<ResponseBean> responseBeanCall = clientProtocol.prepareMotions(requestBean);
+        requestBean.setBody(actionBeanList);
+        Call<ResponseBean> responseBeanCall = clientProtocol.prepareActions(requestBean);
         try {
             Response<ResponseBean> response = responseBeanCall.execute();
             return response.body().getResult();
@@ -268,13 +268,13 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public synchronized int execMotions(List<String> motionNameList) {
+    public synchronized int execActions(List<String> actionNameList) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<List<String>> requestBean = new RequestBean<>();
         final long id = genRequestId();
         requestBean.setId(id);
-        requestBean.setBody(motionNameList);
-        Call<ResponseBean> responseBeanCall = clientProtocol.execMotions(requestBean);
+        requestBean.setBody(actionNameList);
+        Call<ResponseBean> responseBeanCall = clientProtocol.execActions(requestBean);
         try {
             Response<ResponseBean> response = responseBeanCall.execute();
             return response.body().getResult();
@@ -288,12 +288,12 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public synchronized int cancelAllMotions() {
+    public synchronized int cancelAllActions() {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<?> requestBean = new RequestBean<>();
         final long id = genRequestId();
         requestBean.setId(id);
-        Call<ResponseBean> responseBeanCall = clientProtocol.cancelAllMotions(requestBean);
+        Call<ResponseBean> responseBeanCall = clientProtocol.cancelAllActions(requestBean);
         try {
             Response<ResponseBean> response = responseBeanCall.execute();
             return response.body().getResult();

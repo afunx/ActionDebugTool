@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.afunx.actiondebugtool.R;
 import com.afunx.actiondebugtool.common.ActionManager;
-import com.afunx.data.bean.MotionBean;
+import com.afunx.data.bean.ActionBean;
 
 import java.util.List;
 
@@ -23,11 +23,11 @@ import java.util.List;
 public class ActionItemAdapter extends RecyclerView.Adapter<ActionItemAdapter.ViewHolder> {
 
     private static final String TAG = "ActionItemAdapter";
-    private final List<MotionBean> mMotionBeanList;
+    private final List<ActionBean> mActionBeanList;
     private String mIpAddr;
 
-    public ActionItemAdapter(List<MotionBean> motionBeanList) {
-        mMotionBeanList = motionBeanList;
+    public ActionItemAdapter(List<ActionBean> actionBeanList) {
+        mActionBeanList = actionBeanList;
     }
 
     public void setIpAddr(String ipAddr) {
@@ -48,13 +48,13 @@ public class ActionItemAdapter extends RecyclerView.Adapter<ActionItemAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final MotionBean motionBean = mMotionBeanList.get(position);
-        holder.tvActionName.setText(motionBean.getName());
+        final ActionBean actionBean = mActionBeanList.get(position);
+        holder.tvActionName.setText(actionBean.getName());
         holder.btnActionEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent("com.afunx.actiondebugtool.editAction");
-                intent.putExtra("action", mMotionBeanList.get(holder.getAdapterPosition()));
+                intent.putExtra("action", mActionBeanList.get(holder.getAdapterPosition()));
                 if (mIpAddr != null) {
                     Log.e(TAG, "ipAddr: " + mIpAddr);
                     intent.putExtra("ipAddr", mIpAddr);
@@ -65,9 +65,9 @@ public class ActionItemAdapter extends RecyclerView.Adapter<ActionItemAdapter.Vi
         holder.btnActionDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActionManager.get().deleteMotion(v.getContext(), motionBean.getName());
+                ActionManager.get().deleteAction(v.getContext(), actionBean.getName());
                 int adapterPosition = holder.getAdapterPosition();
-                mMotionBeanList.remove(adapterPosition);
+                mActionBeanList.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
             }
         });
@@ -75,7 +75,7 @@ public class ActionItemAdapter extends RecyclerView.Adapter<ActionItemAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return mMotionBeanList.size();
+        return mActionBeanList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

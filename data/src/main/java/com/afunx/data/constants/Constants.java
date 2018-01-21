@@ -28,13 +28,13 @@ public interface Constants {
          */
         int ROBOT_TIMEOUT = 4;
         /**
-         * motion hasn't been prepared
+         * action hasn't been prepared
          */
-        int MOTION_ABSENT = 5;
+        int ACTION_ABSENT = 5;
         /**
-         * motion name is null
+         * action name is null
          */
-        int MOTION_NAME_NULL = 6;
+        int ACTION_NAME_NULL = 6;
         /**
          * client IOException
          */

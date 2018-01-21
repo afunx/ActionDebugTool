@@ -50,11 +50,11 @@ public class FrameBean implements Cloneable, Serializable {
         this.time = time;
     }
 
-    public List<MotorBean> getMotorBeans() {
+    public List<MotorBean> getMotorBeanList() {
         return motorBeans;
     }
 
-    public void setMotorBeans(List<MotorBean> motorBeans) {
+    public void setMotorBeanList(List<MotorBean> motorBeans) {
         this.motorBeans = motorBeans;
     }
 
@@ -93,8 +93,8 @@ public class FrameBean implements Cloneable, Serializable {
         frameBean.setIndex(1);
         frameBean.setName("frame");
         frameBean.setTime(1000);
-        frameBean.getMotorBeans().add(motorBean1);
-        frameBean.getMotorBeans().add(motorBean2);
+        frameBean.getMotorBeanList().add(motorBean1);
+        frameBean.getMotorBeanList().add(motorBean2);
         System.out.println(frameBean);
         // test FrameBean clone()
         FrameBean clone = frameBean.clone();

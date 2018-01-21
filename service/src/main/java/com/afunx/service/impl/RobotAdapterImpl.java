@@ -2,13 +2,12 @@ package com.afunx.service.impl;
 
 import android.util.Log;
 
+import com.afunx.data.bean.ActionBean;
 import com.afunx.data.bean.FrameBean;
-import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.constants.Constants;
 import com.afunx.server.interfaces.Robot;
 import com.afunx.server.interfaces.RobotAdapter;
-import com.afunx.server.log.LogUtils;
 import com.afunx.service.interfaces.Recorder;
 import com.ubt.ip.ctrl_motor.listener.OpListener;
 import com.ubt.ip.ctrl_motor.util.MotorUtil;
@@ -79,64 +78,64 @@ public class RobotAdapterImpl implements RobotAdapter {
     }
 
     @Override
-    public int queryMotion(int[] frameIndex, Robot robot) {
-        Log.d(TAG, "queryMotion() frameIndex: " + Arrays.toString(frameIndex));
+    public int queryAction(int[] frameIndex, Robot robot) {
+        Log.d(TAG, "queryAction() frameIndex: " + Arrays.toString(frameIndex));
         final Recorder recorder = mRecorder;
-        final int result = _queryMotion(recorder, frameIndex, robot);
-        Log.i(TAG, "queryMotion() result: " + result + ", frameIndex: " + Arrays.toString(frameIndex));
+        final int result = _queryAction(recorder, frameIndex, robot);
+        Log.i(TAG, "queryAction() result: " + result + ", frameIndex: " + Arrays.toString(frameIndex));
         return result;
     }
 
     @Override
-    public int prepareMotion(MotionBean motionBean, Robot robot) {
-        Log.d(TAG, "prepareMotion() motionBean:\n" + motionBean);
+    public int prepareAction(ActionBean actionBean, Robot robot) {
+        Log.d(TAG, "prepareAction() actionBean:\n" + actionBean);
         final Recorder recorder = mRecorder;
-        final int result = _prepareMotion(recorder, motionBean, robot);
-        Log.i(TAG, "prepareMotion() result: " + result + ", motionBean: " + motionBean);
+        final int result = _prepareAction(recorder, actionBean, robot);
+        Log.i(TAG, "prepareAction() result: " + result + ", actionBean: " + actionBean);
         return result;
     }
 
     @Override
-    public int execMotion(String motionName, Robot robot) {
-        Log.d(TAG, "execMotion() motionName: " + motionName);
+    public int execAction(String actionName, Robot robot) {
+        Log.d(TAG, "execAction() actionName: " + actionName);
         final Recorder recorder = mRecorder;
-        final int result = _execMotion(recorder, motionName, robot);
-        Log.i(TAG, "execMotion() result: " + result + ", motionName: " + motionName);
+        final int result = _execAction(recorder, actionName, robot);
+        Log.i(TAG, "execAction() result: " + result + ", actionName: " + actionName);
         return result;
     }
 
     @Override
-    public int queryMotions(int[] motionIndex, Robot robot) {
-        Log.d(TAG, "queryMotions() motionIndex: " + Arrays.toString(motionIndex));
+    public int queryActions(int[] actionIndex, Robot robot) {
+        Log.d(TAG, "queryActions() actionIndex: " + Arrays.toString(actionIndex));
         final Recorder recorder = mRecorder;
-        final int result = _queryMotions(recorder, motionIndex, robot);
-        Log.d(TAG, "queryMotions() result: " + result + ", motionIndex: " + Arrays.toString(motionIndex));
+        final int result = _queryActions(recorder, actionIndex, robot);
+        Log.d(TAG, "queryActions() result: " + result + ", actionIndex: " + Arrays.toString(actionIndex));
         return result;
     }
 
     @Override
-    public int prepareMotions(List<MotionBean> motionBeanList, Robot robot) {
-        Log.d(TAG, "prepareMotions() motionBeanList:\n" + motionBeanList);
+    public int prepareActions(List<ActionBean> actionBeanList, Robot robot) {
+        Log.d(TAG, "prepareActions() actionBeanList:\n" + actionBeanList);
         final Recorder recorder = mRecorder;
-        final int result = _prepareMotions(recorder, motionBeanList, robot);
-        Log.i(TAG, "prepareMotion() result: " + result + ", motionBeanList: " + motionBeanList);
+        final int result = _prepareActions(recorder, actionBeanList, robot);
+        Log.i(TAG, "prepareAction() result: " + result + ", actionBeanList: " + actionBeanList);
         return result;
     }
 
     @Override
-    public int execMotions(List<String> motionNameList, Robot robot) {
-        Log.d(TAG, "execMotions() motionNameList: " + motionNameList);
+    public int execActions(List<String> actionNameList, Robot robot) {
+        Log.d(TAG, "execActions() actionNameList: " + actionNameList);
         final Recorder recorder = mRecorder;
-        final int result = _execMotions(recorder, motionNameList, robot);
-        Log.i(TAG, "execMotion() result: " + result + ", motionNameList: " + motionNameList);
+        final int result = _execActions(recorder, actionNameList, robot);
+        Log.i(TAG, "execAction() result: " + result + ", actionNameList: " + actionNameList);
         return result;
     }
 
     @Override
-    public int cancelAllMotions(Robot robot) {
-        Log.d(TAG, "cancelAllMotions()");
+    public int cancelAllActions(Robot robot) {
+        Log.d(TAG, "cancelAllActions()");
         final Recorder recorder = mRecorder;
-        final int result = _cancelAllMotions(recorder, robot);
+        final int result = _cancelAllActions(recorder, robot);
         Log.i(TAG, "cancelAllMotors() result: " + result);
         return result;
     }
@@ -162,8 +161,8 @@ public class RobotAdapterImpl implements RobotAdapter {
         final int size = motorsId.length;
         final int[] motorsDeg = new int[size];
         Arrays.fill(motorsDeg, SdkConstants.MotorDegree.KEEP_DEGREE);
-        for (int i = 0; i < frameBean.getMotorBeans().size(); i++) {
-            MotorBean motorBean = frameBean.getMotorBeans().get(i);
+        for (int i = 0; i < frameBean.getMotorBeanList().size(); i++) {
+            MotorBean motorBean = frameBean.getMotorBeanList().get(i);
             motorsDeg[motorBean.getId() - 1] = motorBean.getDeg();
         }
         final int time = frameBean.getTime();
@@ -227,17 +226,17 @@ public class RobotAdapterImpl implements RobotAdapter {
         return result;
     }
 
-    private int _queryMotion(final Recorder recorder, final int[] frameIndex, final Robot robot) {
+    private int _queryAction(final Recorder recorder, final int[] frameIndex, final Robot robot) {
         frameIndex[0] = recorder.getFrameIndex();
         return Constants.RESULT.SUC;
     }
 
-    private int _prepareMotion(final Recorder recorder, final MotionBean motionBean, final Robot robot) {
+    private int _prepareAction(final Recorder recorder, final ActionBean actionBean, final Robot robot) {
         final int result;
-        if (motionBean.getName() == null) {
-            result = Constants.RESULT.MOTION_NAME_NULL;
+        if (actionBean.getName() == null) {
+            result = Constants.RESULT.ACTION_NAME_NULL;
         } else {
-            recorder.putMotionBean(motionBean);
+            recorder.putActionBean(actionBean);
             result = Constants.RESULT.SUC;
         }
         setRobotIdle(robot);
@@ -250,8 +249,8 @@ public class RobotAdapterImpl implements RobotAdapter {
         final int size = motorsId.length;
         final int[] motorsDeg = new int[size];
         Arrays.fill(motorsDeg, SdkConstants.MotorDegree.KEEP_DEGREE);
-        for (int i = 0; i < frameBean.getMotorBeans().size(); i++) {
-            MotorBean motorBean = frameBean.getMotorBeans().get(i);
+        for (int i = 0; i < frameBean.getMotorBeanList().size(); i++) {
+            MotorBean motorBean = frameBean.getMotorBeanList().get(i);
             motorsDeg[motorBean.getId() - 1] = motorBean.getDeg();
         }
         final int time = frameBean.getTime();
@@ -299,10 +298,10 @@ public class RobotAdapterImpl implements RobotAdapter {
         Log.d(TAG, "__waitFrameStop() exit");
     }
 
-    private void __execMotion(final Recorder recorder, final MotionBean motionBean, final Robot robot, final boolean isLast) {
-        final List<FrameBean> frameBeans = motionBean.getFrameBeans();
+    private void __execAction(final Recorder recorder, final ActionBean actionBean, final Robot robot, final boolean isLast) {
+        final List<FrameBean> frameBeans = actionBean.getFrameBeanList();
         final int size = frameBeans.size();
-        Log.d(TAG, "__execMotion() size: " + size + ", isCancelled: " + recorder.isCancelled());
+        Log.d(TAG, "__execAction() size: " + size + ", isCancelled: " + recorder.isCancelled());
         final Semaphore semaphore = new Semaphore(0);
         for (int index = 0; index < size && !recorder.isCancelled(); ++index) {
             // set frame index
@@ -312,24 +311,24 @@ public class RobotAdapterImpl implements RobotAdapter {
         }
     }
 
-    private int _execMotion(final Recorder recorder, final String motionName, final Robot robot) {
+    private int _execAction(final Recorder recorder, final String actionName, final Robot robot) {
         final int result;
-        final MotionBean motionBean = recorder.getMotionBean(motionName);
-        if (motionBean == null) {
-            result = Constants.RESULT.MOTION_ABSENT;
+        final ActionBean actionBean = recorder.getActionBean(actionName);
+        if (actionBean == null) {
+            result = Constants.RESULT.ACTION_ABSENT;
             setRobotIdle(robot);
         } else {
             recorder.setIsCancelled(false);
             new Thread() {
                 @Override
                 public void run() {
-                    // set motion index 0
-                    recorder.setMotionIndex(0);
-                    __execMotion(recorder, motionBean, robot, true);
+                    // set action index 0
+                    recorder.setActionIndex(0);
+                    __execAction(recorder, actionBean, robot, true);
                     // set frame index -1
                     recorder.setFrameIndex(-1);
-                    // set motion index -1
-                    recorder.setMotionIndex(-1);
+                    // set action index -1
+                    recorder.setActionIndex(-1);
                 }
             }.start();
             result = Constants.RESULT.SUC;
@@ -337,34 +336,34 @@ public class RobotAdapterImpl implements RobotAdapter {
         return result;
     }
 
-    private int _queryMotions(Recorder recorder, int[] motionIndex, Robot robot) {
-        motionIndex[0] = recorder.getMotionIndex();
+    private int _queryActions(Recorder recorder, int[] actionIndex, Robot robot) {
+        actionIndex[0] = recorder.getActionIndex();
         return Constants.RESULT.SUC;
     }
 
 
-    private int _prepareMotions(Recorder recorder, List<MotionBean> motionBeanList, Robot robot) {
+    private int _prepareActions(Recorder recorder, List<ActionBean> actionBeanList, Robot robot) {
         int result = Constants.RESULT.SUC;
-        for (MotionBean motionBean : motionBeanList) {
-            if (motionBean.getName() == null) {
-                result = Constants.RESULT.MOTION_NAME_NULL;
+        for (ActionBean actionBean : actionBeanList) {
+            if (actionBean.getName() == null) {
+                result = Constants.RESULT.ACTION_NAME_NULL;
                 break;
             }
         }
         if (result == Constants.RESULT.SUC) {
-            for (MotionBean motionBean : motionBeanList) {
-                recorder.putMotionBean(motionBean);
+            for (ActionBean actionBean : actionBeanList) {
+                recorder.putActionBean(actionBean);
             }
         }
         setRobotIdle(robot);
         return result;
     }
 
-    private int _execMotions(final Recorder recorder, final List<String> motionNameList,final Robot robot) {
+    private int _execActions(final Recorder recorder, final List<String> actionNameList,final Robot robot) {
         int result = Constants.RESULT.SUC;
-        for (String motionName : motionNameList) {
-            if (recorder.getMotionBean(motionName) == null) {
-                result = Constants.RESULT.MOTION_ABSENT;
+        for (String actionName : actionNameList) {
+            if (recorder.getActionBean(actionName) == null) {
+                result = Constants.RESULT.ACTION_ABSENT;
                 break;
             }
         }
@@ -373,17 +372,17 @@ public class RobotAdapterImpl implements RobotAdapter {
             new Thread() {
                 @Override
                 public void run() {
-                    for (int motionIndex = 0; motionIndex < motionNameList.size(); motionIndex++) {
-                        final String motionName = motionNameList.get(motionIndex);
-                        final MotionBean motionBean = recorder.getMotionBean(motionName);
-                        // set motion index
-                        recorder.setMotionIndex(motionIndex);
-                        __execMotion(recorder, motionBean, robot, motionIndex == motionNameList.size() - 1);
+                    for (int actionIndex = 0; actionIndex < actionNameList.size(); actionIndex++) {
+                        final String actionName = actionNameList.get(actionIndex);
+                        final ActionBean actionBean = recorder.getActionBean(actionName);
+                        // set action index
+                        recorder.setActionIndex(actionIndex);
+                        __execAction(recorder, actionBean, robot, actionIndex == actionNameList.size() - 1);
                     }
                     // set frame index -1
                     recorder.setFrameIndex(-1);
-                    // set motion index -1
-                    recorder.setMotionIndex(-1);
+                    // set action index -1
+                    recorder.setActionIndex(-1);
                 }
             }.start();
             result = Constants.RESULT.SUC;
@@ -394,7 +393,7 @@ public class RobotAdapterImpl implements RobotAdapter {
         return result;
     }
 
-    private int _cancelAllMotions(final Recorder recorder, final Robot robot) {
+    private int _cancelAllActions(final Recorder recorder, final Robot robot) {
         recorder.setIsCancelled(true);
         return _cancelAllMotors(robot);
     }

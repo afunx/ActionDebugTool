@@ -9,8 +9,8 @@ import com.afunx.actiondebugtool.common.Constants;
 import com.afunx.actiondebugtool.data.FrameData;
 import com.afunx.client.impl.RobotClientImpl;
 import com.afunx.client.interfaces.RobotClient;
+import com.afunx.data.bean.ActionBean;
 import com.afunx.data.bean.FrameBean;
-import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 
 import java.net.InetAddress;
@@ -40,9 +40,9 @@ public class EditPresenter implements EditContract.Presenter {
 
     private static final int RESULT_ROBOT_TIMEOUT = com.afunx.data.constants.Constants.RESULT.ROBOT_TIMEOUT;
 
-    private static final int RESULT_MOTION_ABSENT = com.afunx.data.constants.Constants.RESULT.MOTION_ABSENT;
+    private static final int RESULT_ACTION_ABSENT = com.afunx.data.constants.Constants.RESULT.ACTION_ABSENT;
 
-    private static final int RESULT_MOTION_NAME_NULL = com.afunx.data.constants.Constants.RESULT.MOTION_NAME_NULL;
+    private static final int RESULT_ACTION_NAME_NULL = com.afunx.data.constants.Constants.RESULT.ACTION_NAME_NULL;
 
     private static final int RESULT_CLIENT_IOEXCEPTION = com.afunx.data.constants.Constants.RESULT.CLIENT_IOEXCEPTION;
 
@@ -139,7 +139,7 @@ public class EditPresenter implements EditContract.Presenter {
 
             // set motor degree
             List<FrameData> frameDataList = getFrameDataList();
-            List<MotorBean> motorBeanList = frameDataList.get(selectedFrameIndex).getFrameBean().getMotorBeans();
+            List<MotorBean> motorBeanList = frameDataList.get(selectedFrameIndex).getFrameBean().getMotorBeanList();
             MotorBean motorBean = getMotorBean(motorBeanList, motorId);
 
             // update motor degree
@@ -178,7 +178,7 @@ public class EditPresenter implements EditContract.Presenter {
                 Log.d(TAG, "setSelectedMotorDegree() degree: " + degree);
             }
             List<FrameData> frameDataList = getFrameDataList();
-            List<MotorBean> motorBeanList = frameDataList.get(selectedFrameIndex).getFrameBean().getMotorBeans();
+            List<MotorBean> motorBeanList = frameDataList.get(selectedFrameIndex).getFrameBean().getMotorBeanList();
             MotorBean motorBean = getMotorBean(motorBeanList, selectedMotorId);
             motorBean.setDeg(degree);
         } else {
@@ -222,10 +222,10 @@ public class EditPresenter implements EditContract.Presenter {
             case RESULT_ROBOT_TIMEOUT:
                 mEditView.showToast(R.string.robot_execute_err_4_fail);
                 break;
-            case RESULT_MOTION_ABSENT:
+            case RESULT_ACTION_ABSENT:
                 mEditView.showToast(R.string.robot_execute_err_5_fail);
                 break;
-            case RESULT_MOTION_NAME_NULL:
+            case RESULT_ACTION_NAME_NULL:
                 mEditView.showToast(R.string.robot_execute_err_6_fail);
                 break;
             case RESULT_CLIENT_IOEXCEPTION:
@@ -287,7 +287,7 @@ public class EditPresenter implements EditContract.Presenter {
                     if (ret == RESULT_SUC) {
                         // update model
                         FrameBean frameBean = mEditModel.getFrameDataList().get(selectedFrameIndex).getFrameBean();
-                        updateMotorBeanList(frameBean.getMotorBeans(), motorBeanList);
+                        updateMotorBeanList(frameBean.getMotorBeanList(), motorBeanList);
                         if (DEBUG) {
                             Log.i(TAG, "readMotors() motorBeanList: " + motorBeanList);
                         }
@@ -321,9 +321,9 @@ public class EditPresenter implements EditContract.Presenter {
     }
 
     @Override
-    public void playMotionFromSelectedFrame() {
+    public void playActionFromSelectedFrame() {
         if (DEBUG) {
-            Log.d(TAG, "playMotionFromSelectedFrame()");
+            Log.d(TAG, "playActionFromSelectedFrame()");
         }
 
         int _selectedFrameIndex = mEditView.getSelectedFrameIndex();
@@ -332,40 +332,40 @@ public class EditPresenter implements EditContract.Presenter {
         new Thread() {
             @Override
             public void run() {
-                // create temp motion
-                final String tempMotionName = "__temp__motion__";
+                // create temp action
+                final String tempActionName = "__temp__action__";
                 List<FrameData> frameDataList = mEditModel.getFrameDataList();
-                MotionBean motionBean = new MotionBean();
-                motionBean.setName(tempMotionName);
+                ActionBean actionBean = new ActionBean();
+                actionBean.setName(tempActionName);
                 for (int i = selectedFrameIndex; i < frameDataList.size(); i++) {
-                    motionBean.getFrameBeans().add(frameDataList.get(i).getFrameBean());
+                    actionBean.getFrameBeanList().add(frameDataList.get(i).getFrameBean());
                 }
-                // prepare motion
-                int ret = mRobotClient.prepareMotion(motionBean);
+                // prepare action
+                int ret = mRobotClient.prepareAction(actionBean);
                 if (ret != RESULT_SUC) {
                     showResult(ret, -1);
                     return;
                 }
-                // execute motion
-                ret = mRobotClient.execMotion(tempMotionName);
+                // execute action
+                ret = mRobotClient.execAction(tempActionName);
                 if (ret != RESULT_SUC) {
                     showResult(ret, -1);
                     return;
                 }
-                // wait motion finished
+                // wait action finished
                 int lastFrameIndex;
                 int currentFrameIndex = -1;
                 int[] frameIndex = new int[1];
                 while (ret == RESULT_SUC && frameIndex[0] >= 0) {
                     lastFrameIndex = currentFrameIndex;
-                    ret = mRobotClient.queryMotion(frameIndex);
+                    ret = mRobotClient.queryAction(frameIndex);
                     if (ret != 0) {
-                        Log.e(TAG, "playMotionFromSelectedFrame() ret: " + ret);
+                        Log.e(TAG, "playActionFromSelectedFrame() ret: " + ret);
                     }
                     currentFrameIndex = frameIndex[0];
                     if (currentFrameIndex != lastFrameIndex && currentFrameIndex >= 0) {
                         if (DEBUG) {
-                            Log.i(TAG, "playMotionFromSelectedFrame() lastFrameIndex: " + lastFrameIndex);
+                            Log.i(TAG, "playActionFromSelectedFrame() lastFrameIndex: " + lastFrameIndex);
                         }
                         mEditView.setSelectedFrameIndex(selectedFrameIndex + currentFrameIndex);
                     } else {

@@ -1,7 +1,7 @@
 package com.afunx.client.interfaces;
 
+import com.afunx.data.bean.ActionBean;
 import com.afunx.data.bean.FrameBean;
-import com.afunx.data.bean.MotionBean;
 import com.afunx.data.bean.MotorBean;
 import com.afunx.data.constants.Constants;
 
@@ -75,71 +75,71 @@ public interface RobotClient {
     int execExitReadmode();
 
     /**
-     * GET /query/motion/index
+     * GET /query/action/index
      * <p>
-     * query motion's frame index running
+     * query action's frame index running
      *
-     * @param frameIndex motion's frame index (when index < 0 means no motion is running)
+     * @param frameIndex action's frame index (when index < 0 means no action is running)
      * @return {@link Constants.RESULT}
      */
-    int queryMotion(int[] frameIndex);
+    int queryAction(int[] frameIndex);
 
     /**
-     * POST /prepare/motion
+     * POST /prepare/action
      * <p>
-     * prepare motion for play
+     * prepare action for play
      *
-     * @param motionBean motion bean(store request)
+     * @param action action bean(store request)
      * @return {@link Constants.RESULT}
      */
-    int prepareMotion(MotionBean motionBean);
+    int prepareAction(ActionBean action);
 
     /**
-     * POST /exec/motion
+     * POST /exec/action
      * <p>
-     * play motion have been prepared
+     * play action have been prepared
      *
-     * @param motionName motion name
+     * @param actionName action name
      * @return {@link Constants.RESULT}
      */
-    int execMotion(String motionName);
+    int execAction(String actionName);
 
     /**
-     * GET /query/motions/index
+     * GET /query/actions/index
      * <p>
-     * query motion index running
+     * query action index running
      *
-     * @param motionIndex motion index (when index < 0 means no motion is running)
+     * @param actionIndex action index (when index < 0 means no action is running)
      * @return {@link Constants.RESULT}
      */
-    int queryMotions(int[] motionIndex);
+    int queryActions(int[] actionIndex);
 
     /**
-     * POST /prepare/motions
+     * POST /prepare/actions
      * <p>
-     * prepare motion list for play
+     * prepare action list for play
      *
-     * @param motionBeanList motion bean list(store request)
+     * @param actionBeanList action bean list(store request)
      * @return {@link Constants.RESULT}
      */
-    int prepareMotions(List<MotionBean> motionBeanList);
+    int prepareActions(List<ActionBean> actionBeanList);
 
     /**
-     * POST /exec/motions
+     * POST /exec/actions
      * <p>
-     * play motion have been prepared
+     * play action have been prepared
      *
-     * @param motionNameList motion name list
+     * @param actionBeanList action name list
      * @return {@link Constants.RESULT}
      */
-    int execMotions(List<String> motionNameList);
+    int execActions(List<String> actionBeanList);
 
     /**
-     * POST /cancel/motions
+     * POST /cancel/actions
      * <p>
-     * cancel all motions
+     * cancel all actions
      *
      * @return {@link Constants.RESULT}
      */
-    int cancelAllMotions();
+    int cancelAllActions();
 }
