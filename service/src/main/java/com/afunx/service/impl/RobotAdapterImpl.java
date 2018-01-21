@@ -67,7 +67,14 @@ public class RobotAdapterImpl implements RobotAdapter {
         Log.i(TAG, "execEnterReadmode() result: " + result);
         return result;
     }
-
+    
+    @Override
+    public int execEnterReadmodeOne(Robot robot, int motorId) {
+        Log.d(TAG, "execEnterReadmodeOne() motorId: " + motorId);
+        final int result = _execEnterReadmodeOne(robot, motorId);
+        Log.i(TAG, "execEnterReadmodeOne() result: " + result);
+        return result;
+    }
 
     @Override
     public int execExitReadmode(Robot robot) {
@@ -208,6 +215,16 @@ public class RobotAdapterImpl implements RobotAdapter {
         final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14};
         final boolean[] isSuc = new boolean[1];
         final int result = MotorUtil.enterReadMode(isSuc, motorsId);
+        setRobotIdle(robot);
+        if (result == Constants.RESULT.SUC && !isSuc[0]) {
+            return Constants.RESULT.FAIL;
+        }
+        return result;
+    }
+
+    private int _execEnterReadmodeOne(final Robot robot,int motorId) {
+        final boolean[] isSuc = new boolean[1];
+        final int result = MotorUtil.enterReadMode(isSuc, new int[]{motorId});
         setRobotIdle(robot);
         if (result == Constants.RESULT.SUC && !isSuc[0]) {
             return Constants.RESULT.FAIL;

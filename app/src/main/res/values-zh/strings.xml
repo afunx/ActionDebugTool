@@ -17,6 +17,7 @@
     <string name="save">保存</string>
     <string name="save_as">另存为&#8230;</string>
     <string name="enter_read_mode">进入回读</string>
+    <string name="enter_read_mode_one">单个进入回读</string>
     <string name="read">回读</string>
 
     <string name="robot_part_01">1</string>
@@ -66,6 +67,7 @@
     <string name="robot_execute_err_8_fail">机器人执行失败 错误码：8, 客户端 Exception</string>
 
     <string name="enter_read_mode_suc">进入回读成功</string>
+    <string name="enter_read_mode_one_suc">单个进入回读成功</string>
     <string name="read_motors_suc">读取舵机成功</string>
     <string name="play_frame_suc">播放单帧成功</string>
 

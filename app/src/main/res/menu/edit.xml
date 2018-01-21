@@ -3,6 +3,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
+    <!--enter read mode one-->
+    <item
+        android:id="@+id/menu_item_enter_read_mode_one"
+        android:title="@string/enter_read_mode_one"
+        app:showAsAction="always"
+        />
 
     <!--enter read mode-->
     <item

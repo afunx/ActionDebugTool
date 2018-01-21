@@ -250,6 +250,11 @@ public interface EditContract {
         void enterReadMode();
 
         /**
+         * enter read mode one
+         */
+        void enterReadModeOne();
+
+        /**
          * read motors
          */
         void readMotors();

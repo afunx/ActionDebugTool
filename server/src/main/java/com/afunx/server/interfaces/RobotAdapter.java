@@ -46,6 +46,17 @@ public interface RobotAdapter {
     int cancelAllMotors(Robot robot);
 
     /**
+     * POST /exec/readmode_one/enter
+     * <p>
+     * execute enter read mode for one motor
+     *
+     * @param robot   robot
+     * @param motorId motor id
+     * @return {@link Constants.RESULT}
+     */
+    int execEnterReadmodeOne(Robot robot, int motorId);
+
+    /**
      * POST /exec/readmode/enter
      * <p>
      * execute enter read mode

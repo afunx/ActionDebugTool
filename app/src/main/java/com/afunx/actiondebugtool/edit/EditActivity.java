@@ -73,6 +73,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.menu_item_enter_read_mode:
                 mEditPresenter.enterReadMode();
                 return true;
+            case R.id.menu_item_enter_read_mode_one:
+                mEditPresenter.enterReadModeOne();
+                return true;
             case R.id.menu_item_read:
                 mEditPresenter.readMotors();
                 return true;

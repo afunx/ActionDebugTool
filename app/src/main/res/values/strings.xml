@@ -16,6 +16,7 @@
     <string name="save">Save</string>
     <string name="save_as">Save As&#8230;</string>
     <string name="enter_read_mode">Enter ReadMode</string>
+    <string name="enter_read_mode_one">Enter ReadMode Sole</string>
     <string name="read">Read</string>
 
     <string name="robot_part_01">1</string>
@@ -65,6 +66,7 @@
     <string name="robot_execute_err_8_fail">Robot execute fail error code: 8, client Exception</string>
 
     <string name="enter_read_mode_suc">Enter read mode suc</string>
+    <string name="enter_read_mode_one_suc">Enter read mode one suc</string>
     <string name="read_motors_suc">Read motors suc</string>
     <string name="play_frame_suc">Play single frame suc</string>
 

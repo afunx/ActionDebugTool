@@ -45,6 +45,13 @@ public class RobotAdapterImpl implements RobotAdapter {
     }
 
     @Override
+    public int execEnterReadmodeOne(Robot robot, int motorId) {
+        LogUtils.log(TAG, "execEnterReadmodeOne() motorId: " + motorId);
+        setRobotIdle(robot);
+        return 0;
+    }
+
+    @Override
     public int execEnterReadmode(Robot robot) {
         LogUtils.log(TAG, "execEnterReadmode()");
         setRobotIdle(robot);

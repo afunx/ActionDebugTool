@@ -66,6 +66,16 @@ public interface RobotClient {
     int execEnterReadmode();
 
     /**
+     * POST /exec/readmode_one/enter
+     * <p>
+     * execute enter read mode one
+     *
+     * @param motorId
+     * @return
+     */
+    int execEnterReadmodeOne(int motorId);
+
+    /**
      * POST /exec/readmode/exit
      * <p>
      * execute exit read mode

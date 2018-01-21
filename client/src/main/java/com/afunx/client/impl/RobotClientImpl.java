@@ -149,6 +149,26 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
+    public int execEnterReadmodeOne(int motorId) {
+        ClientProtocol clientProtocol = createClientProtocol();
+        RequestBean<Integer> requestBean = new RequestBean<>();
+        requestBean.setBody(motorId);
+        final long id = genRequestId();
+        requestBean.setId(id);
+        Call<ResponseBean> responseBeanCall = clientProtocol.execEnterReadmodeOne(requestBean);
+        try {
+            Response<ResponseBean> response = responseBeanCall.execute();
+            return response.body().getResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_IOEXCEPTION;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.RESULT.CLIENT_EXCEPTION;
+        }
+    }
+
+    @Override
     public synchronized int execExitReadmode() {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<?> requestBean = new RequestBean<>();

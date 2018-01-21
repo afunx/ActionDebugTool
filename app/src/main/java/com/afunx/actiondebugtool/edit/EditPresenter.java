@@ -254,6 +254,28 @@ public class EditPresenter implements EditContract.Presenter {
         }.start();
     }
 
+    @Override
+    public void enterReadModeOne() {
+        if (DEBUG) {
+            Log.d(TAG, "enterReadMode()");
+        }
+        final int motorId = mEditView.getSelectedMotorId();
+        if (motorId == -1) {
+            Log.i(TAG, "enterReadMode() on motor is selected");
+            return;
+        }
+        new Thread() {
+            @Override
+            public void run() {
+                int ret = mRobotClient.execEnterReadmodeOne(motorId);
+                if (DEBUG) {
+                    Log.d(TAG, "enterReadModeOne() ret: " + ret);
+                }
+                showResult(ret, R.string.enter_read_mode_one_suc);
+            }
+        }.start();
+    }
+
     private void updateMotorBeanList(List<MotorBean> destMotorBeanList, List<MotorBean> srcMotorBeanList) {
         for (MotorBean destMotorBean : destMotorBeanList) {
             for (MotorBean srcMotorBean : srcMotorBeanList) {

@@ -104,6 +104,9 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         } else if (session.getUri().equals("/exec/readmode/enter") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.EXECUTE);
             response = serveExecEnterReadmode(session);
+        } else if (session.getUri().equals("/exec/readmode_one/enter") && session.getMethod().equals(Method.POST)) {
+            robot.setState(Robot.STATE.EXECUTE);
+            response = serveExecEnterReadmodeOne(session);
         } else if (session.getUri().equals("/exec/readmode/exit") && session.getMethod().equals(Method.POST)) {
             robot.setState(Robot.STATE.EXECUTE);
             response = serveExecExitReadmode(session);
@@ -308,6 +311,30 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         final int[] result = new int[]{Constants.RESULT.FAIL};
         // enter readmode async
         execEnterReadmodeAsync(result, semaphore, robot);
+        final int timeout = requestBean.getTimeout();
+        final boolean timely = waitTimeout(timeout, semaphore);
+        if (!timely) {
+            return RESPONSE_ROBOT_TIMEOUT;
+        }
+        // assemble response
+        return assembleResponse(result[0], id);
+    }
+
+
+    private Response serveExecEnterReadmodeOne(IHTTPSession session) {
+        LogUtils.log(TAG, "serveExecEnterReadmodeOne()");
+        final RequestBean<Integer> requestBean = parseRequestBean(session, Integer.class);
+        if (requestBean == null || requestBean.getBody() == null) {
+            LogUtils.log(TAG, "serveExecEnterReadmodeOne() requestBeanList is null or requestBeanList.getBody() is null");
+            return null;
+        }
+        final long id = requestBean.getId();
+        final Robot robot = this.robot;
+        final Semaphore semaphore = new Semaphore(0);
+        final int[] result = new int[]{Constants.RESULT.FAIL};
+        // execute motors async
+        execEnterReadmodeOneAsync(requestBean.getBody(), result, semaphore, robot);
+        // wait execute finished or timeout
         final int timeout = requestBean.getTimeout();
         final boolean timely = waitTimeout(timeout, semaphore);
         if (!timely) {
@@ -562,6 +589,25 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
             }
         }.start();
     }
+
+
+    private void execEnterReadmodeOneAsync(final Integer motorId, final int[] result, final Semaphore semaphore, final Robot robot) {
+        new Thread() {
+            @Override
+            public void run() {
+                if (robotAdapter != null) {
+                    // catch Exception here, let semaphore will be released forever
+                    try {
+                        result[0] = robotAdapter.execEnterReadmodeOne(robot, motorId);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                semaphore.release();
+            }
+        }.start();
+    }
+
 
     private void execExitReadmodeAsync(final int[] result, final Semaphore semaphore, final Robot robot) {
         new Thread() {

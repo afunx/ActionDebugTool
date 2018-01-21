@@ -33,6 +33,9 @@ public interface ClientProtocol {
     @POST("/exec/readmode/enter")
     Call<ResponseBean> execEnterReadmode(@Body RequestBean body);
 
+    @POST("/exec/readmode_one/enter")
+    Call<ResponseBean> execEnterReadmodeOne(@Body RequestBean body);
+
     @POST("/exec/readmode/exit")
     Call<ResponseBean> execExitReadmode(@Body RequestBean body);
 
