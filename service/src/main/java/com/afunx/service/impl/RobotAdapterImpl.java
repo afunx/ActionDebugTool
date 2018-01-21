@@ -183,6 +183,7 @@ public class RobotAdapterImpl implements RobotAdapter {
             @Override
             public void onCancel() {
                 Log.d(TAG, "_execMotors() onCancel()");
+                setRobotIdle(robot);
             }
 
             @Override
@@ -274,6 +275,7 @@ public class RobotAdapterImpl implements RobotAdapter {
             @Override
             public void onCancel() {
                 Log.i(TAG, "__execFrame() frameIndex: " + frameIndex + " onCancel()");
+                setRobotIdle(robot);
                 semaphore.release();
             }
 
