@@ -187,6 +187,7 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setResult(result);
         responseBean.setId(id);
+        LogUtils.log(TAG, "assembleResponse() result: " + result + ", id: " + id);
         return newFixedLengthResponse(Response.Status.OK, "text/json", gson.toJson(responseBean));
     }
 
@@ -196,6 +197,7 @@ public class RobotServerImpl extends NanoHTTPD implements RobotServer {
         responseBean.setResult(result);
         responseBean.setId(id);
         responseBean.setBody(body);
+        LogUtils.log(TAG, "assembleResponse() result: " + result + ", id: " + id + ", body: " + body);
         return newFixedLengthResponse(Response.Status.OK, "text/json", gson.toJson(responseBean));
     }
 
