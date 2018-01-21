@@ -55,7 +55,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public boolean isRobotIdle() {
+    public synchronized boolean isRobotIdle() {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<?> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -71,7 +71,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int queryMotors(List<MotorBean> motorBeanList) {
+    public synchronized int queryMotors(List<MotorBean> motorBeanList) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<?> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -91,7 +91,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int execMotors(FrameBean frameBean) {
+    public synchronized int execMotors(FrameBean frameBean) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<FrameBean> requestBean = new RequestBean<>();
         requestBean.setBody(frameBean);
@@ -111,7 +111,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int cancelAllMotors() {
+    public synchronized int cancelAllMotors() {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<?> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -130,7 +130,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int execEnterReadmode() {
+    public synchronized int execEnterReadmode() {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<?> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -149,7 +149,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int execExitReadmode() {
+    public synchronized int execExitReadmode() {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<?> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -168,7 +168,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int queryMotion(int[] frameIndex) {
+    public synchronized int queryMotion(int[] frameIndex) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<Integer> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -188,7 +188,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int prepareMotion(MotionBean motionBean) {
+    public synchronized int prepareMotion(MotionBean motionBean) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<MotionBean> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -208,7 +208,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int execMotion(String motionName) {
+    public synchronized int execMotion(String motionName) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<String> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -228,7 +228,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int queryMotions(int[] motionIndex) {
+    public synchronized int queryMotions(int[] motionIndex) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<Integer> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -248,7 +248,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int prepareMotions(List<MotionBean> motionBeanList) {
+    public synchronized int prepareMotions(List<MotionBean> motionBeanList) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<List<MotionBean>> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -268,7 +268,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int execMotions(List<String> motionNameList) {
+    public synchronized int execMotions(List<String> motionNameList) {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<List<String>> requestBean = new RequestBean<>();
         final long id = genRequestId();
@@ -288,7 +288,7 @@ public class RobotClientImpl implements RobotClient {
     }
 
     @Override
-    public int cancelAllMotions() {
+    public synchronized int cancelAllMotions() {
         ClientProtocol clientProtocol = createClientProtocol();
         RequestBean<?> requestBean = new RequestBean<>();
         final long id = genRequestId();
