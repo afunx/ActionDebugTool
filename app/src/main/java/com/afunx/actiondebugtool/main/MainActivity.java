@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        mTvRobotIp = (TextView) findViewById(R.id.edt_robot_ip);
+        mTvRobotIp = (TextView) findViewById(R.id.tv_robot_ip);
         mBtnScan = (Button) findViewById(R.id.btn_scan);
         mBtnScan.setOnClickListener(this);
         mBtnAdd = (Button) findViewById(R.id.btn_add_new_action);
