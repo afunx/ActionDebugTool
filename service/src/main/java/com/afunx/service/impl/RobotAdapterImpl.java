@@ -9,11 +9,12 @@ import com.afunx.data.constants.Constants;
 import com.afunx.server.interfaces.Robot;
 import com.afunx.server.interfaces.RobotAdapter;
 import com.afunx.service.interfaces.Recorder;
-import com.ubt.ip.ctrl_motor.listener.OpListener;
+import com.ubt.ip.ctrl_motor.listener.MotorListener;
 import com.ubt.ip.ctrl_motor.util.MotorUtil;
 import com.ubt.ip.sdk.api.LogApi;
 import com.ubt.ip.sdk.constants.SdkConstants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -29,7 +30,7 @@ public class RobotAdapterImpl implements RobotAdapter {
     private static final Recorder mRecorder = new RecorderImpl();
 
     static {
-        LogApi.get().setEnabled(false);
+        LogApi.get().setEnabled(true);
     }
 
     private void setRobotIdle(Robot robot) {
@@ -151,7 +152,7 @@ public class RobotAdapterImpl implements RobotAdapter {
         final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14};
         final int size = motorsId.length;
         final int[] motorsDeg = new int[size];
-        int result = MotorUtil.getCurrentMotors(motorsId, motorsDeg);
+        int result = MotorUtil.getMotors(motorsId, motorsDeg);
         if (result == Constants.RESULT.SUC) {
             for (int i = 0; i < size; i++) {
                 MotorBean motorBean = new MotorBean();
@@ -164,17 +165,23 @@ public class RobotAdapterImpl implements RobotAdapter {
     }
 
     private int _execMotors(final FrameBean frameBean, final Robot robot) {
+        Log.e(TAG, "_execMotors() frameBean: " + frameBean);
         final int[] motorsId = new int[]{1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14};
         final int size = motorsId.length;
         final int[] motorsDeg = new int[size];
         Arrays.fill(motorsDeg, SdkConstants.MotorDegree.KEEP_DEGREE);
+        List<com.ubt.ip.ctrl_motor.bean.MotorBean> motorBeanList = new ArrayList<>();
+        com.ubt.ip.ctrl_motor.bean.MotorBean motorBean = null;
         for (int i = 0; i < frameBean.getMotorBeanList().size(); i++) {
-            MotorBean motorBean = frameBean.getMotorBeanList().get(i);
-            motorsDeg[motorBean.getId() - 1] = motorBean.getDeg();
+            MotorBean _motorBean = frameBean.getMotorBeanList().get(i);
+            motorBean = new com.ubt.ip.ctrl_motor.bean.MotorBean();
+            motorBean.setId(_motorBean.getId());
+            motorBean.setDeg(_motorBean.getDeg());
+            motorBeanList.add(motorBean);
         }
         final int time = frameBean.getTime();
-        final int[] taskId = new int[1];
-        final int result = MotorUtil.setMotors(motorsId, motorsDeg, time, 0, taskId, new OpListener() {
+        final int[] opId = new int[1];
+        final int result = MotorUtil.setMotors(motorBeanList, time, new MotorListener() {
             @Override
             public void onStart() {
                 Log.d(TAG, "_execMotors() onStart()");
@@ -197,7 +204,7 @@ public class RobotAdapterImpl implements RobotAdapter {
                 Log.d(TAG, "_execMotors() onError() errorCode: " + errorCode);
                 setRobotIdle(robot);
             }
-        });
+        }, opId);
         return result;
     }
 
@@ -266,13 +273,18 @@ public class RobotAdapterImpl implements RobotAdapter {
         final int size = motorsId.length;
         final int[] motorsDeg = new int[size];
         Arrays.fill(motorsDeg, SdkConstants.MotorDegree.KEEP_DEGREE);
+        com.ubt.ip.ctrl_motor.bean.MotorBean motorBean = null;
+        List<com.ubt.ip.ctrl_motor.bean.MotorBean> motorBeanList = new ArrayList<>();
         for (int i = 0; i < frameBean.getMotorBeanList().size(); i++) {
-            MotorBean motorBean = frameBean.getMotorBeanList().get(i);
-            motorsDeg[motorBean.getId() - 1] = motorBean.getDeg();
+            MotorBean _motorBean = frameBean.getMotorBeanList().get(i);
+            motorBean = new com.ubt.ip.ctrl_motor.bean.MotorBean();
+            motorBean.setId(_motorBean.getId());
+            motorBean.setDeg(_motorBean.getDeg());
+            motorBeanList.add(motorBean);
         }
         final int time = frameBean.getTime();
-        final int[] taskId = new int[1];
-        final int result = MotorUtil.setMotors(motorsId, motorsDeg, time, 0, taskId, new OpListener() {
+        final int[] opId = new int[1];
+        final int result = MotorUtil.setMotors(motorBeanList, time, new MotorListener() {
             @Override
             public void onStart() {
                 Log.i(TAG, "__execFrame() frameIndex: " + frameIndex + " onStart()");
@@ -301,7 +313,7 @@ public class RobotAdapterImpl implements RobotAdapter {
                 Log.e(TAG, "__execFrame() frameIndex: " + frameIndex + " onError() errorCode: " + errorCode);
                 semaphore.release();
             }
-        });
+        }, opId);
         return result == Constants.RESULT.SUC;
     }
 

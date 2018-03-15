@@ -8,8 +8,7 @@ import android.util.Log;
 import com.afunx.server.impl.RobotServerImpl;
 import com.afunx.server.log.LogUtils;
 import com.afunx.service.impl.RobotAdapterImpl;
-import com.ubt.ip.adapter.mini.sdk.MiniRobot;
-import com.ubt.ip.ctrl_motor.op.BaseOp;
+import com.ubt.ip.mini_adapter.sdk.MiniRobot;
 
 import java.io.IOException;
 
@@ -21,8 +20,13 @@ public class RobotService extends Service {
 
     private void open() {
 
-        BaseOp.setCheckCompleteTimeout(0);
         MiniRobot.get().setDegreeOffsets(new int[]{8, 2, -12, -1, -25, -16, 1, 20, 33, -2, -1, 2, -41, -34});
+        try {
+            MiniRobot.get().open();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        MiniRobot.get().setRobotMock(true);
 
         LogUtils.log(TAG, "open() mRobotServer is null: " + (mRobotServer == null));
         if (mRobotServer == null) {
